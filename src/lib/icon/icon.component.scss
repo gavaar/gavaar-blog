@@ -1,0 +1,16 @@
+
+gav-icon {
+  display: block;
+  height: 1.25rem;
+  aspect-ratio : 1 / 1;
+}
+
+.gav-icon {
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  background-color: var(--text);
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+}

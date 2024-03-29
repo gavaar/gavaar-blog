@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--text);
+}
+
+.header__theme-toggle {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1rem;
+  align-items: center;
+}
+
+.header__icon {
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--text);
+  padding: 0.05rem;
+  cursor: pointer;
+}
+
+.header__theme-text {
+  width: 7rem;
+}
