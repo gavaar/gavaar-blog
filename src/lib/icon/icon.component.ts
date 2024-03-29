@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
+export type Icons = 'moon' | 'sun';
+
 @Component({
   standalone: true,
   selector: 'gav-icon',
@@ -9,7 +11,7 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, Vi
   encapsulation: ViewEncapsulation.None,
 })
 export class IconComponent implements OnChanges {
-  @Input({ required: true }) icon!: string;
+  @Input({ required: true }) icon!: Icons;
 
   iconSvg = '';
 

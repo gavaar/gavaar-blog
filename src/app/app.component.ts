@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from '../lib/header/header.component';
+import { HeaderComponent } from './components/header';
 
 @Component({
   selector: 'gav-root',
@@ -10,13 +10,10 @@ import { HeaderComponent } from '../lib/header/header.component';
     <gav-header />
 
     <section>
-      <h1>Welcome to {{title}}!</h1>
+      <h1>Life is pain au chocolat!</h1>
       <router-outlet />
-      <footer></footer>
     </section>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  title = 'gavaar';
-}
+export class AppComponent {}

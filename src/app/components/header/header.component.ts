@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IconComponent } from '../icon/icon.component';
+import { IconComponent } from '../../../lib/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [IconComponent],
+  imports: [IconComponent, RouterLink],
   selector: 'gav-header',
   standalone: true,
   template: `
     <header class="header">
-      <div>placeholder</div>
-      <span>How TF did you get here?.. this is WIP</span>
+      <nav routerLink="changelog">changelog (nav WIP)</nav>
+      <span>Francisco Santorelli</span>
       <span class="header__theme-toggle">
         <gav-icon class="header__icon" [icon]="darkTheme ? 'moon' : 'sun'" (click)="toggleTheme()" />
         <small class="header__theme-text">{{ darkTheme ? 'Dark' : 'Psychopath' }} mode</small>
@@ -23,7 +24,6 @@ export class HeaderComponent {
 
   toggleTheme(): void {
     this.darkTheme = !this.darkTheme;
-
     document.body.setAttribute('class', this.darkTheme ? '' : 'light');
   }
 }

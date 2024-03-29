@@ -23,16 +23,15 @@ body {
   font-family: "Overpass", 'Lucida Sans', sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
-}
-body:not(.light) {
-  transition: 0.5s;
+
+  transition: color, background-color 0.5s;
   color: var(--text);
   background-color: var(--background);
 }
 body.light {
-  transition: 0.5s;
   --text: #060D08;
   --background: #FFF9D9;
+  transition: color, background-color 0.5s;
 }
 
 header {
