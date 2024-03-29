@@ -45,3 +45,15 @@ section {
   height: calc(100% - var(--header-height));
   max-width: var(--max-content-width);
 }
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--secondary);
+}
+hr {
+  width: 100%;
+  opacity: 0.5;
+}
+small {
+  opacity: 0.75;
+  font-size: 0.75rem;
+}

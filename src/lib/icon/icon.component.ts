@@ -10,7 +10,7 @@ export type Icons = 'moon' | 'sun';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class IconComponent implements OnChanges {
+export class GavIconComponent implements OnChanges {
   @Input({ required: true }) icon!: Icons;
 
   iconSvg = '';

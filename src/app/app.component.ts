@@ -10,7 +10,6 @@ import { HeaderComponent } from './components/header';
     <gav-header />
 
     <section>
-      <h1>Life is pain au chocolat!</h1>
       <router-outlet />
     </section>
   `,
