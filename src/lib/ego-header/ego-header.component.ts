@@ -17,8 +17,8 @@ const INITIAL_BORDER_RADIUS = 50;
   host: {
     '[style.height]': 'initialHeight',
     '[style.--gav-ego-header-bg-url]': `'url(' + backgroundImgUrl() + ')'`,
-    '[style.--gav-ego-header-dynamic-height]': `height() + 'dvh'`,
-    '[style.--gav-ego-header-img-bot-traslate]': `botTraslate() + 'dvh'`,
+    '[style.--gav-ego-header-dynamic-height]': `height() + 'vh'`,
+    '[style.--gav-ego-header-img-bot-traslate]': `botTraslate() + 'vh'`,
     '[style.--gav-ego-header-img-border-radius]': `borderRadius() + '%'`,
   },
 })
@@ -27,21 +27,22 @@ export class GavEgoHeader {
   profileImgUrl = input.required<string>();
   homeRoute = input<string>('/');
 
-  readonly initialHeight = `${INITIAL_BG_HEIGHT + INITIAL_BOT_TRASLATE}dvh`;
+  readonly initialHeight = `${INITIAL_BG_HEIGHT + INITIAL_BOT_TRASLATE}vh`;
   height = signal(INITIAL_BG_HEIGHT);
   botTraslate = signal(INITIAL_BOT_TRASLATE);
   borderRadius = signal(INITIAL_BORDER_RADIUS);
 
   constructor() {
-    const onedhv = window.innerHeight / 100;
-    const maxHeaderSize = onedhv * 22; // will shrink from 27 to 22
+    const oneDhv = window.innerHeight / 100;
+    const maxHeaderSize = oneDhv * 22; // will shrink from 27 to 22
+    const fiveRemInDvh = 80 / oneDhv;
 
     fromEvent(window, 'scroll')
       .pipe(map((e: any) => e.srcElement.scrollingElement.scrollTop))
       .subscribe((scrollTop: number) => {
         const scrolledPercent = scrollTop / maxHeaderSize;
         const shrinkPercent = scrolledPercent > 1 ? 1 : scrolledPercent;
-        const scrolleddhv = scrolledPercent > 1 ? 22 : scrollTop / onedhv;
+        const scrolleddhv = scrolledPercent > 1 ? 22 : scrollTop / oneDhv;
 
         // from 50% at 0 scroll, to 0% at 100% (22dvh) scroll
         const borderRadius = INITIAL_BORDER_RADIUS * (1 - shrinkPercent);
@@ -53,7 +54,7 @@ export class GavEgoHeader {
         
         // from 27dvh at 0 scroll, to 5dvh at 100% (22dvh) scroll
         const height = INITIAL_BG_HEIGHT - scrolleddhv;
-        this.height.set(height);
+        this.height.set(height > fiveRemInDvh ? height : fiveRemInDvh);
       });
   }
 }

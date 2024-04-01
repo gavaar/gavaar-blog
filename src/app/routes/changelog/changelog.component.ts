@@ -29,12 +29,14 @@ interface Changelog {
             }
           </ul>
 
-          <h5>Tech Changes</h5>
-          <ul>
-            @for (change of release.techChanges; track change) {
-              <li><small>{{change}}.</small></li>
-            }
-          </ul>
+          @if (release.techChanges) {
+            <h5>Tech Changes</h5>
+            <ul>
+              @for (change of release.techChanges; track change) {
+                <li><small>{{change}}.</small></li>
+              }
+            </ul>
+          }
         </div>
 
         <hr />
