@@ -1,16 +1,9 @@
-.header {
-  display: flex;
-  justify-content: space-around;
-  font-size: 1.5rem;
-  padding: 0.5rem;
-  border-bottom: 1px solid var(--text);
-}
-
 .header__theme-toggle {
   display: flex;
   gap: 0.5rem;
   font-size: 1rem;
   align-items: center;
+  padding: 1rem 0;
 }
 
 .header__icon {

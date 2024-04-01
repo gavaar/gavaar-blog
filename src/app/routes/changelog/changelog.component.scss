@@ -1,6 +1,8 @@
 :host {
   display: flex;
   flex-direction: column;
+  // temp: delete me
+  height: 100dvh;
 
   h2, h5 {
     margin: 0;
@@ -15,6 +17,6 @@
 }
 
 .changelog__loading {
-  margin: 2rem;
+  margin: 6rem;
   align-self: center;
 }

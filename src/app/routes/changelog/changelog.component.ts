@@ -20,7 +20,7 @@ interface Changelog {
         <div>
           <div class="changelog__version">
             <h2>{{ release.version }}</h2>
-            <small>{{ release.date.seconds * 1000 | date: 'dd-MM-yyyy MM:ss' }}</small>
+            <small>{{ release.date.seconds * 1000 | date: 'yyyy-MM-dd MM:ss' }}</small>
           </div>
           <h5>Changes</h5>
           <ul>

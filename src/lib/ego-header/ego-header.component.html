@@ -1,0 +1,11 @@
+<header class="gav-ego-header gav-ego-header__dynamic-style">
+  <ng-content select=".gav-ego-header__left" />
+
+  <img class="gav-ego-header__img"
+    [src]="profileImgUrl()"
+    [routerLink]="homeRoute()"
+  />
+
+  <ng-content select=".gav-ego-header__right" />
+</header>
+<div class="gav-ego-header__colorful-background gav-ego-header__dynamic-style"></div>
