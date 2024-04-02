@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { extractFbData } from '../../firebase';
 import { DatePipe } from '@angular/common';
+import { Meta } from '@angular/platform-browser';
 
 interface Changelog {
   version: `${number}.${number}.${number}`;
@@ -15,6 +16,7 @@ interface Changelog {
   imports: [DatePipe],
   standalone: true,
   template: `
+    <h1>Changelog</h1>
     @if (changelog()) {
       @for (release of changelog(); track release.version) {
         <div>
@@ -49,4 +51,9 @@ interface Changelog {
 })
 export class ChangelogComponent {
   changelog = toSignal(extractFbData<Changelog>('changelog', { orderBy: 'date', limit: 12 }));
+
+  constructor(meta: Meta) {
+    meta.updateTag({ name: 'title', content: 'Changelog - Gavaar\'s random writings' });
+    meta.updateTag({ name: 'description', content: 'Gavaar\'s random writings changelog. Versions and changes.' });
+  }
 }
