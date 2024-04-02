@@ -17,12 +17,13 @@ interface Changelog {
   standalone: true,
   template: `
     <h1>Changelog</h1>
+    <small><i>This page has a big scroll on purpose</i></small>
     @if (changelog()) {
       @for (release of changelog(); track release.version) {
         <div>
           <div class="changelog__version">
             <h2>{{ release.version }}</h2>
-            <small>{{ release.date.seconds * 1000 | date: 'yyyy-MM-dd MM:ss' }}</small>
+            <small>{{ release.date.seconds * 1000 | date: 'yyyy-MM-dd hh:mm' }}</small>
           </div>
           <h5>Changes</h5>
           <ul>
