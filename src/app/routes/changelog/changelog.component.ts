@@ -17,7 +17,6 @@ interface Changelog {
   standalone: true,
   template: `
     <h1>Changelog</h1>
-    <small><i>This page has a big scroll on purpose</i></small>
     @if (changelog()) {
       @for (release of changelog(); track release.version) {
         <div>

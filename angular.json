@@ -48,13 +48,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "https://gavaar-blog.web.app/",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
+              "baseHref": "https://gavaar-blog.web.app/"
             },
             "development": {
               "optimization": false,
