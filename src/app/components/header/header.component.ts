@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivationEnd, Router, RouterLink } from '@angular/router';
 import { GavEgoHeader } from '../../../lib/ego-header/ego-header.component';
 import { GavIconComponent } from '../../../lib/icon';
+import { filter, map } from 'rxjs';
 
 @Component({
   imports: [
@@ -14,8 +16,8 @@ import { GavIconComponent } from '../../../lib/icon';
   template: `
     <gav-ego-header
       profileImgUrl="assets/images/me_emosido_enganado.jpg"
-      backgroundImgUrl="assets/images/bg_url.png">
-      <nav style="cursor: pointer" class="gav-ego-header__left header__theme-toggle" routerLink="changelog">(clickMe)</nav>
+      [backgroundImgUrl]="'assets/images/' + bgImg()">
+      <nav style="cursor: pointer" class="gav-ego-header__left header__theme-toggle" routerLink="cl">(clickMe)</nav>
       <!-- left and right content of the header -->
       <div class="gav-ego-header__right">
         <span class="header__theme-toggle">
@@ -30,6 +32,14 @@ import { GavIconComponent } from '../../../lib/icon';
 })
 export class HeaderComponent {
   darkTheme = true;
+  bgImg: Signal<string>;
+
+  constructor(router: Router) {
+    this.bgImg = toSignal(router.events.pipe(
+      filter((r: any) => r instanceof ActivationEnd),
+      map((r: ActivationEnd) => r.snapshot.data['bgImg']),
+    ));
+  }
 
   toggleTheme(): void {
     this.darkTheme = !this.darkTheme;

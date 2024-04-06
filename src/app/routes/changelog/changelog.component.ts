@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { extractFbData } from '../../firebase';
 import { DatePipe } from '@angular/common';
@@ -48,6 +48,7 @@ interface Changelog {
     }
   `,
   styleUrl: './changelog.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangelogComponent {
   changelog = toSignal(extractFbData<Changelog>('changelog', { orderBy: 'date', limit: 12 }));

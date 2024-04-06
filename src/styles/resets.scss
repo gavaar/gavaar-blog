@@ -3,16 +3,11 @@
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 body {
   margin: 0;
-  height: 100dvh;
+  min-height: 100dvh;
   width: 100dvw;
   overflow: hidden overlay;
 
@@ -38,6 +33,10 @@ section {
   padding: 0.5rem;
 }
 
+h1 {
+  font-size: 2rem;
+  text-align: center;
+}
 h1, h2, h3, h4, h5, h6 {
   color: var(--secondary);
 }

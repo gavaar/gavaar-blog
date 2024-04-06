@@ -1,0 +1,9 @@
+import { GavCardLink } from '../../components/card-link/card-link.component';
+
+export const CARDS_CONFIG: (GavCardLink & { id: string })[] = [
+  { id: 'c', backgroundImgUrl: 'career.jpg', text: 'Career' },
+  { id: 'd', backgroundImgUrl: 'development.jpg', text: 'Development' },
+  { id: 'g', backgroundImgUrl: 'gaming.jpg', text: 'Games' },
+  { id: 'p', backgroundImgUrl: 'psychology.jpg', text: 'Psychology' },
+  { id: 's', backgroundImgUrl: 'selfcare.jpg', text: 'Self-care' },
+];

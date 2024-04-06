@@ -1,0 +1,50 @@
+:host {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  flex: 1 0 20rem;
+  max-width: 50%;
+  border: 0.25rem solid var(--secondary);
+  border-radius: 3rem;
+  height: 14rem;
+  font-size: 3rem;
+  background-image: var(--gav-card__bg-url);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  @media screen and (max-width: 44rem) {
+    max-width: 35rem;
+  }
+
+  &:hover {
+    .gav-card__backdrop {
+      opacity: 0;
+      transition: 0.25s;
+    }
+    .gav-card__text {
+      opacity: 0;
+      transition: 0.25s;
+    }
+  }
+}
+
+.gav-card__backdrop,
+.gav-card__text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.gav-card__backdrop {
+  background-color: var(--background);
+  opacity: 0.5;
+}
+
+.gav-card__text {
+  height: fit-content;
+  margin: auto;
+}
