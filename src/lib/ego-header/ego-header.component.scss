@@ -32,6 +32,7 @@ gav-ego-header {
   object-fit: cover;
   object-position: center;
   transform: translateY(var(--gav-ego-header-img-bot-traslate));
+  background-color: var(--background);
 }
 
 .gav-ego-header__dynamic-style {

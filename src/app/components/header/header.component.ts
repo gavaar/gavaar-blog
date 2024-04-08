@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivationEnd, Router, RouterLink } from '@angular/router';
+import { ActivatedRouteSnapshot, ActivationEnd, Data, Router, RouterLink } from '@angular/router';
 import { GavEgoHeader } from '../../../lib/ego-header/ego-header.component';
 import { GavIconComponent } from '../../../lib/icon';
-import { filter, map } from 'rxjs';
+import { filter, map, tap, throttleTime } from 'rxjs';
 
 @Component({
   imports: [
@@ -15,9 +15,11 @@ import { filter, map } from 'rxjs';
   standalone: true,
   template: `
     <gav-ego-header
-      profileImgUrl="assets/images/me_emosido_enganado.jpg"
+      [profileImgUrl]="'assets/images/' + portraitImg()"
       [backgroundImgUrl]="'assets/images/' + bgImg()">
-      <nav style="cursor: pointer" class="gav-ego-header__left header__theme-toggle" routerLink="cl">(clickMe)</nav>
+      <nav style="cursor: pointer" class="gav-ego-header__left header__theme-toggle">
+        <a [routerLink]="parentUrl().parentLink">{{ parentUrl().currentMessage }}</a>
+      </nav>
       <!-- left and right content of the header -->
       <div class="gav-ego-header__right">
         <span class="header__theme-toggle">
@@ -32,14 +34,26 @@ import { filter, map } from 'rxjs';
 })
 export class HeaderComponent {
   darkTheme = true;
-  bgImg: Signal<string>;
+  bgImg = computed(() => this.routerData()?.data['bgImg'] || 'default_background.png');
+  portraitImg = computed(() => this.routerData()?.data['portraitImg'] || 'me_emosido_enganado.jpg');
+  parentUrl = signal({ parentLink: 'cl', currentMessage: '(changelog)' });
 
-  constructor(router: Router) {
-    this.bgImg = toSignal(router.events.pipe(
-      filter((r: any) => r instanceof ActivationEnd),
-      map((r: ActivationEnd) => r.snapshot.data['bgImg']),
-    ));
-  }
+  private routerData: Signal<ActivatedRouteSnapshot | undefined> = toSignal(this.router.events.pipe(
+    filter((r: any) => r instanceof ActivationEnd),
+    throttleTime(50),
+    map((r: ActivationEnd) => r.snapshot),
+    tap(() => {
+      const routes = this.router.url.split('/');
+      const currentRoute = routes?.at(-1) || '';
+
+      this.parentUrl.set({
+        parentLink: currentRoute === '' ? 'cl' : routes.at(-2)!,
+        currentMessage: currentRoute === '' ? '(changelog)' : '< Back',
+      });
+    }),
+  ));
+
+  constructor(private router: Router) {}
 
   toggleTheme(): void {
     this.darkTheme = !this.darkTheme;

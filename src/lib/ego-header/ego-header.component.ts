@@ -34,7 +34,7 @@ export class GavEgoHeader {
 
   constructor() {
     const oneDhv = window.innerHeight / 100;
-    const maxHeaderSize = oneDhv * 22; // will shrink from 27 to 22
+    const maxHeaderSize = oneDhv * 22; // will shrink at most 22dhv (from 27 to 5)
     const fiveRemInDvh = 80 / oneDhv;
 
     fromEvent(window, 'scroll')

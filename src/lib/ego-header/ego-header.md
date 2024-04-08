@@ -8,7 +8,7 @@ Template
 ```html
 <gav-ego-header
   profileImgUrl="assets/me.jpg"
-  backgroundImgUrl="assets/bg_url.png"
+  backgroundImgUrl="assets/default_background.png"
   homeRoute="/home">
 
   <button class="gav-ego-header-left">
