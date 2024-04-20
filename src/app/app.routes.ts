@@ -13,7 +13,7 @@ export const APP_ROUTES: Routes = [
     loadComponent: () => import('./routes/changelog/changelog.component').then(c => c.ChangelogComponent),
   },
   {
-    path: 'd',
+    path: 'dev',
     title: 'Gavaar\'s development notes',
     loadChildren: () => import('./routes/development/development.routes').then(c => c.DEVELOPMENT_ROUTES),
     data: { bgImg: 'development.jpg' },

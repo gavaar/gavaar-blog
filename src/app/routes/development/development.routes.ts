@@ -1,7 +1,41 @@
-import { Routes } from '@angular/router';
-import { LEARN_WEB_DEV } from './development.config';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
+import { DevelopmentService } from './development.service';
+import { EMPTY, Observable, catchError, map } from 'rxjs';
+import { BlogPost } from '../../entity';
+
+const loadPost = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<BlogPost> => {
+  const postService = inject(DevelopmentService);
+  const router = inject(Router);
+  const id = activatedRouteSnapshot.paramMap.get('id')!;
+
+  const post = postService.post(id).pipe(
+    catchError((_err) => {
+      alert('Error: this blog post does not exist');
+      router.navigateByUrl('dev');
+
+      return EMPTY;
+    }),
+  );
+
+  return post;
+}
+
+const loadTitle = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<string> => {
+  return loadPost(activatedRouteSnapshot).pipe(map(bp => bp.title));
+}
+
+const loadPortrait = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<string> => {
+  return loadPost(activatedRouteSnapshot).pipe(map(bp => bp.assetURI));
+}
 
 export const DEVELOPMENT_ROUTES: Routes = [
   { path: '', loadComponent: () => import('./development.component').then(c => c.DevelopmentComponent) },
-  { path: LEARN_WEB_DEV.url, loadComponent: () => import('./learn-web-dev/learn-web-dev.component').then(c => c.LearnWebDevComponent), data: { portraitImg: 'development/learn_web_dev/portrait.png' } },
+  {
+    path: ':id',
+    loadComponent: () => import('./routes/dev-post/dev-post.component').then(c => c.DevPostComponent),
+    // data: { portraitImg: 'dev/learn_web_dev/portrait.png' },
+    title: loadTitle,
+    resolve: { blogPost: loadPost, portraitImg: loadPortrait },
+  },
 ];

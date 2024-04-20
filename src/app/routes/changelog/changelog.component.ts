@@ -1,15 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { extractFbData } from '../../firebase';
+import { extractFbCollection } from '../../firebase';
 import { DatePipe } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
-
-interface Changelog {
-  version: `${number}.${number}.${number}`;
-  date: { seconds: number; nanoseconds: number };
-  changes: string[];
-  techChanges: string[];
-}
+import { Changelog } from '../../entity';
 
 @Component({
   selector: 'changelog',
@@ -51,7 +45,7 @@ interface Changelog {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangelogComponent {
-  changelog = toSignal(extractFbData<Changelog>('changelog', { orderBy: 'date', limit: 12 }));
+  changelog = toSignal(extractFbCollection<Changelog>('changelog', { orderBy: 'date', limit: 12 }));
 
   constructor(meta: Meta) {
     meta.updateTag({ name: 'title', content: 'Changelog - Gavaar\'s random writings' });
