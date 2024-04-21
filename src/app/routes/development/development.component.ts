@@ -13,11 +13,13 @@ import { DevelopmentService } from './development.service';
       <ul>
         @for (post of posts; track post.id) {
           <li>
-            <img [src]="'assets/images/' + post.assetURI" [alt]="post.title + ' image'" />
-            <div>
-              <a [routerLink]="post.id">{{ post.title }}</a>
-              <small>{{ post.description }}</small>
-            </div>
+            <a [routerLink]="post.id">
+              <img [src]="'assets/images/' + post.assetURI" [alt]="post.title + ' image'" />
+              <div>
+                <span>{{ post.title }}</span>
+                <small>{{ post.description }}</small>
+              </div>
+            </a>
           </li>
         }
       </ul>
@@ -34,7 +36,8 @@ import { DevelopmentService } from './development.service';
       row-gap: 1.5rem;
     }
 
-    li {
+    a {
+      cursor: pointer;
       display: flex;
       column-gap: 0.5rem;
 
@@ -49,14 +52,11 @@ import { DevelopmentService } from './development.service';
         flex-direction: column;
         row-gap: 0.5rem;
       }
-    }
-
-    a {
-      cursor: pointer;
 
       &:hover {
-        border-color: var(--text);
-        transition: 0.25s;
+        div span {
+          text-decoration: underline; 
+        }
       }
     }
 
