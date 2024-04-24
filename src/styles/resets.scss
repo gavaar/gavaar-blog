@@ -52,3 +52,10 @@ a {
   text-decoration: none;
   color: var(--text);
 }
+code {
+  color: var(--background);
+  background: var(--text);
+  padding: 0 0.10rem;
+  font-size: 1rem;
+  font-weight: 700;
+}

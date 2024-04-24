@@ -34,7 +34,6 @@ export const DEVELOPMENT_ROUTES: Routes = [
   {
     path: ':id',
     loadComponent: () => import('./routes/dev-post/dev-post.component').then(c => c.DevPostComponent),
-    // data: { portraitImg: 'dev/learn_web_dev/portrait.png' },
     title: loadTitle,
     resolve: { blogPost: loadPost, portraitImg: loadPortrait },
   },
