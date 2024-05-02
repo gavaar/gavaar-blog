@@ -1,8 +1,4 @@
-const BOLD_REGEX = /(?:[_|\*]{2})([^_\*]+?)(?:[_|\*]{2})/g;
-const ITALIC_REGEX = /(?:_|\*)([^_\*]+?)(?:_|\*)/g;
-const CODE_REGEX = /(?:`)([^`]+?)(?:`)/g;
-const IMG_REGEX = /(?:!\[)([^\]\[]+?)(?:\])(?:\()([^\(\)]+?)(?:\))/g
-const LINK_REGEX = /(?:\[)([^\]\[]+?)(?:\])(?:\()([^\(\)]+?)(?:\))/g
+import { BOLD_REGEX, CODE_REGEX, IMG_REGEX, ITALIC_REGEX, LINK_REGEX, POUND_REGEX } from './markdown-regex';
 
 const subMatchesWithTag = ({ line, matchingRegex, tag, selfClosing }: { line: string; matchingRegex: RegExp; tag: string, selfClosing?: boolean }) => {
   const matches = line.matchAll(matchingRegex);
@@ -36,18 +32,22 @@ const lineBuilder = (line: string) => {
 }
 
 const lineHtmlTag = (line: string): [string, string] => {
-  if (line[0] === '#') {
-    const [, hTagValue, rest] = line.match(/(.*?)[^#](.*)/) as [string, string, string];
+  switch (line[0]) {
+  case '#':
+    const [, hTagValue, rest] = line.match(POUND_REGEX) as [string, string, string];
     const hTag = `h${hTagValue.length}`;
   
     return [hTag, rest];
-  }
 
-  if (line[0] === '>') {
+  case '>':
     return ['blockquote', line.substring(2)];
-  }
 
-  return ['p', line];
+  case '-':
+    return ['li', line.substring(2)];
+    
+  default:
+    return ['p', line];
+  }
 }
 
 export const markdownToHtml = (markdown: string): string => {
