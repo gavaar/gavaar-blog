@@ -6,6 +6,11 @@ export const APP_ROUTES: Routes = [
     title: 'Gavaar\'s random notes',
     loadComponent: () => import('./routes/home/home.component').then(c => c.HomeComponent),
   },
+  {
+    path: 'admin',
+    title: 'Gavaar\'s admin site',
+    loadComponent: () => import('./routes/admin/admin.component').then(c => c.AdminComponent),
+  },
   { path: 'c', loadComponent: () => import('./routes/career/career.component').then(c => c.CareerComponent), data: { bgImg: 'career.jpg' } },
   {
     path: 'cl',

@@ -2,8 +2,10 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc } from 'firebase/firestore/lite';
 import { firebaseConfig } from './firebase-config';
 import { Observable, from, map } from 'rxjs';
+import { getAuth } from 'firebase/auth';
 
 const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 type DataOptions = { orderBy?: string; limit?: number, asMap?: boolean };
