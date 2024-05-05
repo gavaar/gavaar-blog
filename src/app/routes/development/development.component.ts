@@ -1,74 +1,27 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DevelopmentService } from './development.service';
+import { PermissionsService } from '../../services/permissions.service';
+import { deleteFbDocument } from '../../firebase';
 
 @Component({
   selector: 'development',
   standalone: true,
   imports: [RouterLink],
-  template: `
-    <h1>Development scribbles</h1>
-    <small>Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]</small>
-    @if (posts(); as posts) {
-      <ul>
-        @for (post of posts; track post.id) {
-          <li>
-            <a [routerLink]="post.id">
-              <img [src]="'assets/images/' + post.assetURI" [alt]="post.title + ' image'" />
-              <div>
-                <span>{{ post.title }}</span>
-                <small>{{ post.description }}</small>
-              </div>
-            </a>
-          </li>
-        }
-      </ul>
-    } @else {
-      <p class="dev__loading">loading...</p>
-    }
-  `,
-  styles: [`
-    ul {
-      display: flex;
-      flex-direction: column;
-      padding-inline: 0;
-      list-style-type: none;
-      row-gap: 1.5rem;
-    }
-
-    a {
-      cursor: pointer;
-      display: flex;
-      column-gap: 0.5rem;
-
-      img {
-        height: 4rem;
-        border-radius: 50%;
-        border: 0.15rem solid var(--secondary);
-      }
-
-      div {
-        display: flex;
-        flex-direction: column;
-        row-gap: 0.5rem;
-      }
-
-      &:hover {
-        div span {
-          text-decoration: underline; 
-        }
-      }
-    }
-
-    .dev__loading {
-      margin: 10dvh 40dvw;
-      align-self: center;
-    }
-  `],
+  templateUrl: './development.component.html',
+  styleUrl: './development.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevelopmentComponent {
   posts = this.postService.postList;
+  admin = computed(() => this.permissionsService.permissions()?.admin);
 
-  constructor(private postService: DevelopmentService) {}
+  constructor(private postService: DevelopmentService, private permissionsService: PermissionsService) {}
+
+  // Admin stuff
+  deletePost(id: string) {
+    if (confirm('Sure?')) {
+      this.postService.deletePost(id);
+    }
+  }
 }

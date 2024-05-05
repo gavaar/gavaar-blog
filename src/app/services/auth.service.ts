@@ -4,10 +4,10 @@ import { auth } from '../firebase';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  user = signal<string | null>(null);
+  user = signal<User | null>(null);
 
   constructor() {
-    onAuthStateChanged(getAuth(), (user => this.user.set(user?.email || null)));
+    onAuthStateChanged(getAuth(), (user => this.user.set(user)));
   }
 
   login(): void {

@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc } from 'firebase/firestore/lite';
 import { firebaseConfig } from './firebase-config';
 import { Observable, from, map } from 'rxjs';
 import { getAuth } from 'firebase/auth';
@@ -46,4 +46,8 @@ export function extractFbDocument<T>(documentPath: string): Observable<T> {
   return from(getDoc(doc(db, documentPath))).pipe(
     map(snapshot => ({ ...snapshot.data(), id: snapshot.id }) as T),
   )
+}
+
+export function deleteFbDocument(documentPath: string): Observable<void> {
+  return from(deleteDoc(doc(db, documentPath)));
 }
