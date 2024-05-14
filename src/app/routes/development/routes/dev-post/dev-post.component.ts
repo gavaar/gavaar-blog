@@ -1,32 +1,65 @@
-import { ChangeDetectionStrategy, Component, Signal, computed } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ChangeDetectionStrategy, Component, Signal, computed, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlogPost } from '../../../../entity';
-import { map, startWith, tap } from 'rxjs';
+import { map, startWith, take, tap } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
-import { GavRichTextComponent } from '../../../../../lib/rich-text/rich-text.component';
+import { BlogPostComponent } from '../../../../components/blog-post/blog-post.component';
+import { readFbDocument, updateFbDocument } from '../../../../firebase';
+import { FieldValue, increment } from 'firebase/firestore/lite';
+import { PermissionsService } from '../../../../services/permissions.service';
+import { environment } from '../../../../../environments/environment.development';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   standalone: true,
-  imports: [GavRichTextComponent],
+  imports: [BlogPostComponent],
   selector: 'dev-post',
-  template: `<gav-rich-text [rawText]="blogContent()" />`,
+  templateUrl: './dev-post.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevPostComponent {
-  private routeParams: Signal<BlogPost | undefined>;
+  private blogData = signal<BlogPost | null>(null);
+  
+  views = signal(0);
+  updatedContent = signal<string>('');
+  blogContent = computed(() => this.blogData()?.content || '');
+  
+  constructor(
+    activatedRoute: ActivatedRoute,
+    meta: Meta,
+  ) {
+    activatedRoute.data.pipe(
+      map(data => data['blogPost']),
+      tap((blogPostData: BlogPost) => {
+        meta.updateTag({ name: 'title', content: blogPostData.title });
+        meta.updateTag({ name: 'description', content: blogPostData.description });
+        this.blogData.set(<BlogPost>blogPostData);
 
-  blogContent = computed(() => this.routeParams()?.content || '');
-
-  constructor(activatedRoute: ActivatedRoute, meta: Meta) {
-    const blogPostData = activatedRoute.data.pipe(
-      startWith({ blogPost: {} }),
-      map(data => <BlogPost>data.blogPost),
-      tap(({ title, description }) => {
-        meta.updateTag({ name: 'title', content: title });
-        meta.updateTag({ name: 'description', content: description });
       }),
-    );
-    this.routeParams = toSignal(blogPostData);
+      tap(blogPostData => {
+        if (environment.production) {
+          updateFbDocument(`views/posts`, { [`dev__${blogPostData.id}`]: increment(1) }).subscribe();
+          readFbDocument<{ [key: string]: number }>(`views/posts`).subscribe(posts => this.views.set(posts[`dev__${blogPostData.id}`]));
+        }  
+      }),
+      take(1),
+    ).subscribe();
+  }
+
+  updatePost(content: string): void {
+    this.updatedContent.set(content === this.blogContent() ? '' : content);
+  }
+
+  savePost(): void {
+    const post = this.blogData();
+
+    if (this.updatedContent() && post) {
+      post.content = this.updatedContent();
+      updateFbDocument(`dev/${this.blogData()?.id}`, post).subscribe(() => {
+        this.blogData.set({ ...post });
+        this.updatedContent.set('');
+        alert('saved');
+      });
+    }
   }
 }

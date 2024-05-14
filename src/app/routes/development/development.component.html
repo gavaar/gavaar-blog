@@ -1,27 +1,7 @@
-<h1>Development scribbles</h1>
-<small>Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]</small>
-@if (posts().length) {
-  <ul>
-    @for (post of posts(); track post.id) {
-      <li>
-        <a [routerLink]="post.id">
-          <img [src]="'assets/images/' + post.assetURI" [alt]="post.title + ' image'" />
-          <div>
-            <span>{{ post.title }}</span>
-            <small>{{ post.description }}</small>
-          </div>
-        </a>
-
-        @if (admin()) {
-          <button (click)="deletePost(post.id)">Del?</button>
-        }
-      </li>
-    }
-  </ul>
-  
-  @if (admin()) {
-    <h4>New post +</h4>
-  }
-} @else {
-  <p class="dev__loading">loading...</p>
-}
+<gav-post-list 
+  title="Development scribbles"
+  description="Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]"
+  [admin]="admin()"
+  [posts]="posts()"
+  (deletePost)="deletePost($event)"
+/>

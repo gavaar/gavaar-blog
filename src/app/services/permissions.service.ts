@@ -1,6 +1,6 @@
-import { Injectable, effect, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { AuthService } from './auth.service';
-import { extractFbDocument } from '../firebase';
+import { readFbDocument } from '../firebase';
 
 type Permissions = { admin: boolean };
 const DEFAULT_PERMISSIONS: Permissions = { admin: false };
@@ -9,13 +9,14 @@ const DEFAULT_PERMISSIONS: Permissions = { admin: false };
 export class PermissionsService {
   private authUser = inject(AuthService).user;
   permissions = signal<Permissions>(DEFAULT_PERMISSIONS);
+  admin = computed(() => this.permissions().admin);
 
   constructor() {
     effect(() => {
       const userUid = this.authUser()?.uid;
 
       if (userUid) {
-        extractFbDocument<Permissions>(`permissions/${userUid}`)
+        readFbDocument<Permissions>(`permissions/${userUid}`)
           .subscribe(perms => this.permissions.set(perms || DEFAULT_PERMISSIONS))
       }
     });

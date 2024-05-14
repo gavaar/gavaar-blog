@@ -1,0 +1,28 @@
+<h1>{{ title() }}</h1>
+<small>{{ description() }}</small>
+
+@if (posts().length) {
+  <ul class="post-list__list">
+    @for (post of posts(); track post.id) {
+      <li class="post-list__list-item">
+        <a class="post-list__list-item-link" [routerLink]="post.id">
+          <img class="post-list__list-item-image" [src]="'assets/images/' + post.assetURI" [alt]="post.title + ' image'" />
+          <div class="post-list__list-item-text">
+            <span class="post-list__list-item-title">{{ post.title }}</span>
+            <small>{{ post.description }}</small>
+          </div>
+        </a>
+
+        @if (admin()) {
+          <button class="post-list__list-item-del-button" (click)="deletePost.emit(post.id)">Del?</button>
+        }
+      </li>
+    }
+  </ul>
+  
+  @if (admin()) {
+    <h4 class="dev__new-post">New post +</h4>
+  }
+} @else {
+  <p class="dev__loading">loading...</p>
+}

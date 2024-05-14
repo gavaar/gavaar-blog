@@ -1,5 +1,5 @@
 import { Injectable, computed, signal } from '@angular/core';
-import { deleteFbDocument, extractFbCollection, extractFbDocument } from '../../firebase';
+import { deleteFbDocument, readFbCollection, readFbDocument } from '../../firebase';
 import { BlogPost } from '../../entity';
 import { Observable, of } from 'rxjs';
 
@@ -10,7 +10,7 @@ export class DevelopmentService {
   postList = computed(() => Object.values(this.posts() || {}));
 
   constructor() {
-    extractFbCollection<BlogPost>('dev', { orderBy: 'date', limit: 12, asMap: true }).subscribe(list => this.posts.set(list));
+    readFbCollection<BlogPost>('dev', { orderBy: 'date', limit: 12, asMap: true }).subscribe(list => this.posts.set(list));
   }
 
   post(id: string): Observable<BlogPost> {
@@ -20,7 +20,7 @@ export class DevelopmentService {
       return of(foundPost);
     }
 
-    return extractFbDocument(`dev/${id}`);
+    return readFbDocument(`dev/${id}`);
   }
 
   deletePost(id: string): void {

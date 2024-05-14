@@ -1,0 +1,9 @@
+@if (admin()) {
+  <gav-textarea
+    class="gav-blog-post__textarea"
+    label="Edit content"
+    [initText]="blogContent()"
+    (textUpdates)="onUpdateText($event)"
+  />
+}
+<gav-rich-text class="gav-blog-post__rich-text" [rawText]="blogContent()" />

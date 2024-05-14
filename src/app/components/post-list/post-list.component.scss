@@ -1,4 +1,4 @@
-ul {
+.post-list__list {
   display: flex;
   flex-direction: column;
   padding-inline: 0;
@@ -6,35 +6,36 @@ ul {
   row-gap: 1.5rem;
 }
 
-a {
+.post-list__list-item {
+  display: flex;
+}
+
+.post-list__list-item-link {
   cursor: pointer;
   display: flex;
-  column-gap: 0.5rem;
-
-  img {
-    height: 4rem;
-    border-radius: 50%;
-    border: 0.15rem solid var(--secondary);
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
-    row-gap: 0.5rem;
-  }
-
+  column-gap: 0.5rem;  
+  
   &:hover {
-    div span {
+    .post-list__list-item-title {
       text-decoration: underline; 
     }
   }
 }
 
-li {
+.post-list__list-item-text {
   display: flex;
+  flex-direction: column;
+  row-gap: 0.5rem;
 }
 
-button {
+.post-list__list-item-image {
+  height: 4rem;
+  border-radius: 50%;
+  border: 0.15rem solid var(--secondary);
+}
+
+
+.post-list__list-item-del-button {
   cursor: pointer;
   margin-left: 5rem;
   border: 0;
@@ -60,7 +61,7 @@ button {
     opacity: 0;
   }
 
-  li:hover button {
+  .post-list__list-item:hover .post-list__list-item-del-button {
     opacity: 1;
     transition: 0.25s;
   }

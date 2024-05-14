@@ -34,10 +34,15 @@ const lineBuilder = (line: string) => {
 const lineHtmlTag = (line: string): [string, string] => {
   switch (line[0]) {
   case '#':
-    const [, hTagValue, rest] = line.match(POUND_REGEX) as [string, string, string];
-    const hTag = `h${hTagValue.length}`;
-  
-    return [hTag, rest];
+    const match = line.match(POUND_REGEX);
+    if (match) {
+      const [, hTagValue, rest] = match as [string, string, string];
+      const hTag = `h${hTagValue.length}`;
+    
+      return [hTag, rest];
+    }
+
+    return ['p', line];
 
   case '>':
     return ['blockquote', line.substring(2)];
@@ -51,7 +56,7 @@ const lineHtmlTag = (line: string): [string, string] => {
 }
 
 export const markdownToHtml = (markdown: string): string => {
-  const lines = markdown.split('\\n');
+  const lines = markdown.split('\n');
   let parsedMarkdown = '';
     
   lineLoop:for (let line of lines) {

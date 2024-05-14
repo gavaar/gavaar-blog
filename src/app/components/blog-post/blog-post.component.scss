@@ -1,0 +1,9 @@
+:host {
+  display: flex;
+  gap: 1rem;
+}
+
+.gav-blog-post__rich-text,
+.gav-blog-post__textarea {
+  flex: 1 1 0;
+}

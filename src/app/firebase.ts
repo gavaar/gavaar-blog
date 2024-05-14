@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore/lite';
 import { firebaseConfig } from './firebase-config';
 import { Observable, from, map } from 'rxjs';
 import { getAuth } from 'firebase/auth';
@@ -10,9 +10,9 @@ export const db = getFirestore(app);
 
 type DataOptions = { orderBy?: string; limit?: number, asMap?: boolean };
 
-export function extractFbCollection<T>(collectionName: string, options: DataOptions & { asMap: true }): Observable<{ [id: string]: T }>
-export function extractFbCollection<T>(collectionName: string, options: DataOptions & { asMap?: false }): Observable<T[]>
-export function extractFbCollection<T>(collectionName: string, options: DataOptions) {
+export function readFbCollection<T>(collectionName: string, options: DataOptions & { asMap: true }): Observable<{ [id: string]: T }>
+export function readFbCollection<T>(collectionName: string, options: DataOptions & { asMap?: false }): Observable<T[]>
+export function readFbCollection<T>(collectionName: string, options: DataOptions) {
   const collectionRef = collection(db, collectionName);
 
   const collect = (() => {
@@ -42,10 +42,14 @@ export function extractFbCollection<T>(collectionName: string, options: DataOpti
   );
 }
 
-export function extractFbDocument<T>(documentPath: string): Observable<T> {
+export function readFbDocument<T>(documentPath: string): Observable<T> {
   return from(getDoc(doc(db, documentPath))).pipe(
     map(snapshot => ({ ...snapshot.data(), id: snapshot.id }) as T),
   )
+}
+
+export function updateFbDocument<T>(documentPath: string, value: Partial<T>): Observable<void> {
+  return from(updateDoc(doc(db, documentPath), value));
 }
 
 export function deleteFbDocument(documentPath: string): Observable<void> {
