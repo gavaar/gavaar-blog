@@ -1,14 +1,12 @@
 import { ChangeDetectionStrategy, Component, Signal, computed, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BlogPost } from '../../../../entity';
-import { map, startWith, take, tap } from 'rxjs';
+import { map, take, tap } from 'rxjs';
 import { Meta } from '@angular/platform-browser';
 import { BlogPostComponent } from '../../../../components/blog-post/blog-post.component';
 import { readFbDocument, updateFbDocument } from '../../../../firebase';
-import { FieldValue, increment } from 'firebase/firestore/lite';
-import { PermissionsService } from '../../../../services/permissions.service';
-import { environment } from '../../../../../environments/environment.development';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { increment } from 'firebase/firestore/lite';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   standalone: true,

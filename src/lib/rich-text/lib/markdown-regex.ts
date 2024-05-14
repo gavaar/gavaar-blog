@@ -1,9 +1,9 @@
 // matches between # and ######
 export const POUND_REGEX = /(.*?)[^#](.*)/;
 // matches **content** and __content__
-export const BOLD_REGEX = /(?:[_|\*]{2})([^_\*]+?)(?:[_|\*]{2})/g;
+export const BOLD_REGEX = /(?:\W[_|\*]{2})([^_\*]+?)(?:[_|\*]{2}\W)/g;
 // matches *content* and _content_
-export const ITALIC_REGEX = /(?:_|\*)([^_\*]+?)(?:_|\*)/g;
+export const ITALIC_REGEX = /(?:\W_|\*)([^_\*]+?)(?:_|\*\W)/g;
 // matches `content`
 export const CODE_REGEX = /(?:`)([^`]+?)(?:`)/g;
 // matches ![alt-text-value](image-src-value)
