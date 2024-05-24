@@ -1,9 +1,15 @@
 .gav-rich-text {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0.5rem;
+
   a {
+    align-self: center;
     color: var(--secondary);
   }
 
   img {
+    border-radius: 0.5rem;
     max-width: 100%;
   }
 

@@ -38,7 +38,7 @@ export class DevPostComponent {
         if (environment.production) {
           updateFbDocument(`views/posts`, { [`dev__${blogPostData.id}`]: increment(1) }).subscribe();
           readFbDocument<{ [key: string]: number }>(`views/posts`).subscribe(posts => this.views.set(posts[`dev__${blogPostData.id}`]));
-        }  
+        }
       }),
       take(1),
     ).subscribe();

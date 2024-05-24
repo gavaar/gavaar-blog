@@ -55,7 +55,8 @@ a {
 code {
   color: var(--background);
   background: var(--text);
-  padding: 0 0.10rem;
+  padding: 0 0.1rem;
+  border-radius: 0.3rem;
   font-size: 1rem;
   font-weight: 700;
 }

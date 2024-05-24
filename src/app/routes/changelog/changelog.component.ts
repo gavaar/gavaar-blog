@@ -1,9 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { readFbCollection } from '../../firebase';
+import { readFbCollection, updateFbDocument } from '../../firebase';
 import { DatePipe } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 import { Changelog } from '../../entity';
+import { environment } from '../../../environments/environment';
+import { increment } from 'firebase/firestore/lite';
 
 @Component({
   selector: 'changelog',
@@ -50,5 +52,8 @@ export class ChangelogComponent {
   constructor(meta: Meta) {
     meta.updateTag({ name: 'title', content: 'Changelog - Gavaar\'s random writings' });
     meta.updateTag({ name: 'description', content: 'Gavaar\'s random writings changelog. Versions and changes.' });
+    if (environment.production) {
+      updateFbDocument(`views/changelog`, { [`default`]: increment(1) }).subscribe();
+    }
   }
 }
