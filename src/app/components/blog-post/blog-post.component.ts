@@ -1,11 +1,19 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { GavRichTextComponent } from '../../../lib/rich-text/rich-text.component';
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Meta } from '@angular/platform-browser';
+import { map } from 'rxjs';
+import { readFbDocument, updateFbDocument } from '../../firebase';
+import { BlogPost } from '../../entity';
 import { PermissionsService } from '../../services/permissions.service';
+import { GavRichTextComponent } from '../../../lib/rich-text/rich-text.component';
 import { GavTextareaComponent } from '../../../lib/textarea/textarea.component';
+import { DatePipe } from '@angular/common';
+import { Timestamp } from 'firebase/firestore/lite';
 
 @Component({
   selector: 'gav-blog-post',
   imports: [
+    DatePipe,
     GavTextareaComponent,
     GavRichTextComponent,
   ],
@@ -15,16 +23,48 @@ import { GavTextareaComponent } from '../../../lib/textarea/textarea.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlogPostComponent {
-  blogContent = input.required<string>();
-  contentUpdate = output<string>();
-
+  blogPost = signal<BlogPost | null>(null);
+  updatedContent = signal('');
+  views = signal(0);
+  
+  blogContent = computed(() => this.blogPost()?.content || '');
+  
   admin = this.permissionsService.admin;
 
   constructor(
+    meta: Meta,
+    private activatedRoute: ActivatedRoute,
     private permissionsService: PermissionsService,
-  ) {}
+  ) {
+    effect(() => {
+      const blogPost = this.blogPost();
+      if (blogPost) {
+        meta.updateTag({ name: 'title', content: blogPost.title });
+        meta.updateTag({ name: 'description', content: blogPost.description });
+        readFbDocument<{ [key: string]: number }>(`views/posts`).subscribe(posts => this.views.set(posts[blogPost.id]));
+      }
+    });
 
-  onUpdateText(updatedContent: string): void {
-    this.contentUpdate.emit(updatedContent);
+    this.activatedRoute.data
+      .pipe(map(data => data['blogPost']))
+      .subscribe(blogPost => this.blogPost.set(blogPost));
+  }
+
+  onUpdateText(content: string): void {
+    this.updatedContent.set(content === this.blogContent() ? '' : content);
+  }
+
+  savePost(): void {
+    const post = this.blogPost();
+
+    if (this.updatedContent() && post) {
+      post.content = this.updatedContent();
+      post.updated = Timestamp.now();
+      updateFbDocument(`dev/${this.blogPost()?.id}`, post).subscribe(() => {
+        this.blogPost.set({ ...post });
+        this.updatedContent.set('');
+        alert('saved');
+      });
+    }
   }
 }

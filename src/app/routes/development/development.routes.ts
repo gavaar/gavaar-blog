@@ -33,7 +33,7 @@ export const DEVELOPMENT_ROUTES: Routes = [
   { path: '', loadComponent: () => import('./development.component').then(c => c.DevelopmentComponent) },
   {
     path: ':id',
-    loadComponent: () => import('./routes/dev-post/dev-post.component').then(c => c.DevPostComponent),
+    loadComponent: () => import('../../components/blog-post/blog-post.component').then(c => c.BlogPostComponent),
     title: loadTitle,
     resolve: { blogPost: loadPost, portraitImg: loadPortrait },
   },

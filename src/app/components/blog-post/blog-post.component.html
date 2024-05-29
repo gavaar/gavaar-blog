@@ -1,9 +1,22 @@
 @if (admin()) {
-  <gav-textarea
-    class="gav-blog-post__textarea"
-    label="Edit content"
-    [initText]="blogContent()"
-    (textUpdates)="onUpdateText($event)"
-  />
+  <div class="gav-blog-post__textarea">
+    <gav-textarea
+      label="Edit content"
+      [initText]="blogContent()"
+      (textUpdates)="onUpdateText($event)"
+    />
+
+    @if (updatedContent()) {
+      <button (click)="savePost()">Save changes</button>
+    }
+  </div>
 }
-<gav-rich-text class="gav-blog-post__rich-text" [rawText]="blogContent()" />
+
+@if (blogPost(); as post) {
+  <div class="gav-blog-post__content">
+    <h1 class="gav-blog-post__title">{{ post.title }}</h1>
+    <small class="gav-blog-post__subtitle"> Updated {{ post.updated.seconds * 1000 | date: 'MMMM d, y, hh:mm:ss' }} - Created {{ post.date.seconds * 1000 | date: 'MMMM d, y, hh:mm:ss' }}</small>
+    <i class="gav-blog-post__viewed"><small>viewed {{ views() }}</small></i>
+    <gav-rich-text [rawText]="updatedContent() || blogContent()" />
+  </div>
+}

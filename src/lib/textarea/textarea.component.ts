@@ -16,10 +16,10 @@ import { AsyncSubject, debounceTime, takeUntil } from 'rxjs';
     gav-textarea {
       display: flex;
       flex-direction: column;
+      flex-grow: 1;
     }
 
     .gav-textarea {
-      font-size: 2rem;
       width: 100%;
       height: 100%;
       color: var(--text);

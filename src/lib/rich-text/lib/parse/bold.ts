@@ -1,5 +1,5 @@
 // matches **content** and __content__ but NOT __content**, **content__, _*content_* or any other combination
-const BOLD_REGEX = /(?<=^|[\s\*])(?:__)([^_]+)(?:__)(?=[\s\*]|$)|(?<=^|[\s_])(?:\*\*)([^\*]+)(?:\*\*)(?=[\s_]|$)/g;
+const BOLD_REGEX = /(?<=^|[^\w_])(?:__)([^_]+)(?:__)(?=[^\w_]|$)|(?<=^|[^\w\*])(?:\*\*)([^\*]+)(?:\*\*)(?=[^\w\*]|$)/g;
 
 export const bold = (markdown: string): string => {
   const matches = markdown.matchAll(BOLD_REGEX);

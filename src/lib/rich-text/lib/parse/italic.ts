@@ -1,5 +1,5 @@
 // matches *content* and _content_ but NOT _content* or *content_
-const ITALIC_REGEX = /(?<=^|[\s\*])(?:_)([^_]+)(?:_)(?=[\s\*]|$)|(?<=^|[\s_])(?:\*)([^\*]+)(?:\*)(?=[\s_]|$)/g;
+const ITALIC_REGEX = /(?<=^|[^\w_])(?:_)([^_]+)(?:_)(?=[^\w_]|$)|(?<=^|[^\w\*])(?:\*)([^\*]+)(?:\*)(?=[^\w\*]|$)/g;
 
 export const italic = (markdown: string): string => {
   const matches = markdown.matchAll(ITALIC_REGEX);

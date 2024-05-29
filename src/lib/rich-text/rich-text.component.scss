@@ -1,7 +1,7 @@
 .gav-rich-text {
   display: flex;
   flex-direction: column;
-  padding: 0 0.5rem;
+  text-align: justify;
 
   a {
     align-self: center;
@@ -16,9 +16,13 @@
   blockquote {
     opacity: 0.8;
     border-left: 0.15rem solid var(--accent);
-    padding-left: 0.25rem;
+    padding: 0.5rem 1rem;
+    margin: 0 5%;
     font-size: 0.85rem;
     line-height: 0.85rem;
-    margin-inline-start: 0;
+
+    p {
+      margin: 0.25rem 0;
+    }
   }
 }

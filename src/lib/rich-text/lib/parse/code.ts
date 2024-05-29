@@ -1,5 +1,5 @@
 // matches `content`
-const CODE_REGEX = /(?<=\s)(?:`)([^`]+)(?:`)(?=\s)/g;
+const CODE_REGEX = /(?<=^|[^`])(?:`)([^`]+)(?:`)(?=[^`]|$)/g;
 
 export const code = (markdown: string): string => {
   const matches = markdown.matchAll(CODE_REGEX);
