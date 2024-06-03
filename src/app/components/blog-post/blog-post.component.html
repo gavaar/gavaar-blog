@@ -16,9 +16,11 @@
   <div class="gav-blog-post__content">
     <h1 class="gav-blog-post__title">{{ post.title }}</h1>
     <small class="gav-blog-post__subtitle">
-      <strong>Updated</strong>&nbsp;
-      <i>{{ post.updated.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
-      &nbsp;-&nbsp;
+      @if (post.updated) {
+        <strong>Updated</strong>&nbsp;
+        <i>{{ post.updated.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
+        &nbsp;-&nbsp;
+      }
       <strong>Created</strong>&nbsp;
       <i>{{ post.date.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
     </small>

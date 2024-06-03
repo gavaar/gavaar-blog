@@ -8,7 +8,7 @@ import { PermissionsService } from '../../services/permissions.service';
 import { GavRichTextComponent } from '../../../lib/rich-text/rich-text.component';
 import { GavTextareaComponent } from '../../../lib/textarea/textarea.component';
 import { DatePipe } from '@angular/common';
-import { Timestamp } from 'firebase/firestore/lite';
+import { BlogPostService } from './blog-post.service';
 
 @Component({
   selector: 'gav-blog-post',
@@ -35,6 +35,7 @@ export class BlogPostComponent {
     meta: Meta,
     private activatedRoute: ActivatedRoute,
     private permissionsService: PermissionsService,
+    private blogPostService: BlogPostService,
   ) {
     effect(() => {
       const blogPost = this.blogPost();
@@ -59,9 +60,9 @@ export class BlogPostComponent {
 
     if (this.updatedContent() && post) {
       post.content = this.updatedContent();
-      post.updated = Timestamp.now();
-      updateFbDocument(`dev/${this.blogPost()?.id}`, post).subscribe(() => {
-        this.blogPost.set({ ...post });
+
+      this.blogPostService.savePost(post).subscribe((updatedPost) => {
+        this.blogPost.set(updatedPost);
         this.updatedContent.set('');
         alert('saved');
       });

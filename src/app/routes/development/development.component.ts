@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
-import { DevelopmentService } from './development.service';
 import { PermissionsService } from '../../services/permissions.service';
 import { PostListComponent } from '../../components/post-list/post-list.component';
+import { BlogPostService } from '../../components/blog-post/blog-post.service';
 
 @Component({
   selector: 'development',
@@ -12,18 +12,18 @@ import { PostListComponent } from '../../components/post-list/post-list.componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DevelopmentComponent {
-  posts = this.devPostsService.postList;
+  posts = this.postService.postList;
   admin = this.permissionsService.admin;
 
   constructor(
-    private devPostsService: DevelopmentService,
+    private postService: BlogPostService,
     private permissionsService: PermissionsService,
   ) {}
 
   // Admin stuff
   deletePost(id: string) {
     if (confirm('Sure?')) {
-      this.devPostsService.deletePost(id);
+      this.postService.deletePost(id);
     }
   }
 }

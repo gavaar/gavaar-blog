@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { POST_CATEGORY } from './entity/blog_post';
 
 export const APP_ROUTES: Routes = [
   {
@@ -21,6 +22,12 @@ export const APP_ROUTES: Routes = [
     path: 'dev',
     title: 'Gavaar\'s development notes',
     loadChildren: () => import('./routes/development/development.routes').then(c => c.DEVELOPMENT_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'dev',
+      }
+    ],
     data: { bgImg: 'development.jpg' },
   },
   { path: 'g', loadComponent: () => import('./routes/gaming/gaming.component').then(c => c.GamingComponent), data: { bgImg: 'gaming.jpg' } },

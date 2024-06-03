@@ -1,11 +1,11 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
-import { DevelopmentService } from './development.service';
 import { EMPTY, Observable, catchError, map } from 'rxjs';
 import { BlogPost } from '../../entity';
+import { BlogPostService } from '../../components/blog-post/blog-post.service';
 
 const loadPost = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<BlogPost> => {
-  const postService = inject(DevelopmentService);
+  const postService = inject(BlogPostService);
   const router = inject(Router);
   const id = activatedRouteSnapshot.paramMap.get('id')!;
 
