@@ -48,6 +48,9 @@ small {
   opacity: 0.75;
   font-size: 0.75rem;
 }
+:not(a) > strong {
+  color: var(--accent);
+}
 a {
   text-decoration: none;
   color: var(--text);
@@ -58,6 +61,5 @@ code {
   background: var(--text);
   padding: 0 0.1rem;
   border-radius: 0.3rem;
-  font-size: 1rem;
   font-weight: 700;
 }
