@@ -29,6 +29,7 @@
 }
 
 .post-list__list-item-image {
+  aspect-ratio: 1 / 1;
   height: 4rem;
   border-radius: 50%;
   border: 0.15rem solid var(--secondary);

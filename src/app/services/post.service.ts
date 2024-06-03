@@ -1,11 +1,11 @@
-import { Inject, Injectable, computed, signal } from '@angular/core';
-import { Timestamp } from 'firebase/firestore/lite';
-import { BlogPost } from '../../entity';
-import { POST_CATEGORY } from '../../entity/blog_post';
-import { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument } from '../../firebase';
+import { Inject, Injectable, InjectionToken, computed, signal } from '@angular/core';
 import { Observable, map, of, tap } from 'rxjs';
+import { BlogPost } from '../entity';
+import { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument } from '../firebase';
 
-@Injectable({ providedIn: 'root' })
+export const POST_CATEGORY = new InjectionToken<string>('post_category', { providedIn: 'root', factory: () => 'default' });
+
+@Injectable()
 export class BlogPostService {
   private posts = signal<{ [id: string]: BlogPost }>({});
 
@@ -32,12 +32,11 @@ export class BlogPostService {
     );
   }
 
-  savePost(post: BlogPost): Observable<BlogPost> {
+  savePost(post: Partial<BlogPost> & { id: string }): Observable<BlogPost> {
     const { id, ...updatedPost } = post;
-    updatedPost.updated = Timestamp.now();
 
     return updateFbDocument(`posts/${post.id}`, updatedPost)
-      .pipe(map(() => ({ ...updatedPost, id })));
+      .pipe(map(() => ({ ...updatedPost, id }) as BlogPost));
   }
 
   deletePost(id: string): void {
@@ -49,7 +48,7 @@ export class BlogPostService {
   }
 
   private initService() {
-    readFbCollection<BlogPost>('posts', { orderBy: 'date', limit: 12, asMap: true })
+    readFbCollection<BlogPost>('posts', { orderBy: 'date', limit: 12, asMap: true, where: ['category', '==', this.category] })
       .subscribe(list => this.posts.set(list));
   }
 }

@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
-import { map } from 'rxjs';
-import { readFbDocument, updateFbDocument } from '../../firebase';
-import { BlogPost } from '../../entity';
-import { PermissionsService } from '../../services/permissions.service';
-import { GavRichTextComponent } from '../../../lib/rich-text/rich-text.component';
-import { GavTextareaComponent } from '../../../lib/textarea/textarea.component';
+import { Timestamp } from 'firebase/firestore/lite';
+import { BlogPost } from '../../../../entity';
+import { PermissionsService } from '../../../../services/permissions.service';
+import { GavRichTextComponent } from '../../../../../lib/rich-text/rich-text.component';
+import { GavTextareaComponent } from '../../../../../lib/textarea/textarea.component';
 import { DatePipe } from '@angular/common';
-import { BlogPostService } from './blog-post.service';
+import { BlogPostService } from '../../../../services/post.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'gav-blog-post',
@@ -25,8 +25,8 @@ import { BlogPostService } from './blog-post.service';
 export class BlogPostComponent {
   blogPost = signal<BlogPost | null>(null);
   updatedContent = signal('');
-  views = signal(0);
   
+  views = computed(() => this.blogPost()?.views || 0);
   blogContent = computed(() => this.blogPost()?.content || '');
   
   admin = this.permissionsService.admin;
@@ -37,18 +37,17 @@ export class BlogPostComponent {
     private permissionsService: PermissionsService,
     private blogPostService: BlogPostService,
   ) {
-    effect(() => {
-      const blogPost = this.blogPost();
-      if (blogPost) {
-        meta.updateTag({ name: 'title', content: blogPost.title });
-        meta.updateTag({ name: 'description', content: blogPost.description });
-        readFbDocument<{ [key: string]: number }>(`views/posts`).subscribe(posts => this.views.set(posts[blogPost.id]));
-      }
-    });
+    const postId = this.activatedRoute.snapshot.paramMap.get('id');
 
-    this.activatedRoute.data
-      .pipe(map(data => data['blogPost']))
-      .subscribe(blogPost => this.blogPost.set(blogPost));
+    this.blogPostService.post(postId || '').subscribe(post => {      
+      if (environment.production) {
+        post.views += 1;
+        this.blogPostService.savePost({ id: post.id, views: post.views }).subscribe();
+      }
+
+      this.blogPost.set(post);
+      meta.updateTag({ name: 'description', content: post.description });
+    });
   }
 
   onUpdateText(content: string): void {
@@ -60,6 +59,7 @@ export class BlogPostComponent {
 
     if (this.updatedContent() && post) {
       post.content = this.updatedContent();
+      post.updated = Timestamp.now();
 
       this.blogPostService.savePost(post).subscribe((updatedPost) => {
         this.blogPost.set(updatedPost);

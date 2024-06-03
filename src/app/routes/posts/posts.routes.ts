@@ -1,19 +1,17 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
 import { EMPTY, Observable, catchError, map } from 'rxjs';
-import { BlogPost } from '../../entity';
-import { BlogPostService } from '../../components/blog-post/blog-post.service';
+import { BlogPostService, POST_CATEGORY } from '../../services/post.service';
 
-const loadPost = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<BlogPost> => {
+const loadPost = (activatedRouteSnapshot: ActivatedRouteSnapshot) => {
   const postService = inject(BlogPostService);
   const router = inject(Router);
   const id = activatedRouteSnapshot.paramMap.get('id')!;
+  const category = inject(POST_CATEGORY);
 
   const post = postService.post(id).pipe(
     catchError((_err) => {
-      alert('Error: this blog post does not exist');
-      router.navigateByUrl('dev');
-
+      router.navigateByUrl(category);
       return EMPTY;
     }),
   );
@@ -22,19 +20,22 @@ const loadPost = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<Bl
 }
 
 const loadTitle = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<string> => {
-  return loadPost(activatedRouteSnapshot).pipe(map(bp => bp.title));
+  return loadPost(activatedRouteSnapshot).pipe(map(bp => `Gavaar | ${bp.title}`));
 }
 
 const loadPortrait = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observable<string> => {
   return loadPost(activatedRouteSnapshot).pipe(map(bp => bp.assetURI));
 }
 
-export const DEVELOPMENT_ROUTES: Routes = [
-  { path: '', loadComponent: () => import('./development.component').then(c => c.DevelopmentComponent) },
+export const POST_ROUTES: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./routes/post-list/post-list.component').then(c => c.PostListComponent),
+  },
   {
     path: ':id',
-    loadComponent: () => import('../../components/blog-post/blog-post.component').then(c => c.BlogPostComponent),
+    loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.BlogPostComponent),
     title: loadTitle,
-    resolve: { blogPost: loadPost, portraitImg: loadPortrait },
+    resolve: { portraitImg: loadPortrait },
   },
 ];

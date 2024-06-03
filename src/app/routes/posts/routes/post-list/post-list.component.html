@@ -1,5 +1,5 @@
-<h1>{{ title() }}</h1>
-<small>{{ description() }}</small>
+<h1>{{ title }}</h1>
+<small>{{ description }}</small>
 
 @if (posts().length) {
   <ul class="post-list__list">
@@ -14,7 +14,7 @@
         </a>
 
         @if (admin()) {
-          <button class="post-list__list-item-del-button" (click)="deletePost.emit(post.id)">Del?</button>
+          <button class="post-list__list-item-del-button" (click)="deletePost(post.id)">Del?</button>
         }
       </li>
     }
