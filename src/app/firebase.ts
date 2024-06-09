@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, updateDoc, where, QueryConstraint, WhereFilterOp } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, updateDoc, where, QueryConstraint, WhereFilterOp, setDoc } from 'firebase/firestore/lite';
 import { firebaseConfig } from './firebase-config';
 import { Observable, from, map } from 'rxjs';
 import { getAuth } from 'firebase/auth';
@@ -49,7 +49,7 @@ export function readFbDocument<T>(documentPath: string): Observable<T> {
 }
 
 export function updateFbDocument<T>(documentPath: string, value: Partial<T>): Observable<void> {
-  return from(updateDoc(doc(db, documentPath), value));
+  return from(setDoc(doc(db, documentPath), value, { merge: true }));
 }
 
 export function deleteFbDocument(documentPath: string): Observable<void> {

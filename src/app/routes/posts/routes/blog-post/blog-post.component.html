@@ -22,7 +22,7 @@
   }
 }
 
-@if (blogPost(); as post) {
+@if (admin() ? postForm.value : blogPost(); as post) {
   <div class="gav-blog-post__content">
     <h1 class="gav-blog-post__title">{{ post.title }}</h1>
     <small class="gav-blog-post__subtitle">
@@ -31,10 +31,12 @@
         <i>{{ post.updated.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
         &nbsp;-&nbsp;
       }
-      <strong>Created</strong>&nbsp;
-      <i>{{ post.date.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
+      @if (post.date) {
+        <strong>Created</strong>&nbsp;
+        <i>{{ post.date.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
+      }
     </small>
     <i class="gav-blog-post__viewed"><small>viewed {{ views() }}</small></i>
-    <gav-rich-text [rawText]="postForm.value.content || blogContent()" />
+    <gav-rich-text [rawText]="post.content || ''" />
   </div>
 }

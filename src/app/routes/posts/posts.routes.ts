@@ -33,6 +33,10 @@ export const POST_ROUTES: Routes = [
     loadComponent: () => import('./routes/post-list/post-list.component').then(c => c.PostListComponent),
   },
   {
+    path: 'new',
+    loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.BlogPostComponent),
+  },
+  {
     path: ':id',
     loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.BlogPostComponent),
     title: loadTitle,

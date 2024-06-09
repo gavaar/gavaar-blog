@@ -40,7 +40,7 @@ export class BlogPostService {
   }
 
   deletePost(id: string): void {
-    deleteFbDocument(`post/${id}`).subscribe(() => {
+    deleteFbDocument(`posts/${id}`).subscribe(() => {
       const updatedPosts = { ...this.posts() };
       delete updatedPosts[id];
       this.posts.set(updatedPosts);

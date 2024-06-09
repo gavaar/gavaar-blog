@@ -7,7 +7,7 @@ export class AuthService {
   user = signal<User | null>(null);
 
   constructor() {
-    onAuthStateChanged(getAuth(), (user => this.user.set(user)));
+    onAuthStateChanged(getAuth(), user => this.user.set(user));
   }
 
   login(): void {
