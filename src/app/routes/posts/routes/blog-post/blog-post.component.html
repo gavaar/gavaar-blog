@@ -1,15 +1,25 @@
 @if (admin()) {
+  <div class="gav-blog-post__config">
+    <gav-input label="id" [formControl]="postForm.controls.id" />
+    <gav-input label="Asset URI" [formControl]="postForm.controls.assetURI" />
+    <gav-input label="Category" [formControl]="postForm.controls.category" />
+    <gav-input label="Description" [formControl]="postForm.controls.description" />
+    <gav-input label="Title" [formControl]="postForm.controls.title" />
+  </div>
+
   <div class="gav-blog-post__textarea">
     <gav-textarea
       label="Edit content"
-      [initText]="blogContent()"
-      (textUpdates)="onUpdateText($event)"
+      [formControl]="postForm.controls.content"
     />
-
-    @if (updatedContent()) {
-      <button (click)="savePost()">Save changes</button>
-    }
   </div>
+
+  @if (postForm.valid && postForm.dirty) {
+    <button class="gav-blog-post__save-post"
+      (click)="savePost()">
+      Save changes
+    </button>
+  }
 }
 
 @if (blogPost(); as post) {
@@ -25,6 +35,6 @@
       <i>{{ post.date.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
     </small>
     <i class="gav-blog-post__viewed"><small>viewed {{ views() }}</small></i>
-    <gav-rich-text [rawText]="updatedContent() || blogContent()" />
+    <gav-rich-text [rawText]="postForm.value.content || blogContent()" />
   </div>
 }

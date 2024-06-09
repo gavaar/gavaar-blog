@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 import { Timestamp } from 'firebase/firestore/lite';
@@ -6,14 +8,16 @@ import { BlogPost } from '../../../../entity';
 import { PermissionsService } from '../../../../services/permissions.service';
 import { GavRichTextComponent } from '../../../../../lib/rich-text/rich-text.component';
 import { GavTextareaComponent } from '../../../../../lib/textarea/textarea.component';
-import { DatePipe } from '@angular/common';
 import { BlogPostService } from '../../../../services/post.service';
 import { environment } from '../../../../../environments/environment';
+import { GavInputComponent } from '../../../../../lib/input/input.component';
 
 @Component({
   selector: 'gav-blog-post',
   imports: [
     DatePipe,
+    ReactiveFormsModule,
+    GavInputComponent,
     GavTextareaComponent,
     GavRichTextComponent,
   ],
@@ -24,7 +28,14 @@ import { environment } from '../../../../../environments/environment';
 })
 export class BlogPostComponent {
   blogPost = signal<BlogPost | null>(null);
-  updatedContent = signal('');
+  postForm = new FormGroup({
+    id: new FormControl({ value: '', disabled: true }),
+    assetURI: new FormControl(''),
+    title: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    category: new FormControl('', Validators.required),
+    content: new FormControl(''),
+  });
   
   views = computed(() => this.blogPost()?.views || 0);
   blogContent = computed(() => this.blogPost()?.content || '');
@@ -46,24 +57,35 @@ export class BlogPostComponent {
       }
 
       this.blogPost.set(post);
+
+      this.postForm.setValue({
+        id: post.id,
+        assetURI: post.assetURI,
+        category: post.category,
+        content: post.content,
+        description: post.description,
+        title: post.title,
+      });
       meta.updateTag({ name: 'description', content: post.description });
     });
   }
 
-  onUpdateText(content: string): void {
-    this.updatedContent.set(content === this.blogContent() ? '' : content);
-  }
-
   savePost(): void {
-    const post = this.blogPost();
+    const post = this.blogPost()!;
 
-    if (this.updatedContent() && post) {
-      post.content = this.updatedContent();
+    if (this.postForm.valid) {
+      const { content, assetURI, category, description, title } = this.postForm.value;
+
+      post.content = content!;
+      post.assetURI = assetURI!;
+      post.category = category!;
+      post.description = description!;
+      post.title = title!;
       post.updated = Timestamp.now();
 
       this.blogPostService.savePost(post).subscribe((updatedPost) => {
         this.blogPost.set(updatedPost);
-        this.updatedContent.set('');
+        this.postForm.markAsPristine();
         alert('saved');
       });
     }

@@ -14,17 +14,18 @@ gav-rich-text {
   margin-top: 1rem;
 }
 
+.gav-blog-post__config,
 .gav-blog-post__textarea {
   display: flex;
   flex-direction: column;
   z-index: 1;
   position: fixed;
-  top: 0;
-  left: 1rem;
-  bottom: 0;
-  margin: auto;
-  max-height: 95vh;
-  width: 30rem;
+  top: 5rem;
+  bottom: 1rem;
+  margin-top: auto;
+  max-height: calc(100vh - 5rem);
+  width: 37rem;
+  gap: 1rem;
 
   gav-textarea {
     margin-bottom: 0.5rem;
@@ -35,9 +36,26 @@ gav-rich-text {
   }
 }
 
+.gav-blog-post__config {
+  left: 1rem;
+}
+
+.gav-blog-post__textarea {
+  right: 1rem;
+}
+
+.gav-blog-post__save-post {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0.5rem;
+  margin: auto;
+  max-width: 30rem;
+}
+
 .gav-blog-post__content {
   display: flex;
   flex-direction: column;
-  padding: 0 0.5rem;
+  padding: 0 0.5rem 1rem;
   width: 100%;
 }

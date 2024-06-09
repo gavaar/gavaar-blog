@@ -2,32 +2,31 @@ import { ChangeDetectionStrategy, Component, Optional, Self, ViewEncapsulation, 
 import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'gav-textarea',
+  selector: 'gav-input',
   imports: [ReactiveFormsModule],
   standalone: true,
   template: `
     @if (label()) {
-      <label for="gav-textarea">{{ label() }}</label>
+      <label for="gav-input">{{ label() }}</label>
     }
-    <textarea
-      id="gav-textarea"
-      class="gav-textarea"
-      [value]="textareaValue()"
-      (keyup)="onValueChange($event)">
-    </textarea>
+    <input
+      id="gav-input"
+      class="gav-input"
+      [disabled]="disabled"
+      [value]="inputValue()"
+      (keyup)="onValueChange($event)" />
   `,
   styles: [`
-    gav-textarea {
+    gav-input {
       display: flex;
       flex-direction: column;
-      flex-grow: 1;
     }
 
-    .gav-textarea {
+    .gav-input {
       width: 100%;
-      height: 100%;
-      border-radius: 1rem;
-      padding: 0.5rem;
+      border: 1px solid var(--text);
+      border-radius: 0.5rem;
+      padding: 0.25rem;
       color: var(--text);
       background-color: var(--background);
     }
@@ -35,17 +34,16 @@ import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/f
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GavTextareaComponent implements ControlValueAccessor {
+export class GavInputComponent implements ControlValueAccessor {
   label = input('');
   disabled = false;
 
-  protected textareaValue = signal('');
+  protected inputValue = signal('');
 
   constructor(@Optional() @Self() public ngControl: NgControl) {    
     if (ngControl) {
       ngControl.valueAccessor = this;
     }
-
   }
 
   onChange: any = () => {};
@@ -58,7 +56,7 @@ export class GavTextareaComponent implements ControlValueAccessor {
   }
 
   writeValue(value: any) {
-    this.textareaValue.set(value);
+    this.inputValue.set(value);
   }
   registerOnChange(fn: any) {
     this.onChange = fn;
