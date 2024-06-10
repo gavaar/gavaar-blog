@@ -9,5 +9,4 @@ export interface BlogPost {
   description: string;
   title: string;
   updated: Timestamp;
-  views: number;
 }

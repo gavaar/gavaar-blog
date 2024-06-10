@@ -1,23 +1,8 @@
 import { Routes } from '@angular/router';
 import { BlogPostService, POST_CATEGORY } from './services/post.service';
 
-export const APP_ROUTES: Routes = [
-  {
-    path: '',
-    title: 'Gavaar\'s random notes',
-    loadComponent: () => import('./routes/home/home.component').then(c => c.HomeComponent),
-  },
-  {
-    path: 'admin',
-    title: 'Gavaar\'s admin site',
-    loadComponent: () => import('./routes/admin/admin.component').then(c => c.AdminComponent),
-  },
-  {
-    path: 'cl',
-    title: 'Gavaar\'s notes changelog',
-    loadComponent: () => import('./routes/changelog/changelog.component').then(c => c.ChangelogComponent),
-  },
-  // BLOG RELATED ROUTES
+// BLOG RELATED ROUTES
+export const BLOG_POST_ROUTES: Routes = [
   {
     path: 'dev',
     title: 'Gavaar | Development scribbles',
@@ -52,9 +37,76 @@ export const APP_ROUTES: Routes = [
       bgImg: 'career.jpg'
     },
   },
-  { path: 'g', loadComponent: () => import('./routes/gaming/gaming.component').then(c => c.GamingComponent), data: { bgImg: 'gaming.jpg' } },
-  { path: 'p', loadComponent: () => import('./routes/psychology/psychology.component').then(c => c.PsychologyComponent), data: { bgImg: 'psychology.jpg' } },
-  { path: 's', loadComponent: () => import('./routes/selfcare/selfcare.component').then(c => c.SelfcareComponent), data: { bgImg: 'selfcare.jpg' } },
+  {
+    path: 'gam',
+    title: 'Gavaar | Gaming notes',
+    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'gam',
+      },
+      BlogPostService,
+    ],
+    data: {
+      title: 'Gaming notes',
+      description: 'Gaming notes (empty for now, W.I.P.)',
+      bgImg: 'gaming.jpg'
+    },
+  },
+  {
+    path: 'psy',
+    title: 'Gavaar | Psychology notes',
+    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'psy',
+      },
+      BlogPostService,
+    ],
+    data: {
+      title: 'Psychology notes',
+      description: 'Psychology notes (empty for now, W.I.P.)',
+      bgImg: 'psychology.jpg'
+    },
+  },
+  {
+    path: 'sel',
+    title: 'Gavaar | Selfcare notes',
+    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'sel',
+      },
+      BlogPostService,
+    ],
+    data: {
+      title: 'Selfcare notes',
+      description: 'Selfcare notes (empty for now, W.I.P.)',
+      bgImg: 'selfcare.jpg'
+    },
+  },
+];
+
+export const APP_ROUTES: Routes = [
+  {
+    path: '',
+    title: 'Gavaar\'s random notes',
+    loadComponent: () => import('./routes/home/home.component').then(c => c.HomeComponent),
+  },
+  {
+    path: 'admin',
+    title: 'Gavaar\'s admin site',
+    loadComponent: () => import('./routes/admin/admin.component').then(c => c.AdminComponent),
+  },
+  {
+    path: 'cl',
+    title: 'Gavaar\'s notes changelog',
+    loadComponent: () => import('./routes/changelog/changelog.component').then(c => c.ChangelogComponent),
+  },
+  ...BLOG_POST_ROUTES,
   // instead of 404ing we go to root. We should create a 404 route though.
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

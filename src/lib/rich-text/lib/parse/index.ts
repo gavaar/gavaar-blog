@@ -2,6 +2,7 @@ export { blankLine } from './blank-line';
 export { blockquote } from './blockquote';
 export { bold } from './bold';
 export { code } from './code';
+export { codeBlock, codeBlockCleanup } from './code-block';
 export { header } from './header';
 export { horizontalRow } from './horizontal-row';
 export { img } from './img';

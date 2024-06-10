@@ -34,7 +34,7 @@ export class BlogPostComponent {
     assetURI: new FormControl(''),
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    category: new FormControl('', Validators.required),
+    category: new FormControl(this.blogPostService.category, Validators.required),
     content: new FormControl(''),
     date: new FormControl({ value: null, disabled: true }),
     updated: new FormControl({ value: null, disabled: true }),
@@ -51,6 +51,7 @@ export class BlogPostComponent {
     private activatedRoute: ActivatedRoute,
     private permissionsService: PermissionsService,
     private blogPostService: BlogPostService,
+    private viewService: ViewsService,
   ) {
     const postId = this.activatedRoute.snapshot.paramMap.get('id');
 
@@ -58,7 +59,7 @@ export class BlogPostComponent {
       this.postForm.controls.id.disable();
 
       this.blogPostService.post(postId).subscribe(post => {      
-        inject(ViewsService).increaseViews('views/posts', postId).subscribe(views => this.views.set(views));
+        this.viewService.increaseViews('views/posts', postId).subscribe(views => this.views.set(views));
   
         this.blogPost.set(post);
   
@@ -97,7 +98,10 @@ export class BlogPostComponent {
       post.updated = now;
 
       this.blogPostService.savePost(post).subscribe((updatedPost) => {
-        if (!this.blogPost()?.id) {
+        const isNewPost = !this.blogPost()?.id;
+        const categoryChanged = this.blogPost()?.category !== category;
+
+        if (isNewPost || categoryChanged) {
           this.router.navigateByUrl(`${updatedPost.category}/${updatedPost.id}`);
           return;
         }

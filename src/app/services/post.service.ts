@@ -12,7 +12,7 @@ export class BlogPostService {
   postList = computed(() => Object.values(this.posts() || {}));
 
   constructor(
-    @Inject(POST_CATEGORY) private category: string,
+    @Inject(POST_CATEGORY) public category: string,
   ) {
     this.initService();
   }
