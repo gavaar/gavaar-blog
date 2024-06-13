@@ -6,11 +6,12 @@
   a {
     align-self: center;
     color: var(--secondary);
+    max-width: min(100%, 40rem);
   }
 
   img {
     border-radius: 0.5rem;
-    max-width: 40rem;
+    max-width: 100%;
   }
 
   blockquote {
