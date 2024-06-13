@@ -1,25 +1,30 @@
 import { Routes } from '@angular/router';
 import { BlogPostService, POST_CATEGORY } from './services/post.service';
 
-// BLOG RELATED ROUTES
-export const BLOG_POST_ROUTES: Routes = [
+// HIDDEN BLOG ROUTES
+export const HIDDEN_BLOG_ROUTES: Routes = [
   {
-    path: 'dev',
-    title: 'Gavaar | Development scribbles',
+    path: 'rand',
+    title: 'Gavaar | Random notes',
     loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
     providers: [
       {
         provide: POST_CATEGORY,
-        useValue: 'dev',
+        useValue: 'rand',
       },
       BlogPostService,
     ],
     data: {
-      title: 'Development scribbles',
-      description: 'Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]',
-      bgImg: 'development.jpg'
+      title: 'Random notes',
+      description: 'These are notes that I would like to share, but not be indexed in the homepage',
+      bgImg: 'rider.jpg',
+      portraitImg: 'alpaca.jpg',
     },
   },
+];
+
+// BLOG RELATED ROUTES
+export const BLOG_POST_ROUTES: Routes = [
   {
     path: 'car',
     title: 'Gavaar | Career notes',
@@ -35,6 +40,23 @@ export const BLOG_POST_ROUTES: Routes = [
       title: 'Career notes',
       description: 'Empty career list for now [W.I.P.]',
       bgImg: 'career.jpg'
+    },
+  },
+  {
+    path: 'dev',
+    title: 'Gavaar | Development scribbles',
+    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'dev',
+      },
+      BlogPostService,
+    ],
+    data: {
+      title: 'Development scribbles',
+      description: 'Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]',
+      bgImg: 'development.jpg'
     },
   },
   {
@@ -106,6 +128,7 @@ export const APP_ROUTES: Routes = [
     title: 'Gavaar\'s notes changelog',
     loadComponent: () => import('./routes/changelog/changelog.component').then(c => c.ChangelogComponent),
   },
+  ...HIDDEN_BLOG_ROUTES,
   ...BLOG_POST_ROUTES,
   // instead of 404ing we go to root. We should create a 404 route though.
   { path: '**', redirectTo: '', pathMatch: 'full' },
