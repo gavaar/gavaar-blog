@@ -26,14 +26,14 @@
   <div class="gav-blog-post__content">
     <h1 class="gav-blog-post__title">{{ post.title }}</h1>
     <small class="gav-blog-post__subtitle">
-      @if (post.updated) {
+      @if (blogPost()!.updated) {
         <strong>Updated</strong>&nbsp;
-        <i>{{ post.updated.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
+        <i>{{ blogPost()!.updated.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
         &nbsp;-&nbsp;
       }
-      @if (post.date) {
+      @if (blogPost()!.date) {
         <strong>Created</strong>&nbsp;
-        <i>{{ post.date.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
+        <i>{{ blogPost()!.date.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
       }
     </small>
     <i class="gav-blog-post__viewed"><small>viewed {{ views() }}</small></i>

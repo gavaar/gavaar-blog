@@ -5,7 +5,7 @@ export const italic = (markdown: string): string => {
   const matches = markdown.matchAll(ITALIC_REGEX);
 
   for (const match of matches) {
-    markdown = markdown.replace(match[0], `<i>${match[1] || match[2]}</i>`);
+    markdown = markdown.replace(match[0], `<em>${match[1] || match[2]}</em>`);
   }
 
   return markdown;

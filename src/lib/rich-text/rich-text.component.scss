@@ -11,7 +11,12 @@
 
   img {
     border-radius: 0.5rem;
-    max-width: 100%;
+    max-width: inherit;
+  }
+  
+  p {
+    margin: 0.25rem 0;
+    white-space: pre-wrap;
   }
 
   blockquote {
@@ -21,9 +26,5 @@
     margin: 0 var(--text-margin-left);
     font-size: 0.85rem;
     line-height: 0.85rem;
-
-    p {
-      margin: 0.25rem 0;
-    }
   }
 }

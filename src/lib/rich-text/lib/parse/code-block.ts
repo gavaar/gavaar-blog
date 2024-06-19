@@ -1,5 +1,5 @@
 // matches ```content```
-const CODE_BLOCK_REGEX = /(?<=^|[^`])(?:```\n)([\s\S]+)(?:\n```)(?=[^`]|$)/g;
+const CODE_BLOCK_REGEX = /```([\s\S]+?)```/g;
 
 export const codeBlock = (markdown: string): string => {
   const matches = markdown.matchAll(CODE_BLOCK_REGEX);
@@ -12,7 +12,7 @@ export const codeBlock = (markdown: string): string => {
 };
 
 // matches all instances of <element>(.+)</element> to remove them
-const PRE_INNER_BLOCKS = /(?:<pre>)([\s\S]+)(?:<\/pre>)/g;
+const PRE_INNER_BLOCKS = /(?:<pre>)([\s\S]+?)(?:<\/pre>)/g;
 const REMOVE_ELEMENT_BLOCKS_REGEX = /<.+?>/g;
 
 export const codeBlockCleanup = (markdown: string): string => {

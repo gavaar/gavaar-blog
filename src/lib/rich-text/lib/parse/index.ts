@@ -10,3 +10,5 @@ export { italic } from './italic';
 export { link } from './link';
 export { paragraph } from './paragraph';
 export { unorderedList } from './unordered-list';
+export { small } from './small';
+export { specialCharacters } from './special-characters';
