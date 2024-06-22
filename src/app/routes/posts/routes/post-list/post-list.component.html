@@ -1,7 +1,7 @@
 <h1>{{ title }}</h1>
 <small>{{ description }}</small>
 
-@if (posts()) {
+@if (posts().length) {
   <ul class="post-list__list">
     @for (post of posts(); track post.id) {
       <li class="post-list__list-item">
@@ -22,8 +22,8 @@
   </ul>
   
   @if (admin()) {
-    <h4 class="dev__new-post" routerLink="new">New post +</h4>
+    <h4 class="post-list__new-post" routerLink="new">New post +</h4>
   }
 } @else {
-  <p class="dev__loading">loading...</p>
+   <img class="post-list__loading" src="assets/images/loading/dancing.gif" alt="loading rolling abitoad" />
 }

@@ -35,7 +35,7 @@ import { filter, map, tap, throttleTime } from 'rxjs';
 export class HeaderComponent {
   darkTheme = true;
   bgImg = computed(() => this.routerData()?.data['bgImg'] || 'default_background.png');
-  portraitImg = computed(() => this.routerData()?.data['portraitImg'] || 'me_emosido_enganado.jpg');
+  portraitImg = computed(() => this.routerData()?.data['portraitImg'] || 'loading/rolling.gif');
   parentUrl = signal({ parentLink: 'cl', currentMessage: '(changelog)' });
 
   private routerData: Signal<ActivatedRouteSnapshot | undefined> = toSignal(this.router.events.pipe(

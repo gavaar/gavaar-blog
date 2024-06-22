@@ -1,3 +1,8 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
 .post-list__list {
   display: flex;
   flex-direction: column;
@@ -49,12 +54,13 @@
   aspect-ratio: 1 / 1;
 }
 
-.dev__loading {
+.post-list__loading {
   margin: 10dvh 40dvw;
   align-self: center;
+  border-radius: 50%;
 }
 
-.dev__new-post {
+.post-list__new-post {
   cursor: pointer;
 }
 

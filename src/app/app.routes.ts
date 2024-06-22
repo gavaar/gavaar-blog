@@ -56,7 +56,8 @@ export const BLOG_POST_ROUTES: Routes = [
     data: {
       title: 'Development scribbles',
       description: 'Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]',
-      bgImg: 'development.jpg'
+      bgImg: 'development.jpg',
+      portraitImg: 'me_emosido_enganado.jpg',
     },
   },
   // {
@@ -117,6 +118,9 @@ export const APP_ROUTES: Routes = [
     path: '',
     title: 'Gavaar\'s random notes',
     loadComponent: () => import('./routes/home/home.component').then(c => c.HomeComponent),
+    data: {
+      portraitImg: 'me_emosido_enganado.jpg',
+    }
   },
   {
     path: 'admin',
