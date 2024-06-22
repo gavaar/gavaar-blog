@@ -2,10 +2,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BlogPostService } from '../../../../services/post.service';
 import { PermissionsService } from '../../../../services/permissions.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'gav-post-list',
-  imports: [RouterLink],
+  imports: [
+    DatePipe,
+    RouterLink,
+  ],
   standalone: true,
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.scss',

@@ -9,13 +9,17 @@
     max-width: min(100%, 40rem);
   }
 
+  ul {
+    padding-left: var(--text-margin-left);
+  }
+
   img {
     border-radius: 0.5rem;
     max-width: inherit;
   }
   
   p {
-    margin: 0.25rem 0;
+    margin: 0.5rem 0;
     white-space: pre-wrap;
   }
 

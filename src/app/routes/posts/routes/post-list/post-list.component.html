@@ -10,6 +10,7 @@
           <div class="post-list__list-item-text">
             <span class="post-list__list-item-title">{{ post.title }}</span>
             <small>{{ post.description }}</small>
+            <small><strong>{{ post.date.seconds * 1000 | date: 'MMMM d, y'  }}</strong></small>
           </div>
         </a>
 

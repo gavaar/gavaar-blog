@@ -25,23 +25,23 @@ export const HIDDEN_BLOG_ROUTES: Routes = [
 
 // BLOG RELATED ROUTES
 export const BLOG_POST_ROUTES: Routes = [
-  {
-    path: 'car',
-    title: 'Gavaar | Career notes',
-    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
-    providers: [
-      {
-        provide: POST_CATEGORY,
-        useValue: 'car',
-      },
-      BlogPostService,
-    ],
-    data: {
-      title: 'Career notes',
-      description: 'Empty career list for now [W.I.P.]',
-      bgImg: 'career.jpg'
-    },
-  },
+  // {
+  //   path: 'car',
+  //   title: 'Gavaar | Career notes',
+  //   loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+  //   providers: [
+  //     {
+  //       provide: POST_CATEGORY,
+  //       useValue: 'car',
+  //     },
+  //     BlogPostService,
+  //   ],
+  //   data: {
+  //     title: 'Career notes',
+  //     description: 'Empty career list for now [W.I.P.]',
+  //     bgImg: 'career.jpg'
+  //   },
+  // },
   {
     path: 'dev',
     title: 'Gavaar | Development scribbles',
@@ -59,57 +59,57 @@ export const BLOG_POST_ROUTES: Routes = [
       bgImg: 'development.jpg'
     },
   },
-  {
-    path: 'gam',
-    title: 'Gavaar | Gaming notes',
-    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
-    providers: [
-      {
-        provide: POST_CATEGORY,
-        useValue: 'gam',
-      },
-      BlogPostService,
-    ],
-    data: {
-      title: 'Gaming notes',
-      description: 'Gaming notes (empty for now, W.I.P.)',
-      bgImg: 'gaming.jpg'
-    },
-  },
-  {
-    path: 'psy',
-    title: 'Gavaar | Psychology notes',
-    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
-    providers: [
-      {
-        provide: POST_CATEGORY,
-        useValue: 'psy',
-      },
-      BlogPostService,
-    ],
-    data: {
-      title: 'Psychology notes',
-      description: 'Psychology notes (empty for now, W.I.P.)',
-      bgImg: 'psychology.jpg'
-    },
-  },
-  {
-    path: 'sel',
-    title: 'Gavaar | Selfcare notes',
-    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
-    providers: [
-      {
-        provide: POST_CATEGORY,
-        useValue: 'sel',
-      },
-      BlogPostService,
-    ],
-    data: {
-      title: 'Selfcare notes',
-      description: 'Selfcare notes (empty for now, W.I.P.)',
-      bgImg: 'selfcare.jpg'
-    },
-  },
+  // {
+  //   path: 'gam',
+  //   title: 'Gavaar | Gaming notes',
+  //   loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+  //   providers: [
+  //     {
+  //       provide: POST_CATEGORY,
+  //       useValue: 'gam',
+  //     },
+  //     BlogPostService,
+  //   ],
+  //   data: {
+  //     title: 'Gaming notes',
+  //     description: 'Gaming notes (empty for now, W.I.P.)',
+  //     bgImg: 'gaming.jpg'
+  //   },
+  // },
+  // {
+  //   path: 'psy',
+  //   title: 'Gavaar | Psychology notes',
+  //   loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+  //   providers: [
+  //     {
+  //       provide: POST_CATEGORY,
+  //       useValue: 'psy',
+  //     },
+  //     BlogPostService,
+  //   ],
+  //   data: {
+  //     title: 'Psychology notes',
+  //     description: 'Psychology notes (empty for now, W.I.P.)',
+  //     bgImg: 'psychology.jpg'
+  //   },
+  // },
+  // {
+  //   path: 'sel',
+  //   title: 'Gavaar | Selfcare notes',
+  //   loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+  //   providers: [
+  //     {
+  //       provide: POST_CATEGORY,
+  //       useValue: 'sel',
+  //     },
+  //     BlogPostService,
+  //   ],
+  //   data: {
+  //     title: 'Selfcare notes',
+  //     description: 'Selfcare notes (empty for now, W.I.P.)',
+  //     bgImg: 'selfcare.jpg'
+  //   },
+  // },
 ];
 
 export const APP_ROUTES: Routes = [
