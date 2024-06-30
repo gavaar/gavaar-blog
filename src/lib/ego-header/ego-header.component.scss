@@ -13,7 +13,7 @@ gav-ego-header {
   position: relative;
   display: flex;
   margin-bottom: var(--gav-ego-header-img-bot-traslate);
-  background-image: linear-gradient(180deg, var(--background), transparent);
+  background-image: linear-gradient(180deg, var(--background) -5rem, transparent 50%);
 }
 
 .gav-ego-header__left,

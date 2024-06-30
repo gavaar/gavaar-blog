@@ -31,4 +31,9 @@
     font-size: 0.85rem;
     line-height: 0.85rem;
   }
+
+  // prismjs overrides
+  .token.operator {
+    background: unset;
+  }
 }

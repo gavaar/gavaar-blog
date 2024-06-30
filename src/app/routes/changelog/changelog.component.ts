@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { readFbCollection, updateFbDocument } from '../../firebase';
 import { DatePipe } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
-import { Changelog } from '../../entity';
+import { Changelog } from '../../entities';
 import { environment } from '../../../environments/environment';
 import { increment } from 'firebase/firestore/lite';
 

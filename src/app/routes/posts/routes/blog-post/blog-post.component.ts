@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 import { Timestamp } from 'firebase/firestore/lite';
-import { BlogPost } from '../../../../entity';
+import { BlogPost } from '../../../../entities';
 import { PermissionsService } from '../../../../services/permissions.service';
 import { GavRichTextComponent } from '../../../../../lib/rich-text/rich-text.component';
 import { GavTextareaComponent } from '../../../../../lib/textarea/textarea.component';

@@ -1,12 +1,12 @@
-$cardWidth: calc(min(100dvw, calc(var(--max-content-width) / 2)) - 2rem /*1 margin + 0.5 padding + 0.5 gap*/);
-
 :host {
+  --gav-card__width: calc(min(100dvw, calc(var(--max-content-width) / 2)) - 2rem /*1 margin + 0.5 padding + 0.5 gap*/);
+
   display: block;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   text-align: center;
-  flex: 1 0  $cardWidth;
+  flex: 1 0 var(--gav-card__width);
   max-width: 50%;
   border-radius: 3rem;
   height: 14rem;

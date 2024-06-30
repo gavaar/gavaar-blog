@@ -1,6 +1,6 @@
 import { Inject, Injectable, InjectionToken, computed, signal } from '@angular/core';
 import { Observable, map, of, tap } from 'rxjs';
-import { BlogPost } from '../entity';
+import { BlogPost } from '../entities';
 import { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument } from '../firebase';
 
 export const POST_CATEGORY = new InjectionToken<string>('post_category', { providedIn: 'root', factory: () => 'default' });
@@ -9,7 +9,7 @@ export const POST_CATEGORY = new InjectionToken<string>('post_category', { provi
 export class BlogPostService {
   private posts = signal<{ [id: string]: BlogPost }>({});
 
-  postList = computed(() => Object.values(this.posts() || {}));
+  postList = computed(() => Object.values(this.posts()));
 
   constructor(
     @Inject(POST_CATEGORY) public category: string,
@@ -47,7 +47,7 @@ export class BlogPostService {
     });
   }
 
-  private initService() {
+  private initService(): void {
     readFbCollection<BlogPost>('posts', { orderBy: 'date', limit: 12, asMap: true, where: ['category', '==', this.category] })
       .subscribe(list => this.posts.set(list));
   }

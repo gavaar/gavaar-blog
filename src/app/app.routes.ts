@@ -54,7 +54,7 @@ export const BLOG_POST_ROUTES: Routes = [
       BlogPostService,
     ],
     data: {
-      title: 'Development scribbles',
+      title: 'Development',
       description: 'Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]',
       bgImg: 'development.jpg',
       portraitImg: 'me_emosido_enganado.jpg',
@@ -94,23 +94,23 @@ export const BLOG_POST_ROUTES: Routes = [
   //     bgImg: 'psychology.jpg'
   //   },
   // },
-  // {
-  //   path: 'sel',
-  //   title: 'Gavaar | Selfcare notes',
-  //   loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
-  //   providers: [
-  //     {
-  //       provide: POST_CATEGORY,
-  //       useValue: 'sel',
-  //     },
-  //     BlogPostService,
-  //   ],
-  //   data: {
-  //     title: 'Selfcare notes',
-  //     description: 'Selfcare notes (empty for now, W.I.P.)',
-  //     bgImg: 'selfcare.jpg'
-  //   },
-  // },
+  {
+    path: 'sel',
+    title: 'Gavaar | Selfcare notes',
+    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'sel',
+      },
+      BlogPostService,
+    ],
+    data: {
+      title: 'Selfcare notes',
+      description: 'Selfcare notes (empty for now, W.I.P.)',
+      bgImg: 'selfcare.jpg'
+    },
+  },
 ];
 
 export const APP_ROUTES: Routes = [

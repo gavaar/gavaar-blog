@@ -1,34 +1,22 @@
-// matches ```content```
-const CODE_BLOCK_REGEX = /```([\s\S]+?)```/g;
+import PrismJs from 'prismjs';
+import 'prismjs/components/prism-typescript';
+import { MarkdownMemory, MarkdownParser } from '../parser-type';
 
-export const codeBlock = (markdown: string): string => {
+// matches ```content```
+const CODE_BLOCK_REGEX = /```(\w*?)\n([\s\S]+?)```/g;
+
+export const codeBlock: MarkdownParser = (markdown: string, memory: MarkdownMemory) => {
   const matches = markdown.matchAll(CODE_BLOCK_REGEX);
-  
+  let i = 0;
+
   for (const match of matches) {
-    markdown = markdown.replace(match[0], `<pre>${match[1]}</pre>`);
+    const language = match[1] || 'ts';
+    const markdownId = `<CODE_BLOCK_${i}>`;
+    i += 1;
+
+    memory[markdownId] = `<pre>${PrismJs.highlight(match[2], PrismJs.languages[language], language)}</pre>`;
+    markdown = markdown.replace(match[0], markdownId);
   }
   
   return markdown;
 };
-
-// matches all instances of <element>(.+)</element> to remove them
-const PRE_INNER_BLOCKS = /(?:<pre>)([\s\S]+?)(?:<\/pre>)/g;
-const REMOVE_ELEMENT_BLOCKS_REGEX = /<.+?>/g;
-
-export const codeBlockCleanup = (markdown: string): string => {
-  const matches = markdown.matchAll(PRE_INNER_BLOCKS);
-
-  for (const match of matches) {
-    let updatedInnerPre = match[1];
-    const foundElements = match[1].matchAll(REMOVE_ELEMENT_BLOCKS_REGEX);
-
-    for (const elementFound of foundElements) {
-      updatedInnerPre = updatedInnerPre.replace(elementFound[0], '');
-    }
-
-    markdown = markdown.replace(match[1], updatedInnerPre);
-  }
-
-
-  return markdown;
-}
