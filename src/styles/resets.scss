@@ -15,6 +15,10 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
 
+  @media screen and (min-width: 980px) {
+    font-size: 20px;
+  }
+
   transition: color, background-color 0.5s;
   color: var(--text);
   background-color: var(--background);
@@ -56,15 +60,14 @@ a {
   color: var(--text);
 }
 pre {
-  width: fit-content;
   margin: 0 var(--text-margin-left);
   padding: 0.5rem;
   word-break: break-word;
-  white-space: pre-wrap;
   // should look like this in all themes
   background: black;
   color: whitesmoke;
   border-radius: 0.5rem;
+  overflow-x: auto;
 }
 code {
   width: fit-content;

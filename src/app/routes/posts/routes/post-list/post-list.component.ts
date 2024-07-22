@@ -3,12 +3,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BlogPostService } from '../../../../services/post.service';
 import { PermissionsService } from '../../../../services/permissions.service';
 import { DatePipe } from '@angular/common';
+import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
 
 @Component({
   selector: 'gav-post-list',
   imports: [
     DatePipe,
     RouterLink,
+    BgImgUrlPipe,
   ],
   standalone: true,
   templateUrl: './post-list.component.html',

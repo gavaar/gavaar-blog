@@ -22,8 +22,16 @@
 </p>
 
 <div class="home__card-links">
-  @for (cardConfig of cardsConfig; track cardConfig.id) {
+  @for (cardConfig of cardsConfig.original; track cardConfig.id) {
     <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />
   }
 </div>
 
+<hr />
+
+<h3><strong>External</strong></h3>
+<div class="home__card-links">
+  @for (cardConfig of cardsConfig.external; track cardConfig.id) {
+    <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />
+  }
+</div>

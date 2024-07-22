@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { GavCardLink, GavCardLinkComponent } from '../../components/card-link/card-link.component';
 import { RouterLink } from '@angular/router';
-import { CARDS_CONFIG } from './home.config';
+import { CardConfig, CARDS_CONFIG, EXTERNAL_CONFIG } from './home.config';
 
 @Component({
   standalone: true,
@@ -16,7 +16,7 @@ import { CARDS_CONFIG } from './home.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
-  cardsConfig: (GavCardLink & { id: string })[] = CARDS_CONFIG;
+  cardsConfig: { original: CardConfig[], external: CardConfig[] } = { original: CARDS_CONFIG, external: EXTERNAL_CONFIG };
 
   constructor(meta: Meta) {
     meta.updateTag({ name: 'title', content: 'About Francisco Santorelli. Gavaar\'s random writings' });

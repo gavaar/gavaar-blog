@@ -4,19 +4,21 @@ import { ActivatedRouteSnapshot, ActivationEnd, Data, Router, RouterLink } from 
 import { GavEgoHeader } from '../../../lib/ego-header/ego-header.component';
 import { GavIconComponent } from '../../../lib/icon';
 import { filter, map, tap, throttleTime } from 'rxjs';
+import { BgImgUrlPipe } from '../../pipes/bg-img-url.pipe';
 
 @Component({
   imports: [
     GavEgoHeader,
     GavIconComponent,
     RouterLink,
+    BgImgUrlPipe,
   ],
   selector: 'gav-header',
   standalone: true,
   template: `
     <gav-ego-header
-      [profileImgUrl]="'assets/images/' + portraitImg()"
-      [backgroundImgUrl]="'assets/images/' + bgImg()">
+      [profileImgUrl]="portraitImg() | bgImgUrl"
+      [backgroundImgUrl]="bgImg() | bgImgUrl">
       <nav style="cursor: pointer" class="gav-ego-header__left header__theme-toggle">
         <a [routerLink]="parentUrl().parentLink">{{ parentUrl().currentMessage }}</a>
       </nav>

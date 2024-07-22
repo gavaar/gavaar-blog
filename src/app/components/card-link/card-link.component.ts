@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { BgImgUrlPipe } from '../../pipes/bg-img-url.pipe';
 
 export interface GavCardLink {
   text: string;
@@ -18,10 +19,14 @@ export interface GavCardLink {
   `,
   styleUrl: './card-link.component.scss',
   host: {
-    '[style.--gav-card__bg-url]': `'url(assets/images/' + config().backgroundImgUrl + ')'`,
+    '[style.--gav-card__bg-url]': 'cardBgUrl()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GavCardLinkComponent {
   config = input.required<GavCardLink>();
+  
+  protected cardBgUrl = computed(() => this.bgImgUrlPipe.transform(this.config().backgroundImgUrl, true));
+
+  private bgImgUrlPipe = new BgImgUrlPipe();
 }

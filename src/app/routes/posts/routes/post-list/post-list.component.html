@@ -6,7 +6,7 @@
     @for (post of posts(); track post.id) {
       <li class="post-list__list-item">
         <a class="post-list__list-item-link" [routerLink]="post.id">
-          <img class="post-list__list-item-image" [src]="'assets/images/' + post.assetURI" [alt]="post.title + ' image'" />
+          <img class="post-list__list-item-image" [src]="post.assetURI | bgImgUrl" [alt]="post.title + ' image'" />
           <div class="post-list__list-item-text">
             <span class="post-list__list-item-title">{{ post.title }}</span>
             <small>{{ post.description }}</small>
