@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core';
 
-export type Icons = 'moon' | 'sun';
+export type Icons = 'moon' | 'sun' | 'back-arrow';
 
 @Component({
   standalone: true,

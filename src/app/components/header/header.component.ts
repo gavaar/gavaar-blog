@@ -19,16 +19,19 @@ import { BgImgUrlPipe } from '../../pipes/bg-img-url.pipe';
     <gav-ego-header
       [profileImgUrl]="portraitImg() | bgImgUrl"
       [backgroundImgUrl]="bgImg() | bgImgUrl">
-      <nav style="cursor: pointer" class="gav-ego-header__left header__theme-toggle">
-        <a [routerLink]="parentUrl().parentLink">{{ parentUrl().currentMessage }}</a>
-      </nav>
-      <!-- left and right content of the header -->
-      <div class="gav-ego-header__right">
+      <div class="gav-ego-header__left">
         <span class="header__theme-toggle">
           <gav-icon class="header__icon" [icon]="darkTheme ? 'moon' : 'sun'" (click)="toggleTheme()" />
-          <small class="header__theme-text">{{ darkTheme ? 'Dark' : 'Psychopath' }}</small>
+          <small>{{ darkTheme ? 'Dark' : 'Psychopath' }}</small>
         </span>
       </div>
+
+      <nav style="cursor: pointer" class="gav-ego-header__right">
+        <span class="header__theme-toggle" [routerLink]="parentUrl().parentLink">
+         @if (parentUrl().parentLink !== 'cl') { <gav-icon class="header__icon" icon="back-arrow" /> }
+         <small>{{ parentUrl().currentMessage }}</small>
+        </span>
+      </nav>
     </gav-ego-header>
   `,
   styleUrl: 'header.component.scss',
@@ -38,7 +41,7 @@ export class HeaderComponent {
   darkTheme = true;
   bgImg = computed(() => this.routerData()?.data['bgImg'] || 'default_background.png');
   portraitImg = computed(() => this.routerData()?.data['portraitImg'] || 'loading/rolling.gif');
-  parentUrl = signal({ parentLink: 'cl', currentMessage: '(changelog)' });
+  parentUrl = signal({ parentLink: 'cl', currentMessage: 'loading...' });
 
   private routerData: Signal<ActivatedRouteSnapshot | undefined> = toSignal(this.router.events.pipe(
     filter((r: any) => r instanceof ActivationEnd),
@@ -50,7 +53,7 @@ export class HeaderComponent {
 
       this.parentUrl.set({
         parentLink: currentRoute === '' ? 'cl' : routes.at(-2)!,
-        currentMessage: currentRoute === '' ? '(changelog)' : '< Back',
+        currentMessage: currentRoute === '' ? 'Changelog' : 'Back',
       });
     }),
   ));
