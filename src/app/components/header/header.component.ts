@@ -20,18 +20,25 @@ import { BgImgUrlPipe } from '../../pipes/bg-img-url.pipe';
       [profileImgUrl]="portraitImg() | bgImgUrl"
       [backgroundImgUrl]="bgImg() | bgImgUrl">
       <div class="gav-ego-header__left">
-        <span class="header__theme-toggle">
-          <gav-icon class="header__icon" [icon]="darkTheme ? 'moon' : 'sun'" (click)="toggleTheme()" />
-          <small>{{ darkTheme ? 'Dark' : 'Psychopath' }}</small>
-        </span>
+        <gav-icon
+        [icon]="darkTheme ? 'moon' : 'sun'"
+        [text]="darkTheme ? 'Dark' : 'Psychopath'"
+        (click)="toggleTheme()" />
+        
+        @if (parentUrl().currentRoute) {
+          <gav-icon
+          routerLink="/"
+          icon="home"
+          text="Home" />
+        }
       </div>
 
-      <nav style="cursor: pointer" class="gav-ego-header__right">
-        <span class="header__theme-toggle" [routerLink]="parentUrl().parentLink">
-         @if (parentUrl().parentLink !== 'cl') { <gav-icon class="header__icon" icon="back-arrow" /> }
-         <small>{{ parentUrl().currentMessage }}</small>
-        </span>
-      </nav>
+      <div class="gav-ego-header__right">
+        <gav-icon
+          [routerLink]="parentUrl().parentLink"
+          [icon]="parentUrl().parentLink === 'cl' ? 'changelog' : 'back-arrow'"
+          [text]="parentUrl().currentMessage" />
+      </div>
     </gav-ego-header>
   `,
   styleUrl: 'header.component.scss',
@@ -41,7 +48,7 @@ export class HeaderComponent {
   darkTheme = true;
   bgImg = computed(() => this.routerData()?.data['bgImg'] || 'default_background.png');
   portraitImg = computed(() => this.routerData()?.data['portraitImg'] || 'loading/rolling.gif');
-  parentUrl = signal({ parentLink: 'cl', currentMessage: 'loading...' });
+  parentUrl = signal({ currentRoute: '', parentLink: 'cl', currentMessage: 'loading...' });
 
   private routerData: Signal<ActivatedRouteSnapshot | undefined> = toSignal(this.router.events.pipe(
     filter((r: any) => r instanceof ActivationEnd),
@@ -52,6 +59,7 @@ export class HeaderComponent {
       const currentRoute = routes?.at(-1) || '';
 
       this.parentUrl.set({
+        currentRoute,
         parentLink: currentRoute === '' ? 'cl' : routes.at(-2)!,
         currentMessage: currentRoute === '' ? 'Changelog' : 'Back',
       });

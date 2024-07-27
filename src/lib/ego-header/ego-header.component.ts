@@ -8,7 +8,6 @@ const INITIAL_BORDER_RADIUS = 50;
 
 @Component({
   standalone: true,
-  imports: [RouterLink],
   selector: 'gav-ego-header',
   templateUrl: './ego-header.component.html',
   styleUrl: './ego-header.component.scss',
@@ -25,7 +24,6 @@ const INITIAL_BORDER_RADIUS = 50;
 export class GavEgoHeader {
   backgroundImgUrl = input.required<string>();
   profileImgUrl = input.required<string>();
-  homeRoute = input<string>('/');
 
   readonly initialHeight = `${INITIAL_BG_HEIGHT + INITIAL_BOT_TRASLATE}vh`;
   height = signal(INITIAL_BG_HEIGHT);
@@ -56,5 +54,9 @@ export class GavEgoHeader {
         const height = INITIAL_BG_HEIGHT - scrolleddhv;
         this.height.set(height > fiveRemInDvh ? height : fiveRemInDvh);
       });
+  }
+
+  protected openImage(): void {
+    window.open(this.profileImgUrl(), '_blank');
   }
 }

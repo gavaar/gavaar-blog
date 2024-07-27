@@ -4,7 +4,7 @@
   <img class="gav-ego-header__img"
     alt="author_profile_picture"
     [src]="profileImgUrl()"
-    [routerLink]="homeRoute()"
+    (click)="openImage()"
   />
 
   <ng-content select=".gav-ego-header__right" />

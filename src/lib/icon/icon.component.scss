@@ -1,16 +1,23 @@
 
 gav-icon {
+  display: flex;
+  cursor: pointer;
+  gap: 0.5rem;
+  font-size: 1rem;
+  align-items: center;
+}
+
+.gav-icon__icon {
   display: block;
   height: 1.25rem;
   aspect-ratio : 1 / 1;
-}
-
-.gav-icon {
-  margin: auto;
-  height: 100%;
-  width: 100%;
   background-color: var(--text);
   mask-size: contain;
   mask-position: center;
   mask-repeat: no-repeat;
+}
+
+.gav-icon__text {
+  opacity: 1;
+  font-weight: 700;
 }
