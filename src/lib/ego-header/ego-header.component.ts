@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { fromEvent, map } from 'rxjs';
 
 const INITIAL_BG_HEIGHT = 27;
@@ -21,7 +20,7 @@ const INITIAL_BORDER_RADIUS = 50;
     '[style.--gav-ego-header-img-border-radius]': `borderRadius() + '%'`,
   },
 })
-export class GavEgoHeader {
+export class GavEgoHeaderComponent {
   backgroundImgUrl = input.required<string>();
   profileImgUrl = input.required<string>();
 

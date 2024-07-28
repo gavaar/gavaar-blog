@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, Signal, computed, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRouteSnapshot, ActivationEnd, Data, Router, RouterLink } from '@angular/router';
-import { GavEgoHeader } from '../../../lib/ego-header/ego-header.component';
-import { GavIconComponent } from '../../../lib/icon';
+import { ActivatedRouteSnapshot, ActivationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map, tap, throttleTime } from 'rxjs';
-import { BgImgUrlPipe } from '../../pipes/bg-img-url.pipe';
+import { GavEgoHeaderComponent } from '@lib/ego-header';
+import { GavIconComponent } from '@lib/icon';
+import { BgImgUrlPipe } from '@app/pipes/bg-img-url.pipe';
 
 @Component({
   imports: [
-    GavEgoHeader,
+    GavEgoHeaderComponent,
     GavIconComponent,
     RouterLink,
     BgImgUrlPipe,

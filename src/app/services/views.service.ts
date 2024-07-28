@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { readFbDocument, updateFbDocument } from '../firebase';
+import { readFbDocument, updateFbDocument } from '@app/firebase';
 import { PermissionsService } from './permissions.service';
-import { Observable, concatMap, map, of } from 'rxjs';
+import { Observable, concatMap, map, of, take } from 'rxjs';
 import { increment } from 'firebase/firestore/lite';
-import { environment } from '../../environments/environment';
+import { environment } from '@environments/environment';
 
 type Views = { [id: string]: number };
 
@@ -12,10 +12,13 @@ export class ViewsService {
   private admin = inject(PermissionsService).admin;
 
   increaseViews(path: string, id: string): Observable<number> {
-    return this.updateOrIgnoreIncrement(path, id)
+    const viewsPath = `views/${path}`;
+
+    return this.updateOrIgnoreIncrement(viewsPath, id)
       .pipe(
-        concatMap(() => readFbDocument<Views>(path)),
-        map(posts => posts[id])
+        concatMap(() => readFbDocument<Views>(viewsPath)),
+        map(posts => posts[id]),
+        take(1),
       );
   }
 
@@ -24,7 +27,7 @@ export class ViewsService {
     const deviceViewed = JSON.parse(localStorage.getItem('viewed') || '{}');
     const forbidUpdate = this.admin() || !environment.production; // admins and devs won't update.
 
-    if (!deviceViewed[pathKey] || !forbidUpdate) {
+    if (!deviceViewed[pathKey] && !forbidUpdate) {
       localStorage.setItem('viewed', JSON.stringify({ ...deviceViewed, [pathKey]: true }));
       return updateFbDocument(path, { [id]: increment(1) });
     }

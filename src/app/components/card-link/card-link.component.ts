@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
-import { BgImgUrlPipe } from '../../pipes/bg-img-url.pipe';
+import { BgImgUrlPipe } from '@app/pipes/bg-img-url.pipe';
 
 export interface GavCardLink {
   text: string;

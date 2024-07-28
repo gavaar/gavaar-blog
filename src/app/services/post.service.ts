@@ -1,7 +1,7 @@
 import { Inject, Injectable, InjectionToken, computed, signal } from '@angular/core';
 import { Observable, map, of, tap } from 'rxjs';
-import { BlogPost } from '../entities';
-import { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument } from '../firebase';
+import { BlogPost } from '@app/entities';
+import { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument } from '@app/firebase';
 
 export const POST_CATEGORY = new InjectionToken<string>('post_category', { providedIn: 'root', factory: () => 'default' });
 

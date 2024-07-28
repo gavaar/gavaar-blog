@@ -1,6 +1,7 @@
 :host {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .post-list__list {
@@ -55,7 +56,7 @@
 }
 
 .post-list__loading {
-  margin: 10dvh 40dvw;
+  margin: 10dvh auto;
   align-self: center;
   border-radius: 50%;
 }

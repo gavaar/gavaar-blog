@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { GavCardLink, GavCardLinkComponent } from '../../components/card-link/card-link.component';
+import { GavCardLinkComponent } from '@app/components/card-link';
 import { RouterLink } from '@angular/router';
 import { CardConfig, CARDS_CONFIG, EXTERNAL_CONFIG } from './home.config';
 

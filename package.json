@@ -18,7 +18,7 @@
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
     "@types/prismjs": "^1.26.4",
-    "firebase": "^10.10.0",
+    "firebase": "^10.12.4",
     "prismjs": "^1.29.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

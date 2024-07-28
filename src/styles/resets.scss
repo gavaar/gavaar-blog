@@ -30,8 +30,6 @@ body.light {
 }
 
 section {
-  display: flex;
-  flex-direction: column;
   margin: auto;
   max-width: var(--max-content-width);
   padding: 0 0.5rem 0.5rem;
@@ -76,4 +74,7 @@ code {
   padding: 0 0.1rem;
   border-radius: 0.3rem;
   font-weight: 700;
+}
+ul {
+  margin: 0;
 }

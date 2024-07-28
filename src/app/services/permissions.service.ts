@@ -1,6 +1,6 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { AuthService } from './auth.service';
-import { readFbDocument } from '../firebase';
+import { readFbDocument } from '@app/firebase';
 
 type Permissions = { admin: boolean };
 const DEFAULT_PERMISSIONS: Permissions = { admin: false };

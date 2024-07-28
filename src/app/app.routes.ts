@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { BlogPostService, POST_CATEGORY } from './services/post.service';
+import { BlogPostService, POST_CATEGORY } from '@app/services/post.service';
 
 const ROUTE_ASSESTS = {
   RAND: {

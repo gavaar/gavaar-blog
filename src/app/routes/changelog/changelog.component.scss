@@ -15,6 +15,57 @@
 }
 
 .changelog__loading {
-  margin: 6rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  margin: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 1rem var(--secondary);
+}
+
+.changelog__load-more::ng-deep {
   align-self: center;
+
+  .gav-icon__icon {
+    height: 2rem;
+    background-color: var(--secondary);
+  }
+
+  .gav-icon__text {
+    font-size: 2rem;
+  }
+}
+.changelog__load-more:hover::ng-deep {
+  .gav-icon__text {
+    color: var(--secondary);
+    transition: 0.2s;
+  }
+}
+
+.changelog__details {
+  &[open] .changelog__details-icon {
+    transition: 0.2s;
+    transform: rotate(270deg);
+  }
+
+  &:not([open]) .changelog__details-icon {
+    transition: 0.2s;
+    transform: rotate(180deg);
+  }
+}
+
+.changelog__details-summary {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.changelog__details-icon::ng-deep .gav-icon__icon {
+  height: 1rem;
+}
+
+.changelog__details-title {
+  display: inline;
 }

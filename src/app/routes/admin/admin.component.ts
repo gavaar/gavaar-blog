@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
 import { JsonPipe } from '@angular/common';
+import { AuthService } from '@app/services/auth.service';
 
 @Component({
   standalone: true,

@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header';
-import { HttpClient } from '@angular/common/http';
-import { concatMap, filter } from 'rxjs';
 
 @Component({
   selector: 'gav-root',

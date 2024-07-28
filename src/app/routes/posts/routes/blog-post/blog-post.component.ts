@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
+import { GavInputComponent } from '@lib/input';
+import { GavRichTextComponent } from '@lib/rich-text';
+import { GavTextareaComponent } from '@lib/textarea';
 import { Timestamp } from 'firebase/firestore/lite';
-import { BlogPost } from '../../../../entities';
-import { PermissionsService } from '../../../../services/permissions.service';
-import { GavRichTextComponent } from '../../../../../lib/rich-text/rich-text.component';
-import { GavTextareaComponent } from '../../../../../lib/textarea/textarea.component';
-import { BlogPostService } from '../../../../services/post.service';
-import { GavInputComponent } from '../../../../../lib/input/input.component';
-import { ViewsService } from '../../../../services/views.service';
+import { BlogPost } from '@app/entities';
+import { PermissionsService } from '@app/services/permissions.service';
+import { BlogPostService } from '@app/services/post.service';
+import { ViewsService } from '@app/services/views.service';
 
 @Component({
   selector: 'gav-blog-post',
@@ -58,8 +58,8 @@ export class BlogPostComponent {
     if (postId) {
       this.postForm.controls.id.disable();
 
-      this.blogPostService.post(postId).subscribe(post => {      
-        this.viewService.increaseViews('views/posts', postId).subscribe(views => this.views.set(views));
+      this.blogPostService.post(postId).subscribe(post => {
+        this.viewService.increaseViews('posts', postId).subscribe(views => this.views.set(views));
   
         this.blogPost.set(post);
   

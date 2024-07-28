@@ -1,5 +1,5 @@
-import { BLOG_POST_ROUTES, EXTERNAL_ROUTES } from '../../app.routes';
-import { GavCardLink } from '../../components/card-link/card-link.component';
+import { BLOG_POST_ROUTES, EXTERNAL_ROUTES } from '@app/app.routes';
+import { GavCardLink } from '@app/components/card-link';
 
 export type CardConfig = (GavCardLink & { id: string });
 
