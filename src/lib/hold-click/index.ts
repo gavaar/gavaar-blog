@@ -1,0 +1,1 @@
+export { GavHoldClickDirective } from './hold-click.directive';

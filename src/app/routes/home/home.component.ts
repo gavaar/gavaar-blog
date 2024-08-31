@@ -19,7 +19,6 @@ export class HomeComponent {
   cardsConfig: { original: CardConfig[], external: CardConfig[] } = { original: CARDS_CONFIG, external: EXTERNAL_CONFIG };
 
   constructor(meta: Meta) {
-    meta.updateTag({ name: 'title', content: 'About Francisco Santorelli. Gavaar\'s random writings' });
-    meta.updateTag({ name: 'description', content: 'Francisco Santorelli. Web developer with a psychologist background, writing random stuff. Gavaar\'s random writings' });
+    meta.updateTag({ name: 'description', content: 'Multi-purpose app for writings, tracking, and other stuff' });
   }
 }

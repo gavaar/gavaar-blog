@@ -1,20 +1,20 @@
-import { BLOG_POST_ROUTES, EXTERNAL_ROUTES } from '@app/app.routes';
+import { BLOG_DATA, EXTERNAL_DATA } from '@app/app.routes';
 import { GavCardLink } from '@app/components/card-link';
 
 export type CardConfig = (GavCardLink & { id: string });
 
-export const CARDS_CONFIG: CardConfig[] = BLOG_POST_ROUTES.map(route => {
+export const CARDS_CONFIG: CardConfig[] = Object.values(BLOG_DATA).map(data => {
   return {
-    id: route.path!,
-    backgroundImgUrl: route.data?.['bgImg'],
-    text: route.data?.['title'].split(' ')[0],
+    id: data.routerLink!,
+    backgroundImgUrl: data.bg,
+    text: data.title,
   };
 });
 
-export const EXTERNAL_CONFIG: CardConfig[] = EXTERNAL_ROUTES.map(route => {
+export const EXTERNAL_CONFIG: CardConfig[] = Object.values(EXTERNAL_DATA).map(data => {
   return {
-    id: route.path!,
-    backgroundImgUrl: route.data?.['bgImg'],
-    text: route.data?.['title'].split(' ')[0],
-  }
+    id: data.routerLink!,
+    backgroundImgUrl: data.bg,
+    text: data.title,
+  };
 });

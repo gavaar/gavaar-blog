@@ -1,0 +1,49 @@
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+main {
+  display: grid;
+  grid-template-areas: "nav content";
+  grid-template-columns: auto 1fr;
+  column-gap: 0.5rem;
+  align-self: center;
+  width: min(100vw, var(--max-content-width));
+}
+main div {
+  padding: 0 0.5rem;
+  overflow: hidden;
+  grid-area: content;
+  padding-bottom: 3rem;
+}
+
+gav-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+gav-sidenav {
+  position: sticky;
+  top: 7vh /* stick just below the header */;
+  height: calc(70vh + (23vh * var(--gav-ego-header__animation-range)));
+  grid-area: nav;
+}
+
+@media screen and (max-width: 980px) {
+  gav-sidenav {
+    top: 0;
+    width: 80vw;
+    overflow-x: hidden;
+    position: fixed;
+    height: 100dvh;
+    transform: translateX(-80vw);
+    transition: transform 0.5s;
+    
+    &.open {
+      transform: translateX(0);
+      transition: transform 0.5s;
+    }
+  }
+}

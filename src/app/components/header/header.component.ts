@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, Signal, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, ActivationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map, tap, throttleTime } from 'rxjs';
-import { GavEgoHeaderComponent } from '@lib/ego-header';
-import { GavIconComponent } from '@lib/icon';
 import { BgImgUrlPipe } from '@app/pipes/bg-img-url.pipe';
+import { GavEgoHeaderComponent } from '@lib/ego-header';
+import { GavIconComponent, GavIcon } from '@lib/icon';
+import { GavSidenavApi } from '@lib/sidenav';
 
 @Component({
   imports: [
@@ -17,26 +18,23 @@ import { BgImgUrlPipe } from '@app/pipes/bg-img-url.pipe';
   standalone: true,
   template: `
     <gav-ego-header
-      [profileImgUrl]="portraitImg() | bgImgUrl"
-      [backgroundImgUrl]="bgImg() | bgImgUrl">
+      [profileImgUrl]="portrait() | bgImgUrl"
+      [backgroundImgUrl]="bg() | bgImgUrl">
       <div class="gav-ego-header__left">
-        <gav-icon
+        <!-- <gav-icon
         [icon]="darkTheme ? 'moon' : 'sun'"
         [text]="darkTheme ? 'Dark' : 'Psychopath'"
-        (click)="toggleTheme()" />
+        (click)="toggleTheme()" /> -->
         
-        @if (parentUrl().currentRoute) {
-          <gav-icon
-          routerLink="/"
-          icon="home"
-          text="Home" />
-        }
+        <gav-icon class="gav-header__nav-toggle"
+          [icon]="GavIcon.ThreeLines"
+          (click)="navApi.open.set(!navApi.open())"/>
       </div>
 
       <div class="gav-ego-header__right">
         <gav-icon
           [routerLink]="parentUrl().parentLink"
-          [icon]="parentUrl().parentLink === 'cl' ? 'changelog' : 'back-arrow'"
+          [icon]="parentUrl().parentLink === 'cl' ? GavIcon.Changelog : GavIcon.BackArrow"
           [text]="parentUrl().currentMessage" />
       </div>
     </gav-ego-header>
@@ -46,15 +44,21 @@ import { BgImgUrlPipe } from '@app/pipes/bg-img-url.pipe';
 })
 export class HeaderComponent {
   darkTheme = true;
-  bgImg = computed(() => this.routerData()?.data['bgImg'] || 'default_background.png');
-  portraitImg = computed(() => this.routerData()?.data['portraitImg'] || 'loading/rolling.gif');
+
   parentUrl = signal({ currentRoute: '', parentLink: 'cl', currentMessage: 'loading...' });
+  bg = computed(() => this.routerData()?.data['bg'] || 'default_bg.jpg');
+  portrait = computed(() => this.routerData()?.data['portrait'] || 'loading/rolling.gif');
+
+  GavIcon = GavIcon;
+
+  protected navApi = inject(GavSidenavApi);
 
   private routerData: Signal<ActivatedRouteSnapshot | undefined> = toSignal(this.router.events.pipe(
     filter((r: any) => r instanceof ActivationEnd),
     throttleTime(50),
     map((r: ActivationEnd) => r.snapshot),
     tap(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       const routes = this.router.url.split('/');
       const currentRoute = routes?.at(-1) || '';
 
@@ -68,8 +72,8 @@ export class HeaderComponent {
 
   constructor(private router: Router) {}
 
-  toggleTheme(): void {
-    this.darkTheme = !this.darkTheme;
-    document.body.setAttribute('class', this.darkTheme ? '' : 'light');
-  }
+  // toggleTheme(): void {
+  //   this.darkTheme = !this.darkTheme;
+  //   document.body.setAttribute('class', this.darkTheme ? '' : 'light');
+  // }
 }

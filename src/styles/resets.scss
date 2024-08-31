@@ -16,7 +16,7 @@ body {
   font-style: normal;
 
   @media screen and (min-width: 980px) {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   transition: color, background-color 0.5s;
@@ -27,12 +27,6 @@ body.light {
   --text: #060D08;
   --background: #FFF9D9;
   transition: color, background-color 0.5s;
-}
-
-section {
-  margin: auto;
-  max-width: var(--max-content-width);
-  padding: 0 0.5rem 0.5rem;
 }
 
 h1 {

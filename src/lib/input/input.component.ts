@@ -7,11 +7,11 @@ import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/f
   standalone: true,
   template: `
     @if (label()) {
-      <label for="gav-input">{{ label() }}</label>
+      <label [for]="label()">{{ label() }}</label>
     }
     <input
-      id="gav-input"
       class="gav-input"
+      [id]="label()"
       [disabled]="disabled"
       [value]="inputValue()"
       (keyup)="onValueChange($event)" />

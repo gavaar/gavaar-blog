@@ -19,14 +19,14 @@ export interface GavCardLink {
   `,
   styleUrl: './card-link.component.scss',
   host: {
-    '[style.--gav-card__bg-url]': 'cardBgUrl()',
+    '[style.--gav-card__bg-url]': 'cardBg()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GavCardLinkComponent {
   config = input.required<GavCardLink>();
   
-  protected cardBgUrl = computed(() => this.bgImgUrlPipe.transform(this.config().backgroundImgUrl, true));
+  protected cardBg = computed(() => this.bgImgUrlPipe.transform(this.config().backgroundImgUrl, true));
 
   private bgImgUrlPipe = new BgImgUrlPipe();
 }

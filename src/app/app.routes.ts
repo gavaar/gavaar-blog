@@ -1,52 +1,106 @@
-import { Routes } from '@angular/router';
+import { Route, Routes } from '@angular/router';
 import { BlogPostService, POST_CATEGORY } from '@app/services/post.service';
+import { GavIcon } from '@lib/icon';
 
-const ROUTE_ASSESTS = {
-  RAND: {
-    BG_IMAGE: 'rider.jpg',
-    PORTRAIT_IMAGE: 'alpaca.jpg',
-  },
+export const HOME_DATA = {
+  title: 'Home',
+  icon: GavIcon.Home,
+  bg: 'default_bg.jpg',
+  routerLink: '',
+};
+
+export const BLOG_DATA = {
   DEV: {
-    BG_IMAGE: 'development.jpg',
-    PORTRAIT_IMAGE: 'me_emosido_enganado.jpg',
+    title: 'Development',
+    description: 'Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]',
+    bg: 'category/development/bg.jpg',
+    portrait: 'category/development/portrait.jpg',
+    routerLink: 'dev',
   },
   SEL: {
-    BG_IMAGE: 'selfcare.jpg',
-    PORTRAIT_IMAGE: null,
+    title: 'Selfcare',
+    description: 'Selfcare notes (empty for now, W.I.P.)',
+    bg: 'category/selfcare/bg.jpg',
+    portrait: 'category/selfcare/portrait.jpg',
+    routerLink: 'sel',
   },
-  POE: {
-    BG_IMAGE: 'https://lh3.googleusercontent.com/pw/AP1GczMyMdulQR7egY9xiRggwvCVPMX6OK17uHG0pckgNvPTkaD9ZzZOIbXFnuBNXDBXPSAYC1JX0ZJvV9SiTZEvINIlTU682bb4Hqn6wNeGvzOjM6NG-IyQZ-k_tefwQbURhI0p3SaP-JIOFFlLbGT3TINEYg=w1440-h900-s-no-gm?authuser=0',
-    PORTRAIT_IMAGE: 'writing.jpg',
-  },
-} as const;
+};
 
-// HIDDEN BLOG ROUTES
-export const HIDDEN_BLOG_ROUTES: Routes = [
+export const EXTERNAL_DATA = {
+  POE: {
+    title: 'Poetry',
+    bg: 'category/poetry/bg.jpg',
+    routerLink: 'poe',
+    portrait: 'category/poetry/portrait.jpg',
+  },
+};
+
+export const FOOTER_DATA = {
+  ABOUT: {
+    title: 'About',
+    routerLink: 'about',
+    bg: 'category/about/bg.jpg',
+    portrait: 'category/about/portrait.jpg',
+  },
+  CHANGELOG: {
+    title: 'Changelog',
+    routerLink: 'cl',
+    icon: GavIcon.Changelog,
+    bg: 'category/changelog/bg.jpg',
+  },
+};
+
+export const HIDDEN_DATA = {
+  RAND: {
+    title: 'Random',
+    routerLink: 'rand',
+    description: 'These are notes that I would like to share, but not be indexed in the homepage',
+    bg: 'category/rand/bg.jpg',
+    portrait: 'category/rand/portrait.jpg',
+  }
+};
+
+const HOME_ROUTE: Route = {
+  path: HOME_DATA.routerLink,
+  title: 'Gavaar | All purpose site',
+  loadComponent: () => import('./routes/home/home.component').then(c => c.HomeComponent),
+  data: {
+    ...HOME_DATA,
+    portrait: 'default_portrait.jpg',
+  },
+};
+
+// BLOG RELATED ROUTES
+const BLOG_POST_ROUTES: Routes = [
   {
-    path: 'rand',
-    title: 'Gavaar | Random notes',
+    path: BLOG_DATA.DEV.routerLink,
+    title: `Gavaar | ${BLOG_DATA.DEV.title}`,
     loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
     providers: [
       {
         provide: POST_CATEGORY,
-        useValue: 'rand',
+        useValue: 'dev',
       },
       BlogPostService,
     ],
-    data: {
-      title: 'Random notes',
-      description: 'These are notes that I would like to share, but not be indexed in the homepage',
-      bgImg: ROUTE_ASSESTS.RAND.BG_IMAGE,
-      portraitImg: ROUTE_ASSESTS.RAND.PORTRAIT_IMAGE,
-    },
+    data: BLOG_DATA.DEV,
   },
-];
-
-// BLOG RELATED ROUTES
-export const BLOG_POST_ROUTES: Routes = [
+  {
+    path: BLOG_DATA.SEL.routerLink,
+    title: `Gavaar | ${BLOG_DATA.SEL.title}`,
+    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'sel',
+      },
+      BlogPostService,
+    ],
+    data: BLOG_DATA.SEL,
+  },
   // {
   //   path: 'car',
-  //   title: 'Gavaar | Career notes',
+  //   title: 'Gavaar | Gavaar | Career notes',
   //   loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
   //   providers: [
   //     {
@@ -56,32 +110,14 @@ export const BLOG_POST_ROUTES: Routes = [
   //     BlogPostService,
   //   ],
   //   data: {
-  //     title: 'Career notes',
+  //     title: 'Gavaar | Career notes',
   //     description: 'Empty career list for now [W.I.P.]',
-  //     bgImg: 'career.jpg'
+  //     bg: 'career.jpg'
   //   },
   // },
-  {
-    path: 'dev',
-    title: 'Gavaar | Development scribbles',
-    loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
-    providers: [
-      {
-        provide: POST_CATEGORY,
-        useValue: 'dev',
-      },
-      BlogPostService,
-    ],
-    data: {
-      title: 'Development',
-      description: 'Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]',
-      bgImg: ROUTE_ASSESTS.DEV.BG_IMAGE,
-      portraitImg: ROUTE_ASSESTS.DEV.PORTRAIT_IMAGE,
-    },
-  },
   // {
   //   path: 'gam',
-  //   title: 'Gavaar | Gaming notes',
+  //   title: 'Gavaar | Gavaar | Gaming notes',
   //   loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
   //   providers: [
   //     {
@@ -91,14 +127,14 @@ export const BLOG_POST_ROUTES: Routes = [
   //     BlogPostService,
   //   ],
   //   data: {
-  //     title: 'Gaming notes',
+  //     title: 'Gavaar | Gaming notes',
   //     description: 'Gaming notes (empty for now, W.I.P.)',
-  //     bgImg: 'gaming.jpg'
+  //     bg: 'gaming.jpg'
   //   },
   // },
   // {
   //   path: 'psy',
-  //   title: 'Gavaar | Psychology notes',
+  //   title: 'Gavaar | Gavaar | Psychology notes',
   //   loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
   //   providers: [
   //     {
@@ -108,35 +144,34 @@ export const BLOG_POST_ROUTES: Routes = [
   //     BlogPostService,
   //   ],
   //   data: {
-  //     title: 'Psychology notes',
+  //     title: 'Gavaar | Psychology notes',
   //     description: 'Psychology notes (empty for now, W.I.P.)',
-  //     bgImg: 'psychology.jpg'
+  //     bg: 'psychology.jpg'
   //   },
   // },
+];
+
+// HIDDEN BLOG ROUTES
+export const HIDDEN_BLOG_ROUTES: Routes = [
   {
-    path: 'sel',
-    title: 'Gavaar | Selfcare notes',
+    path: HIDDEN_DATA.RAND.routerLink,
+    title: `Gavaar | ${HIDDEN_DATA.RAND.title}`,
     loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
     providers: [
       {
         provide: POST_CATEGORY,
-        useValue: 'sel',
+        useValue: 'rand',
       },
       BlogPostService,
     ],
-    data: {
-      title: 'Selfcare notes',
-      description: 'Selfcare notes (empty for now, W.I.P.)',
-      bgImg: ROUTE_ASSESTS.SEL.BG_IMAGE,
-      portraitImg: ROUTE_ASSESTS.SEL.PORTRAIT_IMAGE,
-    },
+    data: HIDDEN_DATA.RAND,
   },
 ];
 
 export const EXTERNAL_ROUTES: Routes = [
   {
-    path: 'poe',
-    title: 'Gavaar | Poetry extracts',
+    path: EXTERNAL_DATA.POE.routerLink,
+    title: `Gavaar | ${EXTERNAL_DATA.POE.title}`,
     loadChildren: () => import('./routes/posts/posts.routes').then(c => c.POST_ROUTES),
     providers: [
       {
@@ -145,37 +180,36 @@ export const EXTERNAL_ROUTES: Routes = [
       },
       BlogPostService,
     ],
-    data: {
-      title: 'Poetry',
-      description: 'I\'m not a poetry guy, but some of these are extracts that I wanted to add here as to have easy access to them',
-      bgImg: ROUTE_ASSESTS.POE.BG_IMAGE,
-      portraitImg: ROUTE_ASSESTS.POE.PORTRAIT_IMAGE,
-    },
+    data: EXTERNAL_DATA.POE,
+  },
+];
+
+const EXTRA_ROUTES: Routes = [
+  {
+    path: FOOTER_DATA.CHANGELOG.routerLink,
+    title: `Gavaar | ${FOOTER_DATA.CHANGELOG.title}`,
+    loadComponent: () => import('./routes/changelog/changelog.component').then(c => c.ChangelogComponent),
+    data: FOOTER_DATA.CHANGELOG,
+  },
+  {
+    path: FOOTER_DATA.ABOUT.routerLink,
+    title: `Gavaar | ${FOOTER_DATA.ABOUT.title}`,
+    loadComponent: () => import('./routes/about/about.component').then(c => c.AboutComponent),
+    data: FOOTER_DATA.ABOUT,
   },
 ];
 
 export const APP_ROUTES: Routes = [
-  {
-    path: '',
-    title: 'Gavaar\'s random notes',
-    loadComponent: () => import('./routes/home/home.component').then(c => c.HomeComponent),
-    data: {
-      portraitImg: 'me_emosido_enganado.jpg',
-    }
-  },
+  HOME_ROUTE,
   {
     path: 'admin',
-    title: 'Gavaar\'s admin site',
+    title: 'Gavaar | Admin',
     loadComponent: () => import('./routes/admin/admin.component').then(c => c.AdminComponent),
   },
-  {
-    path: 'cl',
-    title: 'Gavaar\'s notes changelog',
-    loadComponent: () => import('./routes/changelog/changelog.component').then(c => c.ChangelogComponent),
-  },
+  ...EXTRA_ROUTES,
+  ...BLOG_POST_ROUTES,
   ...HIDDEN_BLOG_ROUTES,
   ...EXTERNAL_ROUTES,
-  ...BLOG_POST_ROUTES,
   // instead of 404ing we go to root. We should create a 404 route though.
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

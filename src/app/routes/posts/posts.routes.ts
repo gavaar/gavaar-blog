@@ -40,6 +40,6 @@ export const POST_ROUTES: Routes = [
     path: ':id',
     loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.BlogPostComponent),
     title: loadTitle,
-    resolve: { portraitImg: loadPortrait },
+    resolve: { portrait: loadPortrait },
   },
 ];

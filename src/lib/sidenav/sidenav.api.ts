@@ -4,7 +4,5 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class GavSidenavApi {
-  open = signal<boolean>(true);
-
-  
+  open = signal<boolean>(false);
 }

@@ -4,9 +4,9 @@
   <img class="gav-ego-header__img"
     alt="author_profile_picture"
     [src]="profileImgUrl()"
-    (click)="openImage()"
+    [gavHoldClick]="{ click: onPortraitClick, hold: onPortraitHold }"
   />
 
   <ng-content select=".gav-ego-header__right" />
+  <div class="gav-ego-header__colorful-background gav-ego-header__dynamic-style"></div>
 </header>
-<div class="gav-ego-header__colorful-background gav-ego-header__dynamic-style"></div>

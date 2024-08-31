@@ -29,7 +29,10 @@ import { ViewsService } from '@app/services/views.service';
 export class BlogPostComponent {
   blogPost = signal<BlogPost | null>(null);
   views = signal(0);
-  postForm = new FormGroup({
+  blogContent = computed(() => this.blogPost()?.content || '');
+
+  protected admin = this.permissionsService.admin;
+  protected postForm = new FormGroup({
     id: new FormControl('', Validators.required),
     assetURI: new FormControl(''),
     title: new FormControl('', Validators.required),
@@ -39,11 +42,6 @@ export class BlogPostComponent {
     date: new FormControl({ value: null, disabled: true }),
     updated: new FormControl({ value: null, disabled: true }),
   });
-  
-  blogContent = computed(() => this.blogPost()?.content || '');
-  
-  admin = this.permissionsService.admin;
-
 
   constructor(
     meta: Meta,
@@ -60,7 +58,6 @@ export class BlogPostComponent {
 
       this.blogPostService.post(postId).subscribe(post => {
         this.viewService.increaseViews('posts', postId).subscribe(views => this.views.set(views));
-  
         this.blogPost.set(post);
   
         this.postForm.setValue({

@@ -1,11 +1,12 @@
+$mainContentValue: calc(var(--max-content-width) - 14rem /* sidenav open */ - 6rem /* little lverage*/);
+
 :host {
   display: block;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   text-align: center;
-  flex: 1 0 calc(min(100dvw, calc(var(--max-content-width) / var(--gav-cards__row-max, 2))) - 2rem /*1 margin + 0.5 padding + 0.5 gap*/);
-  max-width: calc(var(--max-content-width) / 2 - 2rem /* same as above*/);
+  flex: 1 1 calc($mainContentValue / 2);
   border-radius: 3rem;
   height: 14rem;
   font-size: 3rem;

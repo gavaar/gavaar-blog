@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, OnInit, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
-import { readFbCollection, updateFbDocument } from '@app/firebase';
+import { readFbCollection } from '@app/firebase';
 import { Changelog } from '@app/entities';
-import { environment } from '@environments/environment';
-import { increment } from 'firebase/firestore/lite';
-import { GavIconComponent } from '@lib/icon';
+import { GavIconComponent, GavIcon } from '@lib/icon';
 import { take, tap } from 'rxjs';
 import { ViewsService } from '@app/services/views.service';
 
@@ -37,7 +35,7 @@ const FIRST_APP_VERSION = '0.0.1';
           @if (release.techChanges) {
             <details class="changelog__details">
               <summary class="changelog__details-summary">
-                <gav-icon class="changelog__details-icon" icon="back-arrow"/>
+                <gav-icon class="changelog__details-icon" [icon]="GavIcon.BackArrow"/>
                 <h5 class="changelog__details-title">Tech Changes</h5>
               </summary>
 
@@ -57,7 +55,7 @@ const FIRST_APP_VERSION = '0.0.1';
     @if (loading()) {
       <img class="changelog__loading" src="assets/images/loading/dancing.gif" alt="loading rolling abitoad" />
     } @else if (!firstVersionLoaded()) {
-      <gav-icon class="changelog__load-more" icon="changelog" text="Load more..." (click)="loadMore()" />
+      <gav-icon class="changelog__load-more" [icon]="GavIcon.Changelog" text="Load more..." (click)="loadMore()" />
     }
 
   `,
@@ -65,9 +63,9 @@ const FIRST_APP_VERSION = '0.0.1';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChangelogComponent implements OnInit {
-  changelog = signal<Changelog[] | null>(null);
+  protected changelog = signal<Changelog[] | null>(null);
+  protected GavIcon = GavIcon;
   protected loading = signal(false);
-  
   protected firstVersionLoaded = computed<boolean>(() => this.latestVersionLoaded()?.id === FIRST_APP_VERSION);
   private latestVersionLoaded = computed<Changelog | undefined>(() => this.changelog()?.at(-1));
 

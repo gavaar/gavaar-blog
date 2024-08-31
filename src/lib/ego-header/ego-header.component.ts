@@ -1,61 +1,46 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
+import { GavHoldClickDirective } from '../hold-click';
 import { fromEvent, map } from 'rxjs';
 
-const INITIAL_BG_HEIGHT = 27;
-const INITIAL_BOT_TRASLATE = 3;
-const INITIAL_BORDER_RADIUS = 50;
+const DHV_UNIT=  (window.visualViewport?.height || 100) / 100;
+const MAX_HEADER_SIZE = 23; // 20 header shrinkable + 3 margin-bottom size. Check css for these values.
 
 @Component({
   standalone: true,
+  imports: [GavHoldClickDirective],
   selector: 'gav-ego-header',
   templateUrl: './ego-header.component.html',
   styleUrl: './ego-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  host: {
-    '[style.height]': 'initialHeight',
-    '[style.--gav-ego-header-bg-url]': `'url(' + backgroundImgUrl() + ')'`,
-    '[style.--gav-ego-header-dynamic-height]': `height() + 'vh'`,
-    '[style.--gav-ego-header-img-bot-traslate]': `botTraslate() + 'vh'`,
-    '[style.--gav-ego-header-img-border-radius]': `borderRadius() + '%'`,
-  },
+  host: { '[style.--gav-ego-header__bg-url]': `'url(' + backgroundImgUrl() + ')'` },
 })
 export class GavEgoHeaderComponent {
   backgroundImgUrl = input.required<string>();
   profileImgUrl = input.required<string>();
 
-  readonly initialHeight = `${INITIAL_BG_HEIGHT + INITIAL_BOT_TRASLATE}vh`;
-  height = signal(INITIAL_BG_HEIGHT);
-  botTraslate = signal(INITIAL_BOT_TRASLATE);
-  borderRadius = signal(INITIAL_BORDER_RADIUS);
+  private router = inject(Router);
 
   constructor() {
-    const oneDhv = window.innerHeight / 100;
-    const maxHeaderSize = oneDhv * 22; // will shrink at most 22dhv (from 27 to 5)
-    const fiveRemInDvh = 80 / oneDhv;
-
+    document.body.style.setProperty('--gav-ego-header__animation-range', '0');
     fromEvent(window, 'scroll')
       .pipe(map((e: any) => e.srcElement.scrollingElement.scrollTop))
       .subscribe((scrollTop: number) => {
-        const scrolledPercent = scrollTop / maxHeaderSize;
-        const shrinkPercent = scrolledPercent > 1 ? 1 : scrolledPercent;
-        const scrolleddhv = scrolledPercent > 1 ? 22 : scrollTop / oneDhv;
+        const scrolledTopDhv = scrollTop / DHV_UNIT;
+        const ratioOfHeaderScrolled = scrolledTopDhv / MAX_HEADER_SIZE;
+        const scrollAnimationProgress = Math.min(ratioOfHeaderScrolled, 1);
 
-        // from 50% at 0 scroll, to 0% at 100% (22dvh) scroll
-        const borderRadius = INITIAL_BORDER_RADIUS * (1 - shrinkPercent);
-        this.borderRadius.set(borderRadius);
-        
-        // from 3dvh at 0 scroll, to 0dvh at 100% (22dvh) scroll
-        const botTraslate = INITIAL_BOT_TRASLATE * (1 - shrinkPercent);
-        this.botTraslate.set(botTraslate);
-        
-        // from 27dvh at 0 scroll, to 5dvh at 100% (22dvh) scroll
-        const height = INITIAL_BG_HEIGHT - scrolleddhv;
-        this.height.set(height > fiveRemInDvh ? height : fiveRemInDvh);
+        // all header animations will come from this value
+        document.body.style.setProperty('--gav-ego-header__animation-range', `${scrollAnimationProgress}`);
       });
   }
 
-  protected openImage(): void {
+  protected onPortraitClick = (): void => {
+    this.router.navigateByUrl('/');
+  }
+
+  protected onPortraitHold = (): void => {
     window.open(this.profileImgUrl(), '_blank');
   }
 }

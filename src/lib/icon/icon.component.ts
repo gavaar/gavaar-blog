@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
-
-export type Icons = 'moon' | 'sun' | 'back-arrow' | 'changelog' | 'home';
+import { GavIcon } from './gav-icons.enum';
 
 @Component({
   standalone: true,
@@ -14,8 +13,8 @@ export type Icons = 'moon' | 'sun' | 'back-arrow' | 'changelog' | 'home';
   encapsulation: ViewEncapsulation.None,
 })
 export class GavIconComponent {
-  icon = input.required<Icons>();
+  icon = input.required<GavIcon>();
   text = input<string>('');
 
-  iconSvg = computed(() => `url(assets/icons/${this.icon()}.svg)`);
+  protected iconSvg = computed(() => `url(assets/icons/${this.icon()}.svg)`);
 }

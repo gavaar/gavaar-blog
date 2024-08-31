@@ -1,8 +1,3 @@
-:host {
-  display: flex;
-  gap: 1rem;
-}
-
 .gav-blog-post__title,
 .gav-blog-post__subtitle,
 .gav-blog-post__viewed {
@@ -24,7 +19,7 @@ gav-rich-text {
   bottom: 1rem;
   margin-top: auto;
   max-height: calc(100vh - 5rem);
-  width: 37rem;
+  width: 35rem;
   gap: 1rem;
 
   gav-textarea {
@@ -33,6 +28,10 @@ gav-rich-text {
 
   ::ng-deep.gav-textarea {
     max-height: 90vh;
+  }
+
+  @media screen and (max-width: 980px) {
+    display: none;
   }
 }
 
