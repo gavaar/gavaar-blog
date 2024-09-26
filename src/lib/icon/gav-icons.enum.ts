@@ -1,4 +1,5 @@
 export enum GavIcon {
+  Account = 'account',
   BackArrow = 'back-arrow',
   Changelog = 'changelog',
   External = 'external',

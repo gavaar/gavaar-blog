@@ -36,6 +36,7 @@ const SIDENAV_CONFIG = [
           document.body.setAttribute('class', wasDarkTheme ? 'light' : '');
         },
       }),
+      new GavNavItem(FOOTER_DATA.ACCOUNT),
       new GavNavItem(FOOTER_DATA.ABOUT),
     ],
   }),

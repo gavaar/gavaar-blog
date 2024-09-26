@@ -48,6 +48,12 @@ export const FOOTER_DATA = {
     icon: GavIcon.Changelog,
     bg: 'category/changelog/bg.jpg',
   },
+  ACCOUNT: {
+    title: 'Account',
+    routerLink:'acc',
+    icon: GavIcon.Account,
+    bg: 'category/account/bg.jpg',
+  }
 };
 
 export const HIDDEN_DATA = {
@@ -152,7 +158,7 @@ const BLOG_POST_ROUTES: Routes = [
 ];
 
 // HIDDEN BLOG ROUTES
-export const HIDDEN_BLOG_ROUTES: Routes = [
+const HIDDEN_BLOG_ROUTES: Routes = [
   {
     path: HIDDEN_DATA.RAND.routerLink,
     title: `Gavaar | ${HIDDEN_DATA.RAND.title}`,
@@ -168,7 +174,7 @@ export const HIDDEN_BLOG_ROUTES: Routes = [
   },
 ];
 
-export const EXTERNAL_ROUTES: Routes = [
+const EXTERNAL_ROUTES: Routes = [
   {
     path: EXTERNAL_DATA.POE.routerLink,
     title: `Gavaar | ${EXTERNAL_DATA.POE.title}`,
@@ -197,15 +203,16 @@ const EXTRA_ROUTES: Routes = [
     loadComponent: () => import('./routes/about/about.component').then(c => c.AboutComponent),
     data: FOOTER_DATA.ABOUT,
   },
+  {
+    path: FOOTER_DATA.ACCOUNT.routerLink,
+    title: `Gavaar | ${FOOTER_DATA.ACCOUNT.title}`,
+    loadComponent: () => import('./routes/account/account.component').then(c => c.AccountComponent),
+    data: FOOTER_DATA.ACCOUNT,
+  },
 ];
 
 export const APP_ROUTES: Routes = [
   HOME_ROUTE,
-  {
-    path: 'admin',
-    title: 'Gavaar | Admin',
-    loadComponent: () => import('./routes/admin/admin.component').then(c => c.AdminComponent),
-  },
   ...EXTRA_ROUTES,
   ...BLOG_POST_ROUTES,
   ...HIDDEN_BLOG_ROUTES,
