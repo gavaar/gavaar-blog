@@ -6,6 +6,7 @@ gav-sidenav {
   transition: width 0.5s;
   z-index: 1;
   padding: 1rem 0;
+  overflow: visible;
 }
 gav-sidenav.open {
   .gav-sidenav__hideable-text {
@@ -14,11 +15,31 @@ gav-sidenav.open {
     transition: width 0.5s;
     opacity: 1;
   }
+
 }
 @media screen and (max-width: 980px) {
   gav-sidenav {
-    background: linear-gradient(90deg, var(--background) 85%, transparent 100%)
+    background: linear-gradient(90deg, var(--background) 85%, transparent 100%);
   }
+
+  gav-sidenav.open {
+    .gav-sidenav__backdrop {
+      display: block;
+    }
+  }
+}
+
+.gav-sidenav__backdrop {
+  display: none;
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 180vw;
+  background-color: var(--background);
+  opacity: 0.5;
+  z-index: -1;
 }
 
 .gav-sidenav__category-title {

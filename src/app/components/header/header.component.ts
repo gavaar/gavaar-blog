@@ -21,21 +21,16 @@ import { GavSidenavApi } from '@lib/sidenav';
       [profileImgUrl]="portrait() | bgImgUrl"
       [backgroundImgUrl]="bg() | bgImgUrl">
       <div class="gav-ego-header__left">
-        <!-- <gav-icon
-        [icon]="darkTheme ? 'moon' : 'sun'"
-        [text]="darkTheme ? 'Dark' : 'Psychopath'"
-        (click)="toggleTheme()" /> -->
-        
-        <gav-icon class="gav-header__nav-toggle"
+        <gav-icon class="gav-header__nav-button right"
           [icon]="GavIcon.ThreeLines"
           (click)="navApi.open.set(!navApi.open())"/>
       </div>
 
       <div class="gav-ego-header__right">
         <gav-icon
+          class="gav-header__nav-button left"
           [routerLink]="parentUrl().parentLink"
-          [icon]="parentUrl().parentLink === 'cl' ? GavIcon.Changelog : GavIcon.BackArrow"
-          [text]="parentUrl().currentMessage" />
+          [icon]="parentUrl().parentLink === 'cl' ? GavIcon.Changelog : GavIcon.BackArrow" />
       </div>
     </gav-ego-header>
   `,
@@ -44,15 +39,15 @@ import { GavSidenavApi } from '@lib/sidenav';
 })
 export class HeaderComponent {
   darkTheme = true;
+  GavIcon = GavIcon;
 
-  parentUrl = signal({ currentRoute: '', parentLink: 'cl', currentMessage: 'loading...' });
+  parentUrl = signal({ currentRoute: '', parentLink: 'cl' });
   bg = computed(() => this.routerData()?.data['bg'] || 'default_bg.jpg');
   portrait = computed(() => this.routerData()?.data['portrait'] || 'loading/rolling.gif');
 
-  GavIcon = GavIcon;
-
   protected navApi = inject(GavSidenavApi);
 
+  private router = inject(Router);
   private routerData: Signal<ActivatedRouteSnapshot | undefined> = toSignal(this.router.events.pipe(
     filter((r: any) => r instanceof ActivationEnd),
     throttleTime(50),
@@ -65,15 +60,7 @@ export class HeaderComponent {
       this.parentUrl.set({
         currentRoute,
         parentLink: currentRoute === '' ? 'cl' : routes.at(-2)!,
-        currentMessage: currentRoute === '' ? 'Changelog' : 'Back',
       });
     }),
   ));
-
-  constructor(private router: Router) {}
-
-  // toggleTheme(): void {
-  //   this.darkTheme = !this.darkTheme;
-  //   document.body.setAttribute('class', this.darkTheme ? '' : 'light');
-  // }
 }
