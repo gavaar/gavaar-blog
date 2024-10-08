@@ -1,19 +1,19 @@
 import { computed, signal } from '@angular/core';
 import { GavIcon } from '@lib/icon';
 
-type GavNavItemInput = { title: string; bg?: string; } & ({ portrait: string; icon?: never } | { portrait?: never; icon: GavIcon }) & ({ routerLink: string; click?: never } | { routerLink?: never; click: () => any });
+export type GavNavItemInput = { title: string; bg?: string; portrait?: string; icon?: GavIcon; } & ({ path: string; click?: never } | { path?: never; click: () => any });
 export class GavNavItem {
   title: string;
   bg?: string;
   portrait?: string;
-  routerLink?: string;
+  path?: string;
   icon?: GavIcon;
 
   constructor(opts: GavNavItemInput) {
     this.title = opts.title;
     this.bg = opts.bg;
     this.portrait = opts.portrait;
-    this.routerLink = opts.routerLink;
+    this.path = opts.path;
     this.icon = opts.icon;
     this.click = opts.click || (() => null);
   }

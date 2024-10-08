@@ -4,7 +4,7 @@ import { HeaderComponent } from './components/header';
 import { GavSidenavComponent } from "../lib/sidenav/sidenav.component";
 import { GavNavCategory, GavNavItem, GavNavUncategorized } from '@lib/sidenav';
 import { GavIcon } from '@lib/icon';
-import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HOME_DATA } from './app.routes';
+import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HOME_DATA } from './routes/config';
 
 const SIDENAV_CONFIG = [
   new GavNavUncategorized({
@@ -13,32 +13,15 @@ const SIDENAV_CONFIG = [
   new GavNavCategory({
     title: 'Posts',
     icon: GavIcon.Write,
-    items: [
-      new GavNavItem(BLOG_DATA.DEV),
-      new GavNavItem(BLOG_DATA.SEL),
-    ],
+    items: BLOG_DATA.map(data => new GavNavItem(data)),
   }),
   new GavNavCategory({
     title: 'External',
     icon: GavIcon.External,
-    items: [new GavNavItem(EXTERNAL_DATA.POE)],
+    items: EXTERNAL_DATA.map(data => new GavNavItem(data)),
   }),
   new GavNavUncategorized({
-    items: [
-      new GavNavItem(FOOTER_DATA.CHANGELOG),
-      new GavNavItem({
-        icon: GavIcon.Moon,
-        title: 'Dark',
-        click() {
-          const wasDarkTheme = this.icon === GavIcon.Moon;
-          this.icon = wasDarkTheme ? GavIcon.Sun : GavIcon.Moon;
-          this.title = wasDarkTheme ? 'Psychopath' : 'Dark';
-          document.body.setAttribute('class', wasDarkTheme ? 'light' : '');
-        },
-      }),
-      new GavNavItem(FOOTER_DATA.ACCOUNT),
-      new GavNavItem(FOOTER_DATA.ABOUT),
-    ],
+    items: FOOTER_DATA.map(data => new GavNavItem(data)),
   }),
 ];
 

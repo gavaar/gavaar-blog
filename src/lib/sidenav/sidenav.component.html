@@ -10,22 +10,23 @@
   @for (item of category.items(); track item.title; let firstItem = $first) {
     <div @enterLeave
       class="gav-sidenav__item"
-      [class.bottom]="lastCategory && firstItem"
       routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: !item.routerLink}"
-      [routerLink]="item.routerLink"
+      [class.bottom]="lastCategory && firstItem"
+      [routerLink]="item.path"
+      [routerLinkActiveOptions]="{ exact: !item.path }"
       [style.--gav-sidenav__item-bg]="item.bg ? 'url(assets/images/' + item.bg + ')' : 'unset'"
       (click)="item.click()"
       (touchend)="api.open.set(false)">
       <div class="gav-sidenav__item-background"
         [style.--gav-sidenav__item-bg]="'url(assets/images/' + item.bg + ')'">
       </div>
+
       @if (item.portrait) {
         <img class="gav-sidenav__portrait" [src]="'assets/images/' + item.portrait" />
-      }
-      @if (item.icon) {
+      } @else if (item.icon) {
         <gav-icon class="gav-sidenav__portrait icon" [icon]="item.icon" />
       }
+
       <span class="gav-sidenav__hideable-text">{{ item.title }}</span>
     </div>
   }
