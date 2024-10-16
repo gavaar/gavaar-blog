@@ -32,6 +32,10 @@ gav-sidenav {
 }
 
 @media screen and (max-width: 980px) {
+  main {
+    margin-right: 0;
+  }
+
   gav-sidenav {
     top: 0;
     width: 80vw;

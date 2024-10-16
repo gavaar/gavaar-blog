@@ -17,7 +17,7 @@ export const HOME_DATA: RouteConfig = {
 export const BLOG_DATA: RouteConfig[] = [
   {
     title: 'Development',
-    description: 'Below list are links lacking proper styling... this will be obvious later when this page is completed [W.I.P.]',
+    description: 'Some thoughts about software development. I could be dead wrong so.. yolo.',
     bg: 'category/development/bg.jpg',
     portrait: 'category/development/portrait.jpg',
     path: 'dev',
@@ -64,7 +64,7 @@ export const EXTERNAL_DATA: RouteConfig[] = [
   },
   {
     title: 'Enkrateia',
-    description: 'State of power over something, usually a state of self-control and self-mastery where one holds power over one\'s own passions and instincts. This is how I try to live life [WIP]',
+    description: 'State of power over something, usually a state of self-control and self-mastery where one holds power over one\'s own passions and instincts. This is how I try to live life.',
     path: 'enk',
     portrait: 'category/enkrateia/portrait.jpg',
     bg: 'category/enkrateia/bg.jpg',
