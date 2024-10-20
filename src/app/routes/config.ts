@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { Memory, memory } from '@app/state';
 import { BlogPostService, POST_CATEGORY } from '@app/services/post.service';
 import { GavIcon } from '@lib/icon';
 import { GavNavItemInput } from '@lib/sidenav/models';
@@ -88,14 +89,14 @@ export const FOOTER_DATA: RouteConfig[] = [
     loadComponent: () => import('./account/account.component').then(c => c.AccountComponent),
   },
   {
-    title: 'Dark',
-    icon: GavIcon.Moon,
+    title: memory.get(Memory.Config).theme ? 'Psychopath' : 'Dark',
+    icon: memory.get(Memory.Config).theme ? GavIcon.Sun : GavIcon.Moon,
     children: [],
     click() {
-      const wasDarkTheme = this.icon === GavIcon.Moon;
-      this.icon = wasDarkTheme ? GavIcon.Sun : GavIcon.Moon;
-      this.title = wasDarkTheme ? 'Psychopath' : 'Dark';
-      document.body.setAttribute('class', wasDarkTheme ? 'light' : '');    
+      const currentTheme = memory.get(Memory.Config).theme;
+      this.icon = currentTheme ? GavIcon.Moon : GavIcon.Sun;
+      this.title = currentTheme ? 'Dark' : 'Psychopath';
+      memory.patch(Memory.Config, { theme: currentTheme ? '' : 'light' });
     },
   },
   {
@@ -128,6 +129,9 @@ export const HIDDEN_DATA: RouteConfig[] = [
       },
       BlogPostService,
     ],
-    loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
+    loadChildren: () => {
+      memory.patch(Memory.HiddenRoutes, { show: true });
+      return import('./posts/posts.routes').then(c => c.POST_ROUTES);
+    },
   }
 ];

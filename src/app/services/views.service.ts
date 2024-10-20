@@ -4,6 +4,7 @@ import { PermissionsService } from './permissions.service';
 import { Observable, concatMap, map, of, take } from 'rxjs';
 import { increment } from 'firebase/firestore/lite';
 import { environment } from '@environments/environment';
+import { Memory, memory } from '@app/state';
 
 type Views = { [id: string]: number };
 
@@ -24,11 +25,13 @@ export class ViewsService {
 
   private updateOrIgnoreIncrement(path: string, id: string): Observable<void> {
     const pathKey = `${path}/${id}`;
-    const deviceViewed = JSON.parse(localStorage.getItem('viewed') || '{}');
-    const forbidUpdate = this.admin() || !environment.production; // admins and devs won't update.
+    const deviceViewed = memory.get(Memory.Views);
+
+    // admins and devs won't update.
+    const forbidUpdate = this.admin() || !environment.production; 
 
     if (!deviceViewed[pathKey] && !forbidUpdate) {
-      localStorage.setItem('viewed', JSON.stringify({ ...deviceViewed, [pathKey]: true }));
+      memory.patch(Memory.Views, ({ [pathKey]: true }));
       return updateFbDocument(path, { [id]: increment(1) });
     }
 

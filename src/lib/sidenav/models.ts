@@ -1,4 +1,4 @@
-import { computed, signal } from '@angular/core';
+import { computed, Signal, signal } from '@angular/core';
 import { GavIcon } from '@lib/icon';
 
 export type GavNavItemInput = { title: string; bg?: string; portrait?: string; icon?: GavIcon; } & ({ path: string; click?: never } | { path?: never; click: () => any });
@@ -21,10 +21,16 @@ export class GavNavItem {
   click: () => any;
 }
 
-type GavNavCategoryInput = { title?: string; icon?: GavIcon; items: GavNavItem[] };
+type GavNavCategoryInput = {
+  title?: string;
+  icon?: GavIcon;
+  hide?: Signal<boolean>;
+  items: GavNavItem[];
+};
 export class GavNavCategory {
   title?: string;
   icon?: GavIcon;
+  hide?: Signal<boolean>;
 
   open = signal(true);
 
@@ -40,6 +46,7 @@ export class GavNavCategory {
   constructor(opts: GavNavCategoryInput) {
     this.icon = opts.icon;
     this.title = opts.title;
+    this.hide = opts.hide;
     this._items.set(opts.items);
   }
 

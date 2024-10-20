@@ -15,3 +15,12 @@
     <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />
   }
 </div>
+
+@if (cardsConfig.hidden) {
+  <h3><strong>Hidden</strong></h3>
+  <div class="home__card-links">
+    @for (cardConfig of cardsConfig.hidden; track cardConfig.id) {
+      <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />
+    }
+  </div>
+}

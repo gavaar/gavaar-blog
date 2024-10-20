@@ -75,7 +75,7 @@ export class BlogPostComponent {
     }
   }
 
-  savePost(): void {
+  protected savePost(): void {
     const post = this.blogPost() || {} as BlogPost;
 
     if (this.postForm.valid && confirm('Save?')) {

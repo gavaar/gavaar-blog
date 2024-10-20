@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Signal, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, ActivationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map, tap, throttleTime } from 'rxjs';
@@ -6,6 +6,7 @@ import { BgImgUrlPipe } from '@app/pipes/bg-img-url.pipe';
 import { GavEgoHeaderComponent } from '@lib/ego-header';
 import { GavIconComponent, GavIcon } from '@lib/icon';
 import { GavSidenavApi } from '@lib/sidenav';
+import { Memory, memory } from '@app/state';
 
 @Component({
   imports: [
@@ -37,7 +38,7 @@ import { GavSidenavApi } from '@lib/sidenav';
   styleUrl: 'header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   darkTheme = true;
   GavIcon = GavIcon;
 
@@ -63,4 +64,15 @@ export class HeaderComponent {
       });
     }),
   ));
+
+  constructor() {
+    effect(() => {
+      const sidenavOpen = this.navApi.open();
+      memory.patch(Memory.Config, { sidenavOpen });
+    }, { allowSignalWrites: true });
+  }
+
+  ngOnInit(): void {
+    this.navApi.open.set(memory.get(Memory.Config).sidenavOpen);
+  }
 }
