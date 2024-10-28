@@ -1,16 +1,18 @@
 @if (admin()) {
+  @let controls = postForm.controls;
+
   <div class="gav-blog-post__config">
-    <gav-input label="id" [formControl]="postForm.controls.id" />
-    <gav-input label="Asset URI" [formControl]="postForm.controls.assetURI" />
-    <gav-input label="Category" [formControl]="postForm.controls.category" />
-    <gav-input label="Description" [formControl]="postForm.controls.description" />
-    <gav-input label="Title" [formControl]="postForm.controls.title" />
+    <gav-input label="id" [formControl]="controls.id" />
+    <gav-input label="Asset URI" [formControl]="controls.assetURI" />
+    <gav-input label="Category" [formControl]="controls.category" />
+    <gav-input label="Description" [formControl]="controls.description" />
+    <gav-input label="Title" [formControl]="controls.title" />
   </div>
 
   <div class="gav-blog-post__textarea">
     <gav-textarea
       label="Edit content"
-      [formControl]="postForm.controls.content"
+      [formControl]="controls.content"
     />
   </div>
 
@@ -25,16 +27,14 @@
 @if (admin() ? postForm.value : blogPost(); as post) {
   <div class="gav-blog-post__content">
     <h1 class="gav-blog-post__title">{{ post.title }}</h1>
-    <small class="gav-blog-post__subtitle">
-      @if (post.updated) {
-        <strong>Updated</strong>&nbsp;
-        <i>{{ post.updated.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
-        &nbsp;-&nbsp;
-      }
-      @if (post.date) {
-        <strong>Created</strong>&nbsp;
-        <i>{{ post.date.seconds * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
-      }
+    <small class="gav-blog-post__subtitle" (click)="showCreated.set(!showCreated())">
+      @let dateText = showCreated() ? 'Created' : 'Updated';
+      @let dateSeconds = (showCreated() ? post.date : post.updated)?.seconds || 0;
+      @let dateIcon = showCreated() ? GavIcon.Bolt : GavIcon.Upload;
+
+      <gav-icon [icon]="dateIcon" />&nbsp;
+      <strong>{{ dateText }}</strong>&nbsp;
+      <i>{{ (dateSeconds || 0) * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
     </small>
     <i class="gav-blog-post__viewed"><small>viewed {{ views() }}</small></i>
     <gav-rich-text [rawText]="post.content || ''" />

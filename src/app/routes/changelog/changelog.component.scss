@@ -25,20 +25,15 @@
   box-shadow: 0 0 1rem var(--secondary);
 }
 
-.changelog__load-more::ng-deep {
+.changelog__load-more {
+  --gav-icon__height: 2rem;
+  --gav-icon__color: var(--secondary);
   align-self: center;
 
-  .gav-icon__icon {
-    height: 2rem;
-    background-color: var(--secondary);
-  }
-
-  .gav-icon__text {
+  &::ng-deep .gav-icon__text{
     font-size: 2rem;
   }
-}
-.changelog__load-more:hover::ng-deep {
-  .gav-icon__text {
+  &:hover::ng-deep {
     color: var(--secondary);
     transition: 0.2s;
   }
@@ -62,8 +57,8 @@
   cursor: pointer;
 }
 
-.changelog__details-icon::ng-deep .gav-icon__icon {
-  height: 1rem;
+.changelog__details-icon {
+  --gav-icon__height: 1rem;
 }
 
 .changelog__details-title {

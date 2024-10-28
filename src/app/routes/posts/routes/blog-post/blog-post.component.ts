@@ -3,10 +3,12 @@ import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
+import { Timestamp } from 'firebase/firestore/lite';
+
 import { GavInputComponent } from '@lib/input';
 import { GavRichTextComponent } from '@lib/rich-text';
 import { GavTextareaComponent } from '@lib/textarea';
-import { Timestamp } from 'firebase/firestore/lite';
+import { GavIcon, GavIconComponent } from "@lib/icon";
 import { BlogPost } from '@app/entities';
 import { PermissionsService } from '@app/services/permissions.service';
 import { BlogPostService } from '@app/services/post.service';
@@ -20,7 +22,8 @@ import { ViewsService } from '@app/services/views.service';
     GavInputComponent,
     GavTextareaComponent,
     GavRichTextComponent,
-  ],
+    GavIconComponent
+],
   standalone: true,
   templateUrl: './blog-post.component.html',
   styleUrl: './blog-post.component.scss',
@@ -30,7 +33,8 @@ export class BlogPostComponent {
   blogPost = signal<BlogPost | null>(null);
   views = signal(0);
   blogContent = computed(() => this.blogPost()?.content || '');
-
+  
+  protected GavIcon = GavIcon;
   protected admin = this.permissionsService.admin;
   protected postForm = new FormGroup({
     id: new FormControl('', Validators.required),
@@ -39,9 +43,10 @@ export class BlogPostComponent {
     description: new FormControl('', Validators.required),
     category: new FormControl(this.blogPostService.category, Validators.required),
     content: new FormControl(''),
-    date: new FormControl({ value: null, disabled: true }),
-    updated: new FormControl({ value: null, disabled: true }),
+    date: new FormControl<Timestamp | null>(null),
+    updated: new FormControl<Timestamp | null>(null),
   });
+  protected showCreated = signal(false);
 
   constructor(
     meta: Meta,
@@ -67,8 +72,8 @@ export class BlogPostComponent {
           content: post.content,
           description: post.description,
           title: post.title,
-          date: null,
-          updated: null,
+          date: post.date,
+          updated: post.updated,
         });
         meta.updateTag({ name: 'description', content: post.description });
       });

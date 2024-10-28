@@ -8,10 +8,11 @@ gav-icon {
 }
 
 .gav-icon__icon {
+  height: var(--gav-icon__height, 1.25rem);
+  background-color: var(--gav-icon__color, var(--text));
+
   display: block;
-  height: 1.25rem;
   aspect-ratio : 1 / 1;
-  background-color: var(--text);
   mask-size: contain;
   mask-position: center;
   mask-repeat: no-repeat;

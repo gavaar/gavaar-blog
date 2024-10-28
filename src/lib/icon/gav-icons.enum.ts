@@ -1,6 +1,7 @@
 export enum GavIcon {
   Account = 'account',
   BackArrow = 'back-arrow',
+  Bolt = 'bolt',
   Changelog = 'changelog',
   External = 'external',
   Home = 'home',
@@ -8,5 +9,6 @@ export enum GavIcon {
   Ninja = 'ninja',
   Sun = 'sun',
   ThreeLines = 'three-lines',
+  Upload = 'upload',
   Write = 'write',
 }

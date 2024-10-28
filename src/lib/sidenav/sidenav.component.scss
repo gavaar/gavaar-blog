@@ -57,10 +57,6 @@ gav-sidenav.open {
   align-items: flex-start;
   padding: 0 0.375rem /*diff between 1.25rem icon size and 3rem img portrait size*/;
 
-  .gav-icon__icon {
-    background-color: var(--text);
-  }
-
   &.open {
     opacity: 0.5;
   }

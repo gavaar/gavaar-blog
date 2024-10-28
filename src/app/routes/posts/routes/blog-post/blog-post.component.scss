@@ -5,8 +5,20 @@
   margin-bottom: 0;
 }
 
+.gav-blog-post__subtitle {
+  cursor: pointer;
+}
+
+gav-icon {
+  --gav-icon__height: 0.75rem;
+}
+
 gav-rich-text {
   margin-top: 1rem;
+}
+
+gav-textarea {
+  margin-bottom: 0.5rem;
 }
 
 .gav-blog-post__config,
@@ -21,10 +33,6 @@ gav-rich-text {
   max-height: calc(100vh - 5rem);
   width: 35rem;
   gap: 1rem;
-
-  gav-textarea {
-    margin-bottom: 0.5rem;
-  }
 
   ::ng-deep.gav-textarea {
     max-height: 90vh;
@@ -57,4 +65,5 @@ gav-rich-text {
   flex-direction: column;
   padding: 0 0.5rem 1rem;
   width: 100%;
+  user-select: none;
 }
