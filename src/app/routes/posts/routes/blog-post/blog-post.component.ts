@@ -5,10 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 import { Timestamp } from 'firebase/firestore/lite';
 
-import { GavInputComponent } from '@lib/input';
-import { GavRichTextComponent } from '@lib/rich-text';
-import { GavTextareaComponent } from '@lib/textarea';
-import { GavIcon, GavIconComponent } from "@lib/icon";
+import { GavInput } from '@lib/input';
+import { GavRichText } from '@lib/rich-text';
+import { GavTextarea } from '@lib/textarea';
+import { GavIcon, Icon } from "@lib/icon";
 import { BlogPost } from '@app/entities';
 import { PermissionsService } from '@app/services/permissions.service';
 import { BlogPostService } from '@app/services/post.service';
@@ -19,10 +19,10 @@ import { ViewsService } from '@app/services/views.service';
   imports: [
     DatePipe,
     ReactiveFormsModule,
-    GavInputComponent,
-    GavTextareaComponent,
-    GavRichTextComponent,
-    GavIconComponent
+    GavInput,
+    GavTextarea,
+    GavRichText,
+    GavIcon
 ],
   standalone: true,
   templateUrl: './blog-post.component.html',
@@ -34,7 +34,7 @@ export class BlogPostComponent {
   views = signal(0);
   blogContent = computed(() => this.blogPost()?.content || '');
   
-  protected GavIcon = GavIcon;
+  protected Icon = Icon;
   protected admin = this.permissionsService.admin;
   protected postForm = new FormGroup({
     id: new FormControl('', Validators.required),

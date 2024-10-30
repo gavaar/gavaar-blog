@@ -1,2 +1,2 @@
-export { GavIconComponent } from './icon.component';
-export { GavIcon } from './gav-icons.enum';
+export { GavIcon } from './icon.component';
+export { Icon } from './gav-icons.enum';

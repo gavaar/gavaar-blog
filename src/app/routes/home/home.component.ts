@@ -8,7 +8,7 @@ import { Memory, memory } from '@app/state';
 interface CardsConfig {
   original: CardConfig[];
   external: CardConfig[];
-  hidden?: CardConfig[];
+  hidden: CardConfig[];
 }
 
 @Component({
@@ -26,11 +26,7 @@ export class HomeComponent {
   cardsConfig: CardsConfig = {
     original: CARDS_CONFIG,
     external: EXTERNAL_CONFIG,
-    ...(
-      memory.get(Memory.HiddenRoutes).show ?
-      { hidden: HIDDEN_CONFIG } :
-      {}
-    ),
+    hidden: HIDDEN_CONFIG,
   };
 
   constructor(meta: Meta) {

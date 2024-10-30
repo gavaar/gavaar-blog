@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header';
-import { GavSidenavComponent } from "../lib/sidenav/sidenav.component";
+import { GavSidenav } from "../lib/sidenav/sidenav.component";
 import { GavNavCategory, GavNavItem, GavNavUncategorized } from '@lib/sidenav';
-import { GavIcon } from '@lib/icon';
+import { Icon } from '@lib/icon';
 import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HIDDEN_DATA, HOME_DATA } from './routes/config';
 import { Memory, memory } from './state';
 
@@ -13,18 +13,17 @@ const SIDENAV_CONFIG = [
   }),
   new GavNavCategory({
     title: 'Posts',
-    icon: GavIcon.Write,
+    icon: Icon.Write,
     items: BLOG_DATA.map(data => new GavNavItem(data)),
   }),
   new GavNavCategory({
     title: 'External',
-    icon: GavIcon.External,
+    icon: Icon.External,
     items: EXTERNAL_DATA.map(data => new GavNavItem(data)),
   }),
   new GavNavCategory({
     title: 'Hidden',
-    icon: GavIcon.Ninja,
-    hide: computed(() => !memory.watch(Memory.HiddenRoutes)().show),
+    icon: Icon.Ninja,
     items: HIDDEN_DATA.map(data => new GavNavItem(data)),
   }),
   new GavNavUncategorized({
@@ -35,7 +34,7 @@ const SIDENAV_CONFIG = [
 @Component({
   selector: 'gav-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, GavSidenavComponent],
+  imports: [RouterOutlet, HeaderComponent, GavSidenav],
   template: `
     <gav-header />
     

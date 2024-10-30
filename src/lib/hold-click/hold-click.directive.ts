@@ -4,7 +4,7 @@ import { Directive, HostListener, input } from '@angular/core';
   selector: '[gavHoldClick]',
   standalone: true,
 })
-export class GavHoldClickDirective {
+export class GavHoldClick {
   gavHoldClick = input.required<{ click: Function; hold: Function }>();
 
   private timeoutRef?: ReturnType<typeof setTimeout>;

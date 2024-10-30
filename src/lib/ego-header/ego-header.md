@@ -1,7 +1,7 @@
-# GavEgoHeaderComponent
+# GavEgoHeader
 Component
 ```typescript
-import { GavEgoHeaderComponent } from '@lib/ego-header';
+import { GavEgoHeader } from '@lib/ego-header';
 ```
 
 Template

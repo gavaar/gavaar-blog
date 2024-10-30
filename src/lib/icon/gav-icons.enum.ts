@@ -1,4 +1,4 @@
-export enum GavIcon {
+export enum Icon {
   Account = 'account',
   BackArrow = 'back-arrow',
   Bolt = 'bolt',

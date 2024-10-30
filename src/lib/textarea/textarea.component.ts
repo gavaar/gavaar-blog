@@ -35,7 +35,7 @@ import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/f
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GavTextareaComponent implements ControlValueAccessor {
+export class GavTextarea implements ControlValueAccessor {
   label = input('');
   disabled = false;
 

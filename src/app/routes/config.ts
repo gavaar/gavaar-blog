@@ -1,14 +1,15 @@
 import { Route } from '@angular/router';
 import { Memory, memory } from '@app/state';
 import { BlogPostService, POST_CATEGORY } from '@app/services/post.service';
-import { GavIcon } from '@lib/icon';
+import { Icon } from '@lib/icon';
 import { GavNavItemInput } from '@lib/sidenav/models';
+import { computed } from '@angular/core';
 
 export type RouteConfig = Route & GavNavItemInput & { description?: string };
 
 export const HOME_DATA: RouteConfig = {
   title: 'Home',
-  icon: GavIcon.Home,
+  icon: Icon.Home,
   bg: 'default_bg.jpg',
   portrait: 'default_portrait.jpg',
   path: '',
@@ -31,21 +32,21 @@ export const BLOG_DATA: RouteConfig[] = [
     ],
     loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
   },
-  {
-    title: 'Selfcare',
-    description: 'Selfcare notes (empty for now, W.I.P.)',
-    bg: 'category/selfcare/bg.jpg',
-    portrait: 'category/selfcare/portrait.jpg',
-    path: 'sel',
-    providers: [
-      {
-        provide: POST_CATEGORY,
-        useValue: 'sel',
-      },
-      BlogPostService,
-    ],
-    loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
-  },
+  // {
+  //   title: 'Selfcare',
+  //   description: 'Selfcare notes (empty for now, W.I.P.)',
+  //   bg: 'category/selfcare/bg.jpg',
+  //   portrait: 'category/selfcare/portrait.jpg',
+  //   path: 'sel',
+  //   providers: [
+  //     {
+  //       provide: POST_CATEGORY,
+  //       useValue: 'sel',
+  //     },
+  //     BlogPostService,
+  //   ],
+  //   loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
+  // },
 ];
 
 export const EXTERNAL_DATA: RouteConfig[] = [
@@ -65,7 +66,7 @@ export const EXTERNAL_DATA: RouteConfig[] = [
   },
   {
     title: 'Enkrateia',
-    description: 'State of power over something, usually a state of self-control and self-mastery where one holds power over one\'s own passions and instincts. This is how I try to live life.',
+    description: 'State of power over something, usually a state of self-control and self-mastery where one holds power over one\'s own passions and instincts.',
     path: 'enk',
     portrait: 'category/enkrateia/portrait.jpg',
     bg: 'category/enkrateia/bg.jpg',
@@ -84,17 +85,17 @@ export const FOOTER_DATA: RouteConfig[] = [
   {
     title: 'Account',
     path:'acc',
-    icon: GavIcon.Account,
+    icon: Icon.Account,
     bg: 'category/account/bg.jpg',
     loadComponent: () => import('./account/account.component').then(c => c.AccountComponent),
   },
   {
     title: memory.get(Memory.Config).theme ? 'Psychopath' : 'Dark',
-    icon: memory.get(Memory.Config).theme ? GavIcon.Sun : GavIcon.Moon,
+    icon: memory.get(Memory.Config).theme ? Icon.Sun : Icon.Moon,
     children: [],
     click() {
       const currentTheme = memory.get(Memory.Config).theme;
-      this.icon = currentTheme ? GavIcon.Moon : GavIcon.Sun;
+      this.icon = currentTheme ? Icon.Moon : Icon.Sun;
       this.title = currentTheme ? 'Dark' : 'Psychopath';
       memory.patch(Memory.Config, { theme: currentTheme ? '' : 'light' });
     },
@@ -102,7 +103,7 @@ export const FOOTER_DATA: RouteConfig[] = [
   {
     title: 'Changelog',
     path: 'cl',
-    icon: GavIcon.Changelog,
+    icon: Icon.Changelog,
     bg: 'category/changelog/bg.jpg',
     loadComponent: () => import('./changelog/changelog.component').then(c => c.ChangelogComponent),
   },
@@ -122,6 +123,7 @@ export const HIDDEN_DATA: RouteConfig[] = [
     description: 'These are notes that I would like to share, but not be indexed in the homepage',
     bg: 'category/rand/bg.jpg',
     portrait: 'category/rand/portrait.jpg',
+    hide: computed(() => !memory.watch(Memory.HiddenRoutes)().rand),
     providers: [
       {
         provide: POST_CATEGORY,
@@ -130,7 +132,26 @@ export const HIDDEN_DATA: RouteConfig[] = [
       BlogPostService,
     ],
     loadChildren: () => {
-      memory.patch(Memory.HiddenRoutes, { show: true });
+      memory.patch(Memory.HiddenRoutes, { rand: true });
+      return import('./posts/posts.routes').then(c => c.POST_ROUTES);
+    },
+  },
+  {
+    title: 'Cooking',
+    path: 'cook',
+    description: 'I suck at cooking. So I put the few things I learned to make decent in here. Hidden because they are probably bad still',
+    bg: 'category/cook/bg.jpg',
+    portrait: 'category/cook/portrait.jpg',
+    hide: computed(() => !memory.watch(Memory.HiddenRoutes)().cook),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'cook',
+      },
+      BlogPostService,
+    ],
+    loadChildren: () => {
+      memory.patch(Memory.HiddenRoutes, { cook: true });
       return import('./posts/posts.routes').then(c => c.POST_ROUTES);
     },
   }

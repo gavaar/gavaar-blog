@@ -9,7 +9,7 @@ import { markdownToHtml } from './lib';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class GavRichTextComponent {
+export class GavRichText {
   rawText = input('');
   parsedText = computed(() => markdownToHtml(this.rawText()));
 }

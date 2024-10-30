@@ -1,13 +1,21 @@
 import { computed, Signal, signal } from '@angular/core';
-import { GavIcon } from '@lib/icon';
+import { Icon } from '@lib/icon';
 
-export type GavNavItemInput = { title: string; bg?: string; portrait?: string; icon?: GavIcon; } & ({ path: string; click?: never } | { path?: never; click: () => any });
+export type GavNavItemInput = {
+  title: string;
+  bg?: string;
+  portrait?: string;
+  icon?: Icon;
+  hide?: Signal<boolean>;
+} & 
+({ path: string; click?: never } | { path?: never; click: () => any });
 export class GavNavItem {
   title: string;
   bg?: string;
   portrait?: string;
   path?: string;
-  icon?: GavIcon;
+  icon?: Icon;
+  hide?: Signal<boolean>;
 
   constructor(opts: GavNavItemInput) {
     this.title = opts.title;
@@ -15,6 +23,7 @@ export class GavNavItem {
     this.portrait = opts.portrait;
     this.path = opts.path;
     this.icon = opts.icon;
+    this.hide = opts.hide;
     this.click = opts.click || (() => null);
   }
 
@@ -23,14 +32,16 @@ export class GavNavItem {
 
 type GavNavCategoryInput = {
   title?: string;
-  icon?: GavIcon;
-  hide?: Signal<boolean>;
+  icon?: Icon;
   items: GavNavItem[];
 };
 export class GavNavCategory {
   title?: string;
-  icon?: GavIcon;
-  hide?: Signal<boolean>;
+  icon?: Icon;
+  hide = computed(() => {
+    const allChildrenHidden = this._items().every(item => item.hide?.());
+    return allChildrenHidden;
+  });
 
   open = signal(true);
 
@@ -46,7 +57,6 @@ export class GavNavCategory {
   constructor(opts: GavNavCategoryInput) {
     this.icon = opts.icon;
     this.title = opts.title;
-    this.hide = opts.hide;
     this._items.set(opts.items);
   }
 

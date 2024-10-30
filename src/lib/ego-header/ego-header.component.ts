@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { GavHoldClickDirective } from '../hold-click';
+import { GavHoldClick } from '../hold-click';
 import { fromEvent, map } from 'rxjs';
 
 const DHV_UNIT=  (window.visualViewport?.height || 100) / 100;
@@ -8,7 +8,7 @@ const MAX_HEADER_SIZE = 23; // 20 header shrinkable + 3 margin-bottom size. Chec
 
 @Component({
   standalone: true,
-  imports: [GavHoldClickDirective],
+  imports: [GavHoldClick],
   selector: 'gav-ego-header',
   templateUrl: './ego-header.component.html',
   styleUrl: './ego-header.component.scss',
@@ -16,7 +16,7 @@ const MAX_HEADER_SIZE = 23; // 20 header shrinkable + 3 margin-bottom size. Chec
   encapsulation: ViewEncapsulation.None,
   host: { '[style.--gav-ego-header__bg-url]': `'url(' + backgroundImgUrl() + ')'` },
 })
-export class GavEgoHeaderComponent {
+export class GavEgoHeader {
   backgroundImgUrl = input.required<string>();
   profileImgUrl = input.required<string>();
 

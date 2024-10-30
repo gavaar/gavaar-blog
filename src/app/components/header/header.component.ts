@@ -3,15 +3,15 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, ActivationEnd, Router, RouterLink } from '@angular/router';
 import { filter, map, tap, throttleTime } from 'rxjs';
 import { BgImgUrlPipe } from '@app/pipes/bg-img-url.pipe';
-import { GavEgoHeaderComponent } from '@lib/ego-header';
-import { GavIconComponent, GavIcon } from '@lib/icon';
+import { GavEgoHeader } from '@lib/ego-header';
+import { GavIcon, Icon } from '@lib/icon';
 import { GavSidenavApi } from '@lib/sidenav';
 import { Memory, memory } from '@app/state';
 
 @Component({
   imports: [
-    GavEgoHeaderComponent,
-    GavIconComponent,
+    GavEgoHeader,
+    GavIcon,
     RouterLink,
     BgImgUrlPipe,
   ],
@@ -23,7 +23,7 @@ import { Memory, memory } from '@app/state';
       [backgroundImgUrl]="bg() | bgImgUrl">
       <div class="gav-ego-header__left">
         <gav-icon class="gav-header__nav-button right"
-          [icon]="GavIcon.ThreeLines"
+          [icon]="Icon.ThreeLines"
           (click)="navApi.open.set(!navApi.open())"/>
       </div>
 
@@ -31,7 +31,7 @@ import { Memory, memory } from '@app/state';
         <gav-icon
           class="gav-header__nav-button left"
           [routerLink]="parentUrl().parentLink"
-          [icon]="parentUrl().parentLink === 'cl' ? GavIcon.Changelog : GavIcon.BackArrow" />
+          [icon]="parentUrl().parentLink === 'cl' ? Icon.Changelog : Icon.BackArrow" />
       </div>
     </gav-ego-header>
   `,
@@ -40,7 +40,7 @@ import { Memory, memory } from '@app/state';
 })
 export class HeaderComponent implements OnInit {
   darkTheme = true;
-  GavIcon = GavIcon;
+  Icon = Icon;
 
   parentUrl = signal({ currentRoute: '', parentLink: 'cl' });
   bg = computed(() => this.routerData()?.data['bg'] || 'default_bg.jpg');

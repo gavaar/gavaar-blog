@@ -19,7 +19,7 @@ export const EXTERNAL_CONFIG: CardConfig[] = EXTERNAL_DATA.map(data => {
   };
 });
 
-export const HIDDEN_CONFIG: CardConfig[] = HIDDEN_DATA.map(data => {
+export const HIDDEN_CONFIG: CardConfig[] = HIDDEN_DATA.filter(data => !data.hide?.()).map(data => {
   return {
     id: data.path!,
     backgroundImgUrl: data.bg || '',

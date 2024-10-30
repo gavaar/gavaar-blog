@@ -30,7 +30,7 @@
     <small class="gav-blog-post__subtitle" (click)="showCreated.set(!showCreated())">
       @let dateText = showCreated() ? 'Created' : 'Updated';
       @let dateSeconds = (showCreated() ? post.date : post.updated)?.seconds || 0;
-      @let dateIcon = showCreated() ? GavIcon.Bolt : GavIcon.Upload;
+      @let dateIcon = showCreated() ? Icon.Bolt : Icon.Upload;
 
       <gav-icon [icon]="dateIcon" />&nbsp;
       <strong>{{ dateText }}</strong>&nbsp;

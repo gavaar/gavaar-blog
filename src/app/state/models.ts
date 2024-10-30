@@ -10,5 +10,8 @@ export interface MemoryTypes {
     theme: 'light' | '';
     sidenavOpen: boolean;
   };
-  [Memory.HiddenRoutes]: { show: boolean };
+  [Memory.HiddenRoutes]: {
+    rand: boolean;
+    cook: boolean;
+  };
 }

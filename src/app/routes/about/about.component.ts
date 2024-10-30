@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
+import { ViewsService } from '@app/services/views.service';
 
 @Component({
   standalone: true,
@@ -56,4 +58,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent {}
+export class AboutComponent {
+  constructor(meta: Meta, viewService: ViewsService) {
+    viewService.increaseViews('pages', 'about').subscribe();
+    meta.updateTag({ name: 'title', content: 'Gavaar | About me' });
+    meta.updateTag({ name: 'description', content: 'Gavaar | Who am I' });
+  }
+}

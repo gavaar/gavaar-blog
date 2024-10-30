@@ -1,1 +1,1 @@
-export { GavRichTextComponent } from './rich-text.component';
+export { GavRichText } from './rich-text.component';

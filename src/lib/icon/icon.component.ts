@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation } from '@angular/core';
-import { GavIcon } from './gav-icons.enum';
+import { Icon } from './gav-icons.enum';
 
 @Component({
   standalone: true,
@@ -12,8 +12,8 @@ import { GavIcon } from './gav-icons.enum';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class GavIconComponent {
-  icon = input.required<GavIcon>();
+export class GavIcon {
+  icon = input.required<Icon>();
   text = input<string>('');
 
   protected iconSvg = computed(() => `url(assets/icons/${this.icon()}.svg)`);

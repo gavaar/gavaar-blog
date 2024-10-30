@@ -1,1 +1,1 @@
-export { GavEgoHeaderComponent } from './ego-header.component';
+export { GavEgoHeader } from './ego-header.component';

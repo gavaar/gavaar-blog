@@ -1,1 +1,1 @@
-export { GavTextareaComponent } from './textarea.component';
+export { GavTextarea } from './textarea.component';

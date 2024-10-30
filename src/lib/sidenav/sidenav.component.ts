@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, ViewEncapsulation } 
 import { GavSidenavApi } from './sidenav.api';
 import { NgClass } from '@angular/common';
 import { GavNavCategory } from './models';
-import { GavIconComponent } from "../icon/icon.component";
+import { GavIcon } from "../icon/icon.component";
 import { animate, style, transition, trigger } from '@angular/animations';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -10,10 +10,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   standalone: true,
   selector: 'gav-sidenav',
   imports: [
-    NgClass,
-    GavIconComponent,
     RouterLink,
     RouterLinkActive,
+    GavIcon,
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
@@ -27,7 +26,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GavSidenavComponent {
+export class GavSidenav {
   config = input.required<GavNavCategory[]>();
   api = inject(GavSidenavApi);
 }
