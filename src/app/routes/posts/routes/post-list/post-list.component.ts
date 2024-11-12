@@ -17,11 +17,11 @@ import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
   styleUrl: './post-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PostListComponent {
-  title = '';
-  description = '';
-  posts = this.postService.postList;
-  admin = this.permissionsService.admin;
+export class GavPostList {
+  protected title = '';
+  protected description = '';
+  protected posts = this.postService.postList;
+  protected admin = this.permissionsService.admin;
 
   constructor(
     activatedRoute: ActivatedRoute,

@@ -4,6 +4,7 @@ export enum Icon {
   Bolt = 'bolt',
   Changelog = 'changelog',
   External = 'external',
+  Eye = 'eye',
   Home = 'home',
   Moon = 'moon',
   Ninja = 'ninja',

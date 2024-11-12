@@ -29,7 +29,7 @@ import { ViewsService } from '@app/services/views.service';
   styleUrl: './blog-post.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BlogPostComponent {
+export class GavBlogPost {
   blogPost = signal<BlogPost | null>(null);
   views = signal(0);
   blogContent = computed(() => this.blogPost()?.content || '');

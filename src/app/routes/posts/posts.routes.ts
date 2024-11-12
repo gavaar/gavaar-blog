@@ -30,15 +30,15 @@ const loadPortrait = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observabl
 export const POST_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./routes/post-list/post-list.component').then(c => c.PostListComponent),
+    loadComponent: () => import('./routes/post-list/post-list.component').then(c => c.GavPostList),
   },
   {
     path: 'new',
-    loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.BlogPostComponent),
+    loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.GavBlogPost),
   },
   {
     path: ':id',
-    loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.BlogPostComponent),
+    loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.GavBlogPost),
     title: loadTitle,
     resolve: { portrait: loadPortrait },
   },

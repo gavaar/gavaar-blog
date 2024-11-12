@@ -6,11 +6,16 @@
 }
 
 .gav-blog-post__subtitle {
+  --gav-icon__height: 0.75rem;
   cursor: pointer;
 }
 
-gav-icon {
-  --gav-icon__height: 0.75rem;
+.gav-blog-post__viewed {
+  --gav-icon__height: 1rem;
+
+  gav-icon {
+    vertical-align: middle;
+  }
 }
 
 gav-rich-text {

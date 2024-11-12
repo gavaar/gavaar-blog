@@ -30,6 +30,8 @@
 }
 
 .post-list__list-item-text {
+  --gav-icon__height: 1rem;
+
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;

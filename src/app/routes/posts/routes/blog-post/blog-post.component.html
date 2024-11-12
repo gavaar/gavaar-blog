@@ -33,10 +33,10 @@
       @let dateIcon = showCreated() ? Icon.Bolt : Icon.Upload;
 
       <gav-icon [icon]="dateIcon" />&nbsp;
-      <strong>{{ dateText }}</strong>&nbsp;
+      <strong><u>{{ dateText }}</u></strong>&nbsp;
       <i>{{ (dateSeconds || 0) * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
     </small>
-    <i class="gav-blog-post__viewed"><small>viewed {{ views() }}</small></i>
+    <i class="gav-blog-post__viewed"><gav-icon [icon]="Icon.Eye"/>&nbsp;<small>{{ views() }}</small></i>
     <gav-rich-text [rawText]="post.content || ''" />
   </div>
 }
