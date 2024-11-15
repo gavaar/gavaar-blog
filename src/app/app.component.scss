@@ -38,10 +38,10 @@ gav-sidenav {
 
   gav-sidenav {
     top: 0;
-    width: 80vw;
+    width: 80dvw;
     position: fixed;
     height: 100dvh;
-    transform: translateX(-80vw);
+    transform: translateX(-80dvw);
     transition: transform 0.5s;
     
     &.open {

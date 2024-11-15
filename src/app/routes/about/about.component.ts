@@ -4,6 +4,7 @@ import { ViewsService } from '@app/services/views.service';
 
 @Component({
   standalone: true,
+  selector: 'about',
   template: `
     <h1>About me</h1>
     <p>

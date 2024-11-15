@@ -6,7 +6,7 @@ import { DatePipe } from '@angular/common';
 import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
 
 @Component({
-  selector: 'gav-post-list',
+  selector: 'post-list',
   imports: [
     DatePipe,
     RouterLink,

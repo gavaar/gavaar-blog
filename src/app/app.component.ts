@@ -1,15 +1,20 @@
-import { ChangeDetectionStrategy, Component, computed, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header';
 import { GavSidenav } from "../lib/sidenav/sidenav.component";
 import { GavNavCategory, GavNavItem, GavNavUncategorized } from '@lib/sidenav';
 import { Icon } from '@lib/icon';
-import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HIDDEN_DATA, HOME_DATA } from './routes/config';
+import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HIDDEN_DATA, HOME_DATA, TOOLS_DATA } from './routes/config';
 import { Memory, memory } from './state';
 
 const SIDENAV_CONFIG = [
   new GavNavUncategorized({
     items: [new GavNavItem(HOME_DATA)],
+  }),
+  new GavNavCategory({
+    title: 'Tools',
+    icon: Icon.Write,
+    items: TOOLS_DATA.map(data => new GavNavItem(data)),
   }),
   new GavNavCategory({
     title: 'Posts',

@@ -3,7 +3,6 @@ import { Meta } from '@angular/platform-browser';
 import { GavCardLinkComponent } from '@app/components/card-link';
 import { RouterLink } from '@angular/router';
 import { CardConfig, CARDS_CONFIG, EXTERNAL_CONFIG, HIDDEN_CONFIG } from './home.config';
-import { Memory, memory } from '@app/state';
 
 interface CardsConfig {
   original: CardConfig[];

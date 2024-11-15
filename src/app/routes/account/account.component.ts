@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { JsonPipe } from '@angular/common';
 import { AuthService } from '@app/services/auth.service';
 
 @Component({
   standalone: true,
-  imports: [JsonPipe],
+  selector: 'account',
   template: `
     @if (authService.user()) {
       <p>Logged in as: {{ authService.user()?.displayName }}</p>

@@ -15,7 +15,7 @@ import { BlogPostService } from '@app/services/post.service';
 import { ViewsService } from '@app/services/views.service';
 
 @Component({
-  selector: 'gav-blog-post',
+  selector: 'blog-post',
   imports: [
     DatePipe,
     ReactiveFormsModule,

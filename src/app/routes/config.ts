@@ -116,6 +116,21 @@ export const FOOTER_DATA: RouteConfig[] = [
   },
 ];
 
+export const TOOLS_DATA: RouteConfig[] = [
+  {
+    title: 'Task tracker',
+    path: 'task-tracker',
+    description: 'Tools created to automate some tasks I do daily',
+    bg: 'tools/bg.jpg',
+    portrait: 'tools/task-tracker/portrait.jpg',
+    hide: computed(() => !memory.watch(Memory.HiddenRoutes)().beta),
+    loadComponent: () => {
+      memory.patch(Memory.HiddenRoutes, { beta: true });
+      return import('./task-tracker/task-tracker.component').then(c => c.TaskTracker);
+    },
+  },
+];
+
 export const HIDDEN_DATA: RouteConfig[] = [
   {
     title: 'Random',

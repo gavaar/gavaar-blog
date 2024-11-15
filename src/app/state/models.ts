@@ -13,5 +13,6 @@ export interface MemoryTypes {
   [Memory.HiddenRoutes]: {
     rand: boolean;
     cook: boolean;
+    beta: boolean;
   };
 }
