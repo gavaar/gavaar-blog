@@ -39,12 +39,11 @@ import { Memory, memory } from '@app/state';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-  darkTheme = true;
-  Icon = Icon;
+  protected Icon = Icon;
 
-  parentUrl = signal({ currentRoute: '', parentLink: 'cl' });
-  bg = computed(() => this.routerData()?.data['bg'] || 'default_bg.jpg');
-  portrait = computed(() => this.routerData()?.data['portrait'] || 'loading/rolling.gif');
+  protected parentUrl = signal({ currentRoute: '', parentLink: 'cl' });
+  protected bg = computed(() => this.routerData()?.data['bg'] || 'default_bg.jpg');
+  protected portrait = computed(() => this.routerData()?.data['portrait'] || 'loading/rolling.gif');
 
   protected navApi = inject(GavSidenavApi);
 

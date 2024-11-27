@@ -53,7 +53,6 @@ a {
   color: var(--text);
 }
 pre {
-  margin: 0 var(--text-margin-left);
   padding: 0.5rem;
   word-break: break-word;
   // should look like this in all themes
@@ -61,7 +60,13 @@ pre {
   color: whitesmoke;
   border-radius: 0.5rem;
   overflow-x: auto;
+  margin: 0.5rem 0;
 }
+:not(ul, ol, blockquote) > pre {
+  margin-left: var(--text-margin-left);
+  margin-right: var(--text-margin-left);
+}
+
 code {
   width: fit-content;
   color: var(--background);

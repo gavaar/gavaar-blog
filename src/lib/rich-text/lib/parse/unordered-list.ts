@@ -1,5 +1,5 @@
 const UL_REGEX = /(?<=^|\n\n)(-[^-](?:.|\n[^\n])+)(?=\n\n|$)/g;
-const LI_REGEX = /(?:-[^-])(.+)(?:\n|$)/g;
+const LI_REGEX = /(?:-[\s])([^-]+)(?:\n|$)/g;
 
 export const unorderedList = (markdown: string): string => {
   const listMatches = markdown.matchAll(UL_REGEX);
