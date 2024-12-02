@@ -23,8 +23,7 @@ import { ViewsService } from '@app/services/views.service';
     GavTextarea,
     GavRichText,
     GavIcon
-],
-  standalone: true,
+  ],
   templateUrl: './blog-post.component.html',
   styleUrl: './blog-post.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

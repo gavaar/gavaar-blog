@@ -38,7 +38,6 @@ const SIDENAV_CONFIG = [
 
 @Component({
   selector: 'gav-root',
-  standalone: true,
   imports: [RouterOutlet, HeaderComponent, GavSidenav],
   template: `
     <gav-header />

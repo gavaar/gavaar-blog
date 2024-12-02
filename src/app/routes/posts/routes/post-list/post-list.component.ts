@@ -12,7 +12,6 @@ import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
     RouterLink,
     BgImgUrlPipe,
   ],
-  standalone: true,
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

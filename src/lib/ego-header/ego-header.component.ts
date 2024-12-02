@@ -7,7 +7,6 @@ const DHV_UNIT=  (window.visualViewport?.height || 100) / 100;
 const MAX_HEADER_SIZE = 23; // 20 header shrinkable + 3 margin-bottom size. Check css for these values.
 
 @Component({
-  standalone: true,
   imports: [GavHoldClick],
   selector: 'gav-ego-header',
   templateUrl: './ego-header.component.html',

@@ -16,7 +16,6 @@ import { Memory, memory } from '@app/state';
     BgImgUrlPipe,
   ],
   selector: 'gav-header',
-  standalone: true,
   template: `
     <gav-ego-header
       [profileImgUrl]="portrait() | bgImgUrl"

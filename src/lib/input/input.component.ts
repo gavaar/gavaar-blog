@@ -4,7 +4,6 @@ import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/f
 @Component({
   selector: 'gav-input',
   imports: [ReactiveFormsModule],
-  standalone: true,
   template: `
     @if (label()) {
       <label [for]="label()">{{ label() }}</label>

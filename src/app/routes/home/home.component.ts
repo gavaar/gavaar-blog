@@ -11,7 +11,6 @@ interface CardsConfig {
 }
 
 @Component({
-  standalone: true,
   imports: [
     RouterLink,
     GavCardLinkComponent,

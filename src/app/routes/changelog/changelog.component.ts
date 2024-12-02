@@ -12,7 +12,6 @@ const FIRST_APP_VERSION = '0.0.1';
 @Component({
   selector: 'changelog',
   imports: [DatePipe, GavIcon],
-  standalone: true,
   template: `
     <h1>Changelog</h1>
     @if (changelog()) {
