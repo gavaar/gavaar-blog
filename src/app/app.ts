@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './components/header';
+import { GavHeader } from './components/gav-header';
 import { GavSidenav } from "../lib/sidenav/sidenav.component";
 import { GavNavCategory, GavNavItem, GavNavUncategorized } from '@lib/sidenav';
 import { Icon } from '@lib/icon';
-import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HIDDEN_DATA, HOME_DATA, TOOLS_DATA } from './routes/config';
+import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HIDDEN_DATA, HOME_DATA, TOOLS_DATA } from './routes/routes.config';
 import { Memory, memory } from './state';
 
 const SIDENAV_CONFIG = [
@@ -38,7 +38,7 @@ const SIDENAV_CONFIG = [
 
 @Component({
   selector: 'gav-root',
-  imports: [RouterOutlet, HeaderComponent, GavSidenav],
+  imports: [RouterOutlet, GavHeader, GavSidenav],
   template: `
     <gav-header />
     
@@ -50,10 +50,10 @@ const SIDENAV_CONFIG = [
       </div>
     </main>
   `,
-  styleUrl: './app.component.scss',
+  styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class App {
   protected sidenavConfig = SIDENAV_CONFIG;
 
   constructor() {

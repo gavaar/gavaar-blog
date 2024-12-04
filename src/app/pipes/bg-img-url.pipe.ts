@@ -1,9 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
-  standalone: true,
-  name: 'bgImgUrl',
-})
+@Pipe({ name: 'bgImgUrl' })
 export class BgImgUrlPipe implements PipeTransform {
   transform(bgImgUrl: string, appendUrl = false): string {
     const url = bgImgUrl.startsWith('https://') ? bgImgUrl : `assets/images/${bgImgUrl}`;

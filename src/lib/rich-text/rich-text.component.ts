@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input 
 import { markdownToHtml } from './lib';
 
 @Component({
-  standalone: true,
   selector: 'gav-rich-text',
   template: `<div class="gav-rich-text" [innerHTML]="parsedText()"></div>`,
   styleUrl: './rich-text.component.scss',

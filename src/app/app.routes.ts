@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HIDDEN_DATA, HOME_DATA, RouteConfig, TOOLS_DATA } from './routes/config';
+import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HIDDEN_DATA, HOME_DATA, RouteConfig, TOOLS_DATA } from './routes/routes.config';
 
 const buildRoutes = (routeConfigs: RouteConfig[]): Routes => {
   return routeConfigs

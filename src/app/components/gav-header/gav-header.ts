@@ -27,20 +27,22 @@ import { Memory, memory } from '@app/state';
       </div>
 
       <div class="gav-ego-header__right">
-        <gav-icon
-          class="gav-header__nav-button left"
-          [routerLink]="parentUrl().parentLink"
-          [icon]="parentUrl().parentLink === 'cl' ? Icon.Changelog : Icon.BackArrow" />
+        @if (parentUrl().parentLink !== '~') {
+          <gav-icon
+            class="gav-header__nav-button left"
+            [routerLink]="parentUrl().parentLink"
+            [icon]="Icon.BackArrow" />
+        }
       </div>
     </gav-ego-header>
   `,
-  styleUrl: 'header.component.scss',
+  styleUrl: 'gav-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent implements OnInit {
+export class GavHeader implements OnInit {
   protected Icon = Icon;
 
-  protected parentUrl = signal({ currentRoute: '', parentLink: 'cl' });
+  protected parentUrl = signal({ currentRoute: '', parentLink: '~' });
   protected bg = computed(() => this.routerData()?.data['bg'] || 'default_bg.jpg');
   protected portrait = computed(() => this.routerData()?.data['portrait'] || 'loading/rolling.gif');
 
@@ -58,7 +60,7 @@ export class HeaderComponent implements OnInit {
 
       this.parentUrl.set({
         currentRoute,
-        parentLink: currentRoute === '' ? 'cl' : routes.at(-2)!,
+        parentLink: currentRoute === '' ? '~' : routes.at(-2)!,
       });
     }),
   ));

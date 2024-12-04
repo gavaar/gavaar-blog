@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { BlogPostService } from '../../../../services/post.service';
-import { PermissionsService } from '../../../../services/permissions.service';
+import { PostClient } from '../../../../services/post-client';
+import { Permissions } from '../../../../services/permissions';
 import { DatePipe } from '@angular/common';
 import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
 
@@ -12,8 +12,8 @@ import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
     RouterLink,
     BgImgUrlPipe,
   ],
-  templateUrl: './post-list.component.html',
-  styleUrl: './post-list.component.scss',
+  templateUrl: './post-list.html',
+  styleUrl: './post-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GavPostList {
@@ -24,8 +24,8 @@ export class GavPostList {
 
   constructor(
     activatedRoute: ActivatedRoute,
-    private postService: BlogPostService,
-    private permissionsService: PermissionsService,
+    private postService: PostClient,
+    private permissionsService: Permissions,
   ) {
     const { title, description } = activatedRoute.snapshot.data;
     this.title = title;

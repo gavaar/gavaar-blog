@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, input, ViewEncapsulation 
 import { Icon } from './gav-icons.enum';
 
 @Component({
-  standalone: true,
   selector: 'gav-icon',
   template: `
     <div class="gav-icon__icon" [style.mask-image]="iconSvg()"></div>

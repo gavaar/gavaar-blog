@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { GavCardLinkComponent } from '@app/components/card-link';
+import { GavCard } from '@app/components/gav-card';
 import { RouterLink } from '@angular/router';
 import { CardConfig, CARDS_CONFIG, EXTERNAL_CONFIG, HIDDEN_CONFIG } from './home.config';
 
@@ -13,14 +13,14 @@ interface CardsConfig {
 @Component({
   imports: [
     RouterLink,
-    GavCardLinkComponent,
+    GavCard,
   ],
   selector: 'home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  templateUrl: './home.html',
+  styleUrl: './home.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent {
+export class Home {
   cardsConfig: CardsConfig = {
     original: CARDS_CONFIG,
     external: EXTERNAL_CONFIG,

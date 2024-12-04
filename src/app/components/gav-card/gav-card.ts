@@ -7,7 +7,6 @@ export interface GavCardLink {
 }
 
 @Component({
-  standalone: true,
   selector: 'gav-card',
   template: `
     @if (config(); as config) {
@@ -17,13 +16,13 @@ export interface GavCardLink {
       </span>
     }
   `,
-  styleUrl: './card-link.component.scss',
+  styleUrl: './gav-card.scss',
   host: {
     '[style.--gav-card__bg-url]': 'cardBg()',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GavCardLinkComponent {
+export class GavCard {
   config = input.required<GavCardLink>();
   
   protected cardBg = computed(() => this.bgImgUrlPipe.transform(this.config().backgroundImgUrl, true));

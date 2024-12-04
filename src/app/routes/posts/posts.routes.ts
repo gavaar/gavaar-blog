@@ -1,10 +1,10 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
 import { EMPTY, Observable, catchError, map } from 'rxjs';
-import { BlogPostService, POST_CATEGORY } from '../../services/post.service';
+import { PostClient, POST_CATEGORY } from '../../services/post-client';
 
 const loadPost = (activatedRouteSnapshot: ActivatedRouteSnapshot) => {
-  const postService = inject(BlogPostService);
+  const postService = inject(PostClient);
   const router = inject(Router);
   const id = activatedRouteSnapshot.paramMap.get('id')!;
   const category = inject(POST_CATEGORY);
@@ -30,15 +30,15 @@ const loadPortrait = (activatedRouteSnapshot: ActivatedRouteSnapshot): Observabl
 export const POST_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('./routes/post-list/post-list.component').then(c => c.GavPostList),
+    loadComponent: () => import('./routes/post-list/post-list').then(c => c.GavPostList),
   },
   {
     path: 'new',
-    loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.GavBlogPost),
+    loadComponent: () => import('./routes/blog-post/blog-post').then(c => c.GavBlogPost),
   },
   {
     path: ':id',
-    loadComponent: () => import('./routes/blog-post/blog-post.component').then(c => c.GavBlogPost),
+    loadComponent: () => import('./routes/blog-post/blog-post').then(c => c.GavBlogPost),
     title: loadTitle,
     resolve: { portrait: loadPortrait },
   },

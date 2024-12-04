@@ -6,7 +6,7 @@ import { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument } 
 export const POST_CATEGORY = new InjectionToken<string>('post_category', { providedIn: 'root', factory: () => 'default' });
 
 @Injectable()
-export class BlogPostService {
+export class PostClient {
   private posts = signal<{ [id: string]: BlogPost }>({});
 
   postList = computed(() => Object.values(this.posts()));

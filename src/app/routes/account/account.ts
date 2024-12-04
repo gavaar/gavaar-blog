@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AuthService } from '@app/services/auth.service';
+import { AuthClient } from '@app/services/auth-client';
 
 @Component({
-  standalone: true,
   selector: 'account',
   template: `
     @if (authService.user()) {
@@ -24,6 +23,6 @@ import { AuthService } from '@app/services/auth.service';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccountComponent {
-  authService = inject(AuthService);
+export class Account {
+  authService = inject(AuthClient);
 }

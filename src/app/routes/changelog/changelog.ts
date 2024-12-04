@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, computed, OnInit, signal } from '@a
 import { DatePipe } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 import { readFbCollection } from '@app/firebase';
-import { Changelog } from '@app/entities';
+import { Changelog as Log } from '@app/entities';
 import { GavIcon, Icon } from '@lib/icon';
 import { take, tap } from 'rxjs';
-import { ViewsService } from '@app/services/views.service';
+import { ViewsTracker } from '@app/services/views-tracker';
 
 const FIRST_APP_VERSION = '0.0.1';
 
@@ -58,17 +58,17 @@ const FIRST_APP_VERSION = '0.0.1';
     }
 
   `,
-  styleUrl: './changelog.component.scss',
+  styleUrl: './changelog.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChangelogComponent implements OnInit {
-  protected changelog = signal<Changelog[] | null>(null);
+export class Changelog implements OnInit {
+  protected changelog = signal<Log[] | null>(null);
   protected Icon = Icon;
   protected loading = signal(false);
   protected firstVersionLoaded = computed<boolean>(() => this.latestVersionLoaded()?.id === FIRST_APP_VERSION);
-  private latestVersionLoaded = computed<Changelog | undefined>(() => this.changelog()?.at(-1));
+  private latestVersionLoaded = computed<Log | undefined>(() => this.changelog()?.at(-1));
 
-  constructor(meta: Meta, viewService: ViewsService) {
+  constructor(meta: Meta, viewService: ViewsTracker) {
     viewService.increaseViews('pages', 'changelog').subscribe();
     meta.updateTag({ name: 'title', content: 'Changelog - Gavaar\'s random writings' });
     meta.updateTag({ name: 'description', content: 'Gavaar\'s random writings changelog. Versions and changes.' });
@@ -80,7 +80,7 @@ export class ChangelogComponent implements OnInit {
 
   protected loadMore(): void {
     this.loading.set(true);
-    readFbCollection<Changelog>('changelog', { orderBy: 'date', limit: 12, startAfter: this.latestVersionLoaded()?.date })
+    readFbCollection<Log>('changelog', { orderBy: 'date', limit: 12, startAfter: this.latestVersionLoaded()?.date })
       .pipe(take(1), tap(() => this.loading.set(false)))
       .subscribe(changelog => this.changelog.set((this.changelog() || []).concat(changelog)));
   }

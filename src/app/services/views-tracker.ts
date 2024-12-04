@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { readFbDocument, updateFbDocument } from '@app/firebase';
-import { PermissionsService } from './permissions.service';
+import { Permissions } from './permissions';
 import { Observable, concatMap, map, of, take } from 'rxjs';
 import { increment } from 'firebase/firestore/lite';
 import { environment } from '@environments/environment';
@@ -9,8 +9,8 @@ import { Memory, memory } from '@app/state';
 type Views = { [id: string]: number };
 
 @Injectable({ providedIn: 'root' })
-export class ViewsService {
-  private admin = inject(PermissionsService).admin;
+export class ViewsTracker {
+  private admin = inject(Permissions).admin;
 
   increaseViews(path: string, id: string): Observable<number> {
     const viewsPath = `views/${path}`;

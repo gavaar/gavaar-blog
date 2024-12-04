@@ -3,7 +3,7 @@ import { GoogleAuthProvider, User, getAuth, onAuthStateChanged, signInWithPopup 
 import { auth } from '@app/firebase';
 
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AuthClient {
   user = signal<User | null>(null);
 
   constructor() {

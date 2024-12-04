@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { Memory, memory } from '@app/state';
-import { BlogPostService, POST_CATEGORY } from '@app/services/post.service';
+import { PostClient, POST_CATEGORY } from '@app/services/post-client';
 import { Icon } from '@lib/icon';
 import { GavNavItemInput } from '@lib/sidenav/models';
 import { computed } from '@angular/core';
@@ -13,7 +13,7 @@ export const HOME_DATA: RouteConfig = {
   bg: 'default_bg.jpg',
   portrait: 'default_portrait.jpg',
   path: '',
-  loadComponent: () => import('./home/home.component').then(c => c.HomeComponent),
+  loadComponent: () => import('./home/home').then(c => c.Home),
 };
 
 export const BLOG_DATA: RouteConfig[] = [
@@ -28,7 +28,7 @@ export const BLOG_DATA: RouteConfig[] = [
         provide: POST_CATEGORY,
         useValue: 'dev',
       },
-      BlogPostService,
+      PostClient,
     ],
     loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
   },
@@ -43,7 +43,7 @@ export const BLOG_DATA: RouteConfig[] = [
   //       provide: POST_CATEGORY,
   //       useValue: 'sel',
   //     },
-  //     BlogPostService,
+  //     PostClient,
   //   ],
   //   loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
   // },
@@ -61,7 +61,7 @@ export const EXTERNAL_DATA: RouteConfig[] = [
         provide: POST_CATEGORY,
         useValue: 'poe',
       },
-      BlogPostService,
+      PostClient,
     ],
   },
   {
@@ -76,7 +76,7 @@ export const EXTERNAL_DATA: RouteConfig[] = [
         provide: POST_CATEGORY,
         useValue: 'enk',
       },
-      BlogPostService,
+      PostClient,
     ],
   }
 ];
@@ -87,7 +87,7 @@ export const FOOTER_DATA: RouteConfig[] = [
     path:'acc',
     icon: Icon.Account,
     bg: 'category/account/bg.jpg',
-    loadComponent: () => import('./account/account.component').then(c => c.AccountComponent),
+    loadComponent: () => import('./account/account').then(c => c.Account),
   },
   {
     title: memory.get(Memory.Config).theme ? 'Psychopath' : 'Dark',
@@ -105,14 +105,14 @@ export const FOOTER_DATA: RouteConfig[] = [
     path: 'cl',
     icon: Icon.Changelog,
     bg: 'category/changelog/bg.jpg',
-    loadComponent: () => import('./changelog/changelog.component').then(c => c.ChangelogComponent),
+    loadComponent: () => import('./changelog/changelog').then(c => c.Changelog),
   },
   {
     title: 'About',
     path: 'about',
     bg: 'category/about/bg.jpg',
     portrait: 'category/about/portrait.jpg',
-    loadComponent: () => import('./about/about.component').then(c => c.AboutComponent),
+    loadComponent: () => import('./about/about').then(c => c.About),
   },
 ];
 
@@ -126,7 +126,7 @@ export const TOOLS_DATA: RouteConfig[] = [
     hide: computed(() => !memory.watch(Memory.HiddenRoutes)().beta),
     loadComponent: () => {
       memory.patch(Memory.HiddenRoutes, { beta: true });
-      return import('./task-tracker/task-tracker.component').then(c => c.TaskTracker);
+      return import('./task-tracker/task-tracker').then(c => c.TaskTracker);
     },
   },
 ];
@@ -144,7 +144,7 @@ export const HIDDEN_DATA: RouteConfig[] = [
         provide: POST_CATEGORY,
         useValue: 'rand',
       },
-      BlogPostService,
+      PostClient,
     ],
     loadChildren: () => {
       memory.patch(Memory.HiddenRoutes, { rand: true });
@@ -163,7 +163,7 @@ export const HIDDEN_DATA: RouteConfig[] = [
         provide: POST_CATEGORY,
         useValue: 'cook',
       },
-      BlogPostService,
+      PostClient,
     ],
     loadChildren: () => {
       memory.patch(Memory.HiddenRoutes, { cook: true });

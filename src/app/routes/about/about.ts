@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { ViewsService } from '@app/services/views.service';
+import { ViewsTracker } from '@app/services/views-tracker';
 
 @Component({
-  standalone: true,
   selector: 'about',
   template: `
     <h1>About me</h1>
@@ -59,8 +58,8 @@ import { ViewsService } from '@app/services/views.service';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AboutComponent {
-  constructor(meta: Meta, viewService: ViewsService) {
+export class About {
+  constructor(meta: Meta, viewService: ViewsTracker) {
     viewService.increaseViews('pages', 'about').subscribe();
     meta.updateTag({ name: 'title', content: 'Gavaar | About me' });
     meta.updateTag({ name: 'description', content: 'Gavaar | Who am I' });

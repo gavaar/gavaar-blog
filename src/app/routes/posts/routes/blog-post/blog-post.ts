@@ -10,9 +10,9 @@ import { GavRichText } from '@lib/rich-text';
 import { GavTextarea } from '@lib/textarea';
 import { GavIcon, Icon } from "@lib/icon";
 import { BlogPost } from '@app/entities';
-import { PermissionsService } from '@app/services/permissions.service';
-import { BlogPostService } from '@app/services/post.service';
-import { ViewsService } from '@app/services/views.service';
+import { Permissions } from '@app/services/permissions';
+import { PostClient } from '@app/services/post-client';
+import { ViewsTracker } from '@app/services/views-tracker';
 
 @Component({
   selector: 'blog-post',
@@ -24,8 +24,8 @@ import { ViewsService } from '@app/services/views.service';
     GavRichText,
     GavIcon
   ],
-  templateUrl: './blog-post.component.html',
-  styleUrl: './blog-post.component.scss',
+  templateUrl: './blog-post.html',
+  styleUrl: './blog-post.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GavBlogPost {
@@ -40,7 +40,7 @@ export class GavBlogPost {
     assetURI: new FormControl(''),
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    category: new FormControl(this.blogPostService.category, Validators.required),
+    category: new FormControl(this.PostClient.category, Validators.required),
     content: new FormControl(''),
     date: new FormControl<Timestamp | null>(null),
     updated: new FormControl<Timestamp | null>(null),
@@ -51,16 +51,16 @@ export class GavBlogPost {
     meta: Meta,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private permissionsService: PermissionsService,
-    private blogPostService: BlogPostService,
-    private viewService: ViewsService,
+    private permissionsService: Permissions,
+    private PostClient: PostClient,
+    private viewService: ViewsTracker,
   ) {
     const postId = this.activatedRoute.snapshot.paramMap.get('id');
 
     if (postId) {
       this.postForm.controls.id.disable();
 
-      this.blogPostService.post(postId).subscribe(post => {
+      this.PostClient.post(postId).subscribe(post => {
         this.viewService.increaseViews('posts', postId).subscribe(views => this.views.set(views));
         this.blogPost.set(post);
   
@@ -98,7 +98,7 @@ export class GavBlogPost {
       post.title = title!;
       post.updated = now;
 
-      this.blogPostService.savePost(post).subscribe((updatedPost) => {
+      this.PostClient.savePost(post).subscribe((updatedPost) => {
         const isNewPost = !this.blogPost()?.id;
         const categoryChanged = this.blogPost()?.category !== category;
 

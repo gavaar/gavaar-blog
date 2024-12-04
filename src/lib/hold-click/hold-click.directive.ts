@@ -1,9 +1,6 @@
 import { Directive, HostListener, input } from '@angular/core';
 
-@Directive({
-  selector: '[gavHoldClick]',
-  standalone: true,
-})
+@Directive({ selector: '[gavHoldClick]' })
 export class GavHoldClick {
   gavHoldClick = input.required<{ click: Function; hold: Function }>();
 
