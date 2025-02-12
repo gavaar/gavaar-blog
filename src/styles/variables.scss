@@ -1,12 +1,17 @@
 :root {
-  // --background: #060D08;
   --background: #030604;
   --text: #FFF9D9;
-  --secondary: #10944B;
-  // --accent: #035B54; // original
-  // --accent: #07ccbc;
-  --accent: #047067;
-  --error: #BE452D;
+  --primary: #008000;
+  --secondary: #00BFFF;
+  --error: #FF4500;
+  
+  .light {
+    --background: #FFF9D9;
+    --text: #060D08;
+    --secondary: #800080;
+    --error: #8B0000;
+    transition: color, background-color 0.5s;
+  }
 
   /*** STRUCTURE ***
     Configuration variables to make it easy to configure things in the app.

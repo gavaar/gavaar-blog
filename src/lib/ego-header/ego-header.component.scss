@@ -33,7 +33,7 @@ gav-ego-header {
 .gav-ego-header__img {
   cursor: pointer;
   aspect-ratio: 1 / 1;
-  border: 0.25rem solid var(--accent);
+  border: 0.25rem solid var(--secondary);
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
@@ -58,6 +58,6 @@ gav-ego-header {
   left: 0;
   top: 0;
   right: 0;
-  box-shadow: 0 0 6rem -3rem var(--secondary);
+  box-shadow: 0 0 6rem -3rem var(--primary);
   z-index: -1;
 }
