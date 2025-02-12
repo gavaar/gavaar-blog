@@ -4,9 +4,18 @@
   text-align: justify;
 
   a {
-    align-self: center;
     color: var(--primary);
-    max-width: min(100%, 40rem);
+  }
+
+  a.img-container {
+    display: flex;
+    justify-content: center;
+
+    img {
+      padding: 0.5rem 0;
+      max-height: min(100%, 30rem);
+      max-width: min(100%, 30rem);
+    }
   }
 
   ul {
@@ -19,7 +28,7 @@
   }
   
   p {
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
     white-space: pre-wrap;
   }
 

@@ -1,6 +1,7 @@
 import PrismJs from 'prismjs';
 import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-markup';
 import { MarkdownMemory, MarkdownParser } from '../parser-type';
 
 // matches ```content```
@@ -14,7 +15,7 @@ export const codeBlock: MarkdownParser = (markdown: string, memory: MarkdownMemo
   let i = 0;
 
   for (const match of matches) {
-    const language = LANGUAGES_ALIASES[match[1]] || match[1] || 'ts';
+    const language = LANGUAGES_ALIASES[match[1]] || match[1] || 'markup';
     const markdownId = `<CODE_BLOCK_${i}>`;
     i += 1;
 

@@ -31,12 +31,19 @@ h1 {
 h1, h2, h3, h4, h5, h6 {
   color: var(--primary);
 }
+h1, h2, h3 {
+  margin: 1rem 0;
+}
+h4, h5, h6 {
+  margin: 0.5rem 0;
+}
 hr {
   width: 100%;
   opacity: 0.5;
   margin: 0;
 }
 small {
+  margin: 0.25rem 0;
   opacity: 0.75;
   font-size: 0.75rem;
 }
@@ -48,16 +55,16 @@ a {
   color: var(--text);
 }
 pre {
-  padding: 0.5rem;
+  padding: 0.25rem;
   word-break: break-word;
   // should look like this in all themes
   background: black;
   color: whitesmoke;
   border-radius: 0.5rem;
   overflow-x: auto;
-  margin: 0.5rem 0;
+  margin: 0.25rem 0;
 }
-:not(ul, ol, blockquote) > pre {
+:not(ul, ol, blockquote, li) > pre {
   margin-left: var(--text-margin-left);
   margin-right: var(--text-margin-left);
 }
@@ -72,6 +79,9 @@ code {
 }
 ul {
   margin: 0;
+}
+li {
+  margin-bottom: 0.5rem;
 }
 u {
   text-decoration: underline dashed;
