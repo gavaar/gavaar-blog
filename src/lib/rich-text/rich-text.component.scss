@@ -7,14 +7,14 @@
     color: var(--primary);
   }
 
-  a.img-container {
+  .img-container {
     display: flex;
     justify-content: center;
 
     img {
       padding: 0.5rem 0;
       max-height: min(100%, 30rem);
-      max-width: min(100%, 30rem);
+      max-width: min(100%, var(--max-content-width));
     }
   }
 
@@ -35,14 +35,21 @@
   blockquote {
     opacity: 0.8;
     border-left: 0.15rem solid var(--secondary);
-    padding: 0.5rem 1rem;
-    margin: 0 var(--text-margin-left);
+    padding: 0 1rem;
     font-size: 0.85rem;
     line-height: 0.85rem;
+    margin: 0 0 1rem;
   }
 
   // prismjs overrides
   .token.operator {
     background: unset;
+  }
+
+  // direct children
+  > {
+    blockquote, strong, small {
+      margin-left: var(--text-margin-left);
+    }
   }
 }
