@@ -6,12 +6,15 @@
   --primary: #008000;
   --secondary: #00BFFF;
   --error: #FF4500;
+  --disabled: #414141;
   
   .light {
     --background: #FFF9D9;
     --text: #060D08;
     --secondary: #800080;
     --error: #8B0000;
+    --disabled: #a3a3a3;
+
     transition: color, background-color 0.5s;
   }
 
