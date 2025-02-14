@@ -22,19 +22,19 @@
   right: 0;
   margin: auto;
   border-radius: 50%;
-  box-shadow: 0 0 1rem var(--secondary);
+  box-shadow: 0 0 1rem var(--primary);
 }
 
 .changelog__load-more {
   --gav-icon__height: 2rem;
-  --gav-icon__color: var(--secondary);
+  --gav-icon__color: var(--primary);
   align-self: center;
 
   &::ng-deep .gav-icon__text{
     font-size: 2rem;
   }
   &:hover::ng-deep {
-    color: var(--secondary);
+    color: var(--primary);
     transition: 0.2s;
   }
 }

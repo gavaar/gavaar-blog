@@ -21,7 +21,7 @@
           [routerLinkActiveOptions]="{ exact: !item.path }"
           [style.--gav-sidenav__item-bg]="item.bg ? 'url(assets/images/' + item.bg + ')' : 'unset'"
           (click)="item.click()"
-          (touchend)="api.open.set(false)">
+          (touchend)="itemTouched.emit()">
           <div class="gav-sidenav__item-background"
             [style.--gav-sidenav__item-bg]="'url(assets/images/' + item.bg + ')'">
           </div>
@@ -39,4 +39,4 @@
   }
 }
 
-<div class="gav-sidenav__backdrop" (click)="api.open.set(false)"></div>
+<div class="gav-sidenav__backdrop" (click)="itemTouched.emit()"></div>

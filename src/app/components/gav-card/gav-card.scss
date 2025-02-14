@@ -17,7 +17,7 @@ $mainContentValue: calc(var(--max-content-width) - 14rem /* sidenav open */ - 6r
 
   &:hover {
     transition: 0.25s;
-    box-shadow: 0 0 1.5rem 0 var(--accent);
+    box-shadow: 0 0 1.5rem 0 var(--secondary);
 
     .gav-card__backdrop {
       opacity: 0;
@@ -41,7 +41,7 @@ $mainContentValue: calc(var(--max-content-width) - 14rem /* sidenav open */ - 6r
 
 .gav-card__backdrop {
   background-color: var(--background);
-  opacity: 0.5;
+  opacity: 0.25;
 }
 
 .gav-card__text {

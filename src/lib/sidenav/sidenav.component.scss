@@ -96,7 +96,7 @@ gav-sidenav.open {
   border-radius: 3rem;
   z-index: -1;
   overflow: hidden;
-  box-shadow: 0 0 0.5rem var(--accent);
+  box-shadow: 0 0 0.5rem var(--secondary);
 
   &:after {
     content: '';

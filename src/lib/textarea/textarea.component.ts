@@ -6,7 +6,7 @@ import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/f
   imports: [ReactiveFormsModule],
   template: `
     @if (label()) {
-      <label for="gav-textarea">{{ label() }}</label>
+      <label class="gav-textarea__label" for="gav-textarea">{{ label() }}</label>
     }
     <textarea
       id="gav-textarea"
@@ -22,13 +22,24 @@ import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/f
       flex-grow: 1;
     }
 
+    .gav-textarea__label {
+      padding: 0.25rem 0.75rem;
+    }
+
     .gav-textarea {
       width: 100%;
       height: 100%;
-      border-radius: 1rem;
-      padding: 0.5rem;
+      border: 0;
+      border-radius: 0.5rem;
+      padding: 0.25rem 0.75rem;
       color: var(--text);
       background-color: var(--background);
+      outline: none;
+
+      &:hover {
+        box-shadow: 0 0 0.5rem var(--secondary);
+        transition: 0.25s ease-out;
+      }
     }
   `],
   encapsulation: ViewEncapsulation.None,

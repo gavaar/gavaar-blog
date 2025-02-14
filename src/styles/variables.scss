@@ -1,17 +1,31 @@
 :root {
-  // --background: #060D08;
+  font-size: 20px;
+
   --background: #030604;
   --text: #FFF9D9;
-  --secondary: #10944B;
-  // --accent: #035B54; // original
-  // --accent: #07ccbc;
-  --accent: #047067;
-  --error: #BE452D;
+  --primary: #008000;
+  --secondary: #00BFFF;
+  --error: #FF4500;
+  --disabled: #414141;
+  
+  .light {
+    --background: #FFF9D9;
+    --text: #060D08;
+    --secondary: #800080;
+    --error: #8B0000;
+    --disabled: #a3a3a3;
+
+    transition: color, background-color 0.5s;
+  }
 
   /*** STRUCTURE ***
     Configuration variables to make it easy to configure things in the app.
     Some / most of these configuration things affect several parts of the app.
   ***/
-  --text-margin-left: 1.5rem;
+  --text-margin-left: 1rem;
   --max-content-width: 64rem;
+
+  @media screen and (max-width: 1024px) {
+    font-size: 16px;
+  }
 }

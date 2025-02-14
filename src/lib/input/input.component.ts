@@ -6,7 +6,7 @@ import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/f
   imports: [ReactiveFormsModule],
   template: `
     @if (label()) {
-      <label [for]="label()">{{ label() }}</label>
+      <label class="gav-input__label" [for]="label()">{{ label() }}</label>
     }
     <input
       class="gav-input"
@@ -19,15 +19,43 @@ import { ControlValueAccessor, NgControl, ReactiveFormsModule } from '@angular/f
     gav-input {
       display: flex;
       flex-direction: column;
+      position: relative;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 95%;
+        border-radius: 0.25rem;
+      }
+    }
+
+    .gav-input__label {
+      padding: 0.25rem 0.75rem;
     }
 
     .gav-input {
       width: 100%;
-      border: 1px solid var(--text);
-      border-radius: 0.5rem;
-      padding: 0.25rem;
+      border: 0;
+      border-radius: 0.5rem 0.5rem 0.25rem 0.25rem;
+      padding: 0.25rem 0.75rem;
       color: var(--text);
       background-color: var(--background);
+      border-bottom: 1px solid var(--secondary);
+
+      &[disabled] {
+        background-color: var(--disabled);
+      }
+
+      &:not([disabled]) {
+        &:hover {
+          box-shadow: 0 0 0.5rem var(--secondary);
+          transition: 0.25s ease-out;
+        }
+      }
     }
   `],
   encapsulation: ViewEncapsulation.None,

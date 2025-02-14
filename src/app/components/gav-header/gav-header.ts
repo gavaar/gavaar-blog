@@ -5,7 +5,6 @@ import { filter, map, tap, throttleTime } from 'rxjs';
 import { BgImgUrlPipe } from '@app/pipes/bg-img-url.pipe';
 import { GavEgoHeader } from '@lib/ego-header';
 import { GavIcon, Icon } from '@lib/icon';
-import { GavSidenavApi } from '@lib/sidenav';
 import { Memory, memory } from '@app/state';
 
 @Component({
@@ -23,7 +22,7 @@ import { Memory, memory } from '@app/state';
       <div class="gav-ego-header__left">
         <gav-icon class="gav-header__nav-button right"
           [icon]="Icon.ThreeLines"
-          (click)="navApi.open.set(!navApi.open())"/>
+          (click)="toggleNav()"/>
       </div>
 
       <div class="gav-ego-header__right">
@@ -39,14 +38,13 @@ import { Memory, memory } from '@app/state';
   styleUrl: 'gav-header.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GavHeader implements OnInit {
+export class GavHeader {
   protected Icon = Icon;
 
   protected parentUrl = signal({ currentRoute: '', parentLink: '~' });
+  protected navOpen = computed(() => memory.get(Memory.Config).sidenavOpen);
   protected bg = computed(() => this.routerData()?.data['bg'] || 'default_bg.jpg');
   protected portrait = computed(() => this.routerData()?.data['portrait'] || 'loading/rolling.gif');
-
-  protected navApi = inject(GavSidenavApi);
 
   private router = inject(Router);
   private routerData: Signal<ActivatedRouteSnapshot | undefined> = toSignal(this.router.events.pipe(
@@ -65,14 +63,7 @@ export class GavHeader implements OnInit {
     }),
   ));
 
-  constructor() {
-    effect(() => {
-      const sidenavOpen = this.navApi.open();
-      memory.patch(Memory.Config, { sidenavOpen });
-    }, { allowSignalWrites: true });
-  }
-
-  ngOnInit(): void {
-    this.navApi.open.set(memory.get(Memory.Config).sidenavOpen);
+  protected toggleNav(): void {
+    memory.patch(Memory.Config, { sidenavOpen: !this.navOpen() });
   }
 }

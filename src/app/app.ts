@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GavHeader } from './components/gav-header';
 import { GavSidenav } from "../lib/sidenav/sidenav.component";
@@ -43,7 +43,10 @@ const SIDENAV_CONFIG = [
     <gav-header />
     
     <main>
-      <gav-sidenav [config]="sidenavConfig"/>
+      <gav-sidenav
+        [config]="sidenavConfig"
+        [open]="navOpen()"
+        (itemTouched)="closeNav()"/>
 
       <div>
         <router-outlet />
@@ -55,11 +58,11 @@ const SIDENAV_CONFIG = [
 })
 export class App {
   protected sidenavConfig = SIDENAV_CONFIG;
+  protected navOpen = computed(() => memory.get(Memory.Config).sidenavOpen);
+  protected closeNav = () => memory.patch(Memory.Config, { sidenavOpen: false });
 
-  constructor() {
-    effect(() => {
-      const memoryConfig = memory.watch(Memory.Config)();
-      document.body.setAttribute('class', memoryConfig.theme);
-    });
-  }
+  private _ = effect(() => {
+    const memoryConfig = memory.watch(Memory.Config)();
+    document.body.setAttribute('class', memoryConfig.theme);
+  });
 }

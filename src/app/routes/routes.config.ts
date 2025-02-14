@@ -52,9 +52,9 @@ export const BLOG_DATA: RouteConfig[] = [
 export const EXTERNAL_DATA: RouteConfig[] = [
   {
     title: 'Poetry',
-    bg: 'category/poetry/bg.jpg',
     path: 'poe',
     portrait: 'category/poetry/portrait.jpg',
+    bg: 'category/poetry/bg.jpg',
     loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
     providers: [
       {

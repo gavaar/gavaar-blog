@@ -36,7 +36,7 @@ gav-textarea {
   bottom: 1rem;
   margin-top: auto;
   max-height: calc(100vh - 5rem);
-  width: 35rem;
+  width: calc((100vw - var(--max-content-width) - 5rem) / 2);
   gap: 1rem;
 
   ::ng-deep.gav-textarea {
@@ -63,6 +63,7 @@ gav-textarea {
   bottom: 0.5rem;
   margin: auto;
   max-width: 30rem;
+  z-index: 1;
 }
 
 .gav-blog-post__content {
@@ -70,5 +71,4 @@ gav-textarea {
   flex-direction: column;
   padding: 0 0.5rem 1rem;
   width: 100%;
-  user-select: none;
 }
