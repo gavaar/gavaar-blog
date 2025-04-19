@@ -42,9 +42,10 @@ hr {
   margin: 0.5rem 0;
 }
 small {
-  margin: 0.25rem 0;
+  margin: 0 0 0.25rem;
   opacity: 0.75;
   font-size: 0.75rem;
+  line-height: 0.75rem;
 }
 :not(a) > strong {
   color: var(--secondary);
@@ -61,11 +62,7 @@ pre {
   color: whitesmoke;
   border-radius: 0.5rem;
   overflow-x: auto;
-  margin: 0.25rem 0;
-}
-:not(ul, ol, blockquote, li) > pre {
-  margin-left: var(--text-margin-left);
-  margin-right: var(--text-margin-left);
+  margin: 0.25rem var(--text-margin-left);
 }
 
 code {
@@ -80,7 +77,7 @@ ul {
   margin: 0;
 }
 li {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 u {
   text-decoration: underline dashed;

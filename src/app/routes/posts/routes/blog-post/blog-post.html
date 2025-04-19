@@ -37,6 +37,6 @@
       <i>{{ (dateSeconds || 0) * 1000 | date: 'MMMM d, y, HH:mm' }}</i>
     </small>
     <i class="gav-blog-post__viewed"><gav-icon [icon]="Icon.Eye"/>&nbsp;<small>{{ views() }}</small></i>
-    <gav-rich-text [rawText]="post.content || ''" />
+    <gav-rich-text [content]="post.content || ''" />
   </div>
 }
