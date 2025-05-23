@@ -1,5 +1,5 @@
-import { CompType, ParserFn } from '../rich-text.types';
-import { parserFn } from './base';
+import { CompType, ParserFn } from '../../rich-text.types';
+import { parserFn } from '../base';
 
 const CODE_BLOCK_REGEX = /(?<=^|\n)```(\w*?)\n([\s\S]+?)```(?:\n|$)/g;
 const LANGUAGES_ALIASES: { [alias: string]: string } = {

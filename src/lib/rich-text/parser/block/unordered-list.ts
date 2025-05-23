@@ -1,5 +1,5 @@
-import { CompType, ParserFn } from '../rich-text.types';
-import { parserFn } from './base';
+import { CompType, ParserFn } from '../../rich-text.types';
+import { parserFn } from '../base';
 
 const UL_REGEX = /(?<=^|\n)(-[ ][\s\S]+?)(?:\n\n|$)/g;
 

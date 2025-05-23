@@ -3,7 +3,6 @@ import { CompType, ParsedComponent } from './rich-text.types';
 import { GavRichTextUL, GavRichTextPre, GavRichTextHeader, GavRichTextLink, GavRichTextImg } from './comp';
 import { Parser } from './parser';
 
-// new stuff
 @Component({
   selector: 'gav-rich-text',
   templateUrl: 'rich-text.html',
@@ -21,22 +20,23 @@ import { Parser } from './parser';
 export class GavRichText {
   content = input.required<string>();
 
-  protected parsedText = computed<ParsedComponent[]>(() =>
-    // comment methods to remove the parsing of them
-    this.parser.initText(this.content())
-      .codeBlock()
-      .blockquote()
-      .ul()
-      .header()
-      .horizontalRow()
-      .image()
-      .link() // need: after `image`
-      .bold()
-      .italic() // need: after `bold`
-      .code()
-      .small()
-      .result()
-  );
+  protected parsedText = computed<ParsedComponent[]>(() => {
+    const parser = this.parser.initText(this.content());
+
+    parser.codeBlock();
+    parser.blockquote();
+    parser.ul();
+    parser.header();
+    parser.horizontalRow();
+    parser.image();
+    parser.link();
+    parser.bold();
+    parser.italic();
+    parser.code();
+    parser.small();
+
+    return parser.result();
+  });
   protected CompType = CompType;
 
   private parser = inject(Parser);

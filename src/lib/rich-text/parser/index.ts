@@ -1,17 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ParsedComponent, ParsedMap, ParserFn } from '../rich-text.types';
 import { base } from './base';
-import { blockquote } from './blockquote';
-import { bold } from './bold';
-import { code } from './code';
-import { codeBlock } from './code-block';
-import { header } from './header';
-import { horizontalRow } from './horizontal-row';
-import { italic } from './italic';
-import { image } from './image';
-import { link } from './link';
-import { small } from './small';
-import { ul } from './unordered-list';
+import { blockquote, codeBlock, header, horizontalRow, image, ul } from './block';
+import { bold, code, italic, link, small } from './inline';
 
 const PARSER_REGEX = /<gav:id="(.+?)"\/>(?:\n|$)/g;
 @Injectable({ providedIn: 'root' })

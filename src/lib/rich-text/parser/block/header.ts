@@ -1,5 +1,5 @@
-import { CompType, ParserFn } from '../rich-text.types';
-import { parserFn } from './base';
+import { CompType, ParserFn } from '../../rich-text.types';
+import { parserFn } from '../base';
 
 const HEADER_REGEX = /(?<=\n|^)(#{1,6})[ ](.+?)(?:\n|$)/g;
 
