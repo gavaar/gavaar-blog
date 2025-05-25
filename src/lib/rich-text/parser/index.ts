@@ -4,7 +4,7 @@ import { base } from './base';
 import { blockquote, codeBlock, header, horizontalRow, image, ul } from './block';
 import { bold, code, italic, link, small } from './inline';
 
-const PARSER_REGEX = /<gav:id="(.+?)"\/>(?:\n|$)/g;
+const PARSER_REGEX = /<gav:id="(.+?)"\/>/g;
 @Injectable({ providedIn: 'root' })
 export class Parser {
   private updated = '';
@@ -33,6 +33,7 @@ export class Parser {
   small = () => this.applyParser(small);
 
   result = (): ParsedComponent[] => {
+    console.log(this.updated);
     return this.updated.split(PARSER_REGEX)
       .map(idOrContent => {
         const builtComp = this.idMap[idOrContent];

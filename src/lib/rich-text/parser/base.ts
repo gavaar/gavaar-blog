@@ -25,7 +25,7 @@ export const parserFn = ({ initText, regex, compType, buildComp }: ParserFnInput
     };
     idMap[id] = comp;
 
-    updatedText = updatedText.replace(match[0], `<gav:id="${id}"/>\n`);
+    updatedText = updatedText.replace(match[0], `<gav:id="${id}"/>`);
     identifiers[compType] += 1;
   }
 

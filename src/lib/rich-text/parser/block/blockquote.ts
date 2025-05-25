@@ -1,7 +1,7 @@
 import { CompType, ParserFn } from '../../rich-text.types';
 import { parserFn } from '../base';
 
-const BLOCKQUOTE_REGEX = /(?<=^|\n)(?:\>[ ])([\s\S]+?)(?:\n\n|$)/g;
+const BLOCKQUOTE_REGEX = /(?<=^|\n)(?:\>[ ])([\s\S]+?)(?=\n\n|$)/g;
 
 export const blockquote: ParserFn = text => {
   return parserFn({
