@@ -6,6 +6,7 @@ const BOLD_REGEX = /(?:(?:__)(.+?)(?:__)|(?:\*\*)(.+?)(?:\*\*)|(?:\*_)(.+?)(?:\*
 export const bold: ParserFn = text => {
   return parserFn({
     initText: text,
+    elementType: 'inline',
     compType: CompType.Bold,
     regex: BOLD_REGEX,
     buildComp: match => ({ content: match[1] || match[2] || match[3] || match[4] }),

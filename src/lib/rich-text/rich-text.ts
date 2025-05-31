@@ -19,21 +19,29 @@ import { Parser } from './parser';
 })
 export class GavRichText {
   content = input.required<string>();
+  root = input(true);
 
   protected parsedText = computed<ParsedComponent[]>(() => {
     const parser = this.parser.initText(this.content());
 
+    // block elements
     parser.codeBlock();
     parser.blockquote();
-    parser.ul();
     parser.header();
+    parser.ul();
     parser.horizontalRow();
     parser.image();
+    if (this.root()) {
+      parser.paragraph();
+    }
+
+    // inline elements
     parser.link();
     parser.bold();
     parser.italic();
     parser.code();
     parser.small();
+
 
     return parser.result();
   });

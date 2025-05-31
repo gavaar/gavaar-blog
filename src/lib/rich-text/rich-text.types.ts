@@ -9,6 +9,7 @@ export enum CompType {
   Italic = 'italic',
   Image = 'image',
   Link = 'link',
+  Paragraph = 'paragraph',
   Small = 'small',
   UnorderedList = 'unorderedList',
 }

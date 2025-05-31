@@ -5,7 +5,7 @@ import { GavRichText } from '../rich-text';
   selector: 'gav-rich-text__link',
   template: `
     <a [href]="url()" target="_blank">
-      <gav-rich-text [content]="content()" />
+      <gav-rich-text [content]="content()" [root]="false" />
     </a>
   `,
   styles: [`

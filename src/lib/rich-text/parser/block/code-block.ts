@@ -9,6 +9,7 @@ const LANGUAGES_ALIASES: { [alias: string]: string } = {
 export const codeBlock: ParserFn = text => {
   return parserFn({
     initText: text,
+    elementType: 'block',
     compType: CompType.CodeBlock,
     regex: CODE_BLOCK_REGEX,
     buildComp: match => {

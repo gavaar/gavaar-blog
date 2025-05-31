@@ -4,18 +4,19 @@
     @let input = component.input;
 
     @switch (component.type) {
-      @case (CompType.Bold) { <strong><gav-rich-text [content]="content" /></strong> }
-      @case (CompType.Blockquote) { <blockquote><gav-rich-text [content]="content" /></blockquote> }
-      @case (CompType.Italic) { <em><gav-rich-text [content]="content" /></em> }
+      @case (CompType.Bold) { <strong><gav-rich-text [content]="content" [root]="false" /></strong> }
+      @case (CompType.Blockquote) { <blockquote><gav-rich-text [content]="content" [root]="false" /></blockquote> }
+      @case (CompType.Italic) { <em><gav-rich-text [content]="content" [root]="false" /></em> }
       @case (CompType.Image) { <gav-rich-text__img [content]="content" [url]="input?.['url']" /> }
       @case (CompType.Code) { <code>{{ content }}</code> }
       @case (CompType.CodeBlock) { <gav-rich-text__pre [content]="content" [language]="input?.['language']" /> }
       @case (CompType.Header) { <gav-rich-text__header [content]="content" [size]="input?.['size']"/> }
       @case (CompType.HorizontalRow) { <hr /> }
       @case (CompType.Link) { <gav-rich-text__link [content]="content" [url]="input?.['url']" /> }
+      @case (CompType.Paragraph) { <p><gav-rich-text [content]="content" [root]="false" /></p> }
       @case (CompType.UnorderedList) { <gav-rich-text__ul [content]="content" /> }
-      @case (CompType.Small) { <small><gav-rich-text [content]="content" /></small> }
-      @default { <span>{{content}}</span> }
+      @case (CompType.Small) { <small><gav-rich-text [content]="content" [root]="false" /></small> }
+      @default { {{content}} }
     }
   }
 </div>

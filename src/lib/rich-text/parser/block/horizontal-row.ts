@@ -8,6 +8,7 @@ export const horizontalRow: ParserFn = text => {
     regex: HORIZONTAL_ROW_REGEX,
     compType: CompType.HorizontalRow,
     initText: text,
+    elementType: 'block',
     buildComp: _ => ({ content: '' }),
   });
 }

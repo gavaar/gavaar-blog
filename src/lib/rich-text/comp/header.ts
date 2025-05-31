@@ -5,12 +5,12 @@ import { GavRichText } from '../rich-text';
   selector: 'gav-rich-text__header',
   template: `
     @switch (size()) {
-      @case (1) { <h1><gav-rich-text [content]="content()" /></h1>}
-      @case (2) { <h2><gav-rich-text [content]="content()" /></h2>}
-      @case (3) { <h3><gav-rich-text [content]="content()" /></h3>}
-      @case (4) { <h4><gav-rich-text [content]="content()" /></h4>}
-      @case (5) { <h5><gav-rich-text [content]="content()" /></h5>}
-      @default { <h6><gav-rich-text [content]="content()" /></h6>}
+      @case (1) { <h1><gav-rich-text [content]="content()" [root]="false" /></h1>}
+      @case (2) { <h2><gav-rich-text [content]="content()" [root]="false" /></h2>}
+      @case (3) { <h3><gav-rich-text [content]="content()" [root]="false" /></h3>}
+      @case (4) { <h4><gav-rich-text [content]="content()" [root]="false" /></h4>}
+      @case (5) { <h5><gav-rich-text [content]="content()" [root]="false" /></h5>}
+      @default { <h6><gav-rich-text [content]="content()" [root]="false" /></h6>}
     }
   `,
   styles: [`

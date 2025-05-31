@@ -6,6 +6,7 @@ const LINK_REGEX = /(?:\[)([^\[\]]+?)(?:\]\()([^\(\)]+?)(?:\))/g
 export const link: ParserFn = text => {
   return parserFn({
     initText: text,
+    elementType: 'inline',
     compType: CompType.Link,
     regex: LINK_REGEX,
     buildComp: match => {
