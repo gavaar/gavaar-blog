@@ -9,7 +9,7 @@ const UL_LI_REGEX = /-[ ]((?:.|\n)+?)(?=$|\n-)/g;
     <ul>
       @for (item of listItems(); track item) {
         <li>
-          <gav-rich-text [content]="item" />
+          <gav-rich-text [content]="item" [root]="false" />
         </li>
       }
     </ul>

@@ -21,4 +21,8 @@ gav-rich-text {
       margin-right: 0;
     }
   }
+
+  p {
+    margin: 0 0 0 var(--text-margin-left);
+  }
 }

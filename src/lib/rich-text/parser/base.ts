@@ -6,9 +6,10 @@ type ParserFnInput = {
   initText: string;
   regex: RegExp;
   compType: CompType;
+  elementType: 'block' | 'inline';
   buildComp: (match: RegExpExecArray) => Pick<ParsedComponent, 'content' | 'input'>;
 }
-export const parserFn = ({ initText, regex, compType, buildComp }: ParserFnInput): ReturnType<ParserFn> => {
+export const parserFn = ({ initText, regex, compType, elementType, buildComp }: ParserFnInput): ReturnType<ParserFn> => {
   const matches = initText.matchAll(regex);
   const idMap: ParsedMap = {};
   let updatedText = initText;
@@ -25,7 +26,7 @@ export const parserFn = ({ initText, regex, compType, buildComp }: ParserFnInput
     };
     idMap[id] = comp;
 
-    updatedText = updatedText.replace(match[0], `<gav:id="${id}"/>\n`);
+    updatedText = updatedText.replace(match[0], `<gav:id="${id}|type:${elementType}"/>`);
     identifiers[compType] += 1;
   }
 

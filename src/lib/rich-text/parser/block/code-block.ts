@@ -1,7 +1,7 @@
-import { CompType, ParserFn } from '../rich-text.types';
-import { parserFn } from './base';
+import { CompType, ParserFn } from '../../rich-text.types';
+import { parserFn } from '../base';
 
-const CODE_BLOCK_REGEX = /(?<=^|\n)```(\w*?)\n([\s\S]+?)```(?:\n|$)/g;
+const CODE_BLOCK_REGEX = /(?<=^|\n)```(\w*?)\n([\s\S]+?)```(?=\n|$)/g;
 const LANGUAGES_ALIASES: { [alias: string]: string } = {
   sh: 'bash',
 };
@@ -9,6 +9,7 @@ const LANGUAGES_ALIASES: { [alias: string]: string } = {
 export const codeBlock: ParserFn = text => {
   return parserFn({
     initText: text,
+    elementType: 'block',
     compType: CompType.CodeBlock,
     regex: CODE_BLOCK_REGEX,
     buildComp: match => {

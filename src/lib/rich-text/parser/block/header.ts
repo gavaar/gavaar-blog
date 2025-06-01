@@ -1,11 +1,12 @@
-import { CompType, ParserFn } from '../rich-text.types';
-import { parserFn } from './base';
+import { CompType, ParserFn } from '../../rich-text.types';
+import { parserFn } from '../base';
 
-const HEADER_REGEX = /(?<=\n|^)(#{1,6})[ ](.+?)(?:\n|$)/g;
+const HEADER_REGEX = /(?<=\n|^)(#{1,6})[ ](.+?)(?=\n|$)/g;
 
 export const header: ParserFn = text => {
   return parserFn({
     initText: text,
+    elementType: 'block',
     compType: CompType.Header,
     regex: HEADER_REGEX,
     buildComp: match => {

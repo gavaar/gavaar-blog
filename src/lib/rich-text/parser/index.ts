@@ -1,19 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ParsedComponent, ParsedMap, ParserFn } from '../rich-text.types';
 import { base } from './base';
-import { blockquote } from './blockquote';
-import { bold } from './bold';
-import { code } from './code';
-import { codeBlock } from './code-block';
-import { header } from './header';
-import { horizontalRow } from './horizontal-row';
-import { italic } from './italic';
-import { image } from './image';
-import { link } from './link';
-import { small } from './small';
-import { ul } from './unordered-list';
+import { blockquote, codeBlock, header, horizontalRow, image, paragraph, ul } from './block';
+import { bold, code, italic, link, small } from './inline';
 
-const PARSER_REGEX = /<gav:id="(.+?)"\/>(?:\n|$)/g;
+const PARSER_REGEX = /<gav:id="(.+?\|type:.+?)"\/>\n?/g;
 @Injectable({ providedIn: 'root' })
 export class Parser {
   private updated = '';
@@ -31,25 +22,25 @@ export class Parser {
   blockquote = () => this.applyParser(blockquote);
   codeBlock = () => this.applyParser(codeBlock);
   header = () => this.applyParser(header);
-  horizontalRow = () => this.applyParser(horizontalRow)
+  horizontalRow = () => this.applyParser(horizontalRow);
+  image = () => this.applyParser(image);
+  paragraph = () => this.applyParser(paragraph)
   ul = () => this.applyParser(ul);
   // inline level elements
   bold = () => this.applyParser(bold);
   code = () => this.applyParser(code);
   italic = () => this.applyParser(italic);
-  image = () => this.applyParser(image);
   link = () => this.applyParser(link);
   small = () => this.applyParser(small);
 
   result = (): ParsedComponent[] => {
     return this.updated.split(PARSER_REGEX)
-      .map(idOrContent => {
-        const builtComp = this.idMap[idOrContent];
-        if (builtComp) {
-          return builtComp;
-        }
-
-        return base(idOrContent);
+      .map(content => {
+        const [id] = content.split('|type:');
+        const builtComp = this.idMap[id];
+       
+        if (builtComp) return builtComp;
+        return base(id);
       });
   }
 
