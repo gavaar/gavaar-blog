@@ -17,7 +17,7 @@ $mainContentValue: calc(var(--max-content-width) - 14rem /* sidenav open */ - 6r
 
   &:hover {
     transition: 0.25s;
-    box-shadow: 0 0 1.5rem 0 var(--secondary);
+    box-shadow: 0 0 0.5rem -0.25rem var(--secondary);
 
     .gav-card__backdrop {
       opacity: 0;

@@ -1,11 +1,9 @@
-<h3><strong>Posts</strong></h3>
 <div class="home__card-links">
   @for (cardConfig of cardsConfig.original; track cardConfig.id) {
     <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />
   }
 </div>
 
-<h3><strong>External</strong></h3>
 <div class="home__card-links">
   @for (cardConfig of cardsConfig.external; track cardConfig.id) {
     <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />
@@ -13,7 +11,6 @@
 </div>
 
 @if (cardsConfig.hidden.length) {
-  <h3><strong>Hidden</strong></h3>
   <div class="home__card-links">
     @for (cardConfig of cardsConfig.hidden; track cardConfig.id) {
       <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />

@@ -7,54 +7,52 @@ import { ViewsTracker } from '@app/services/views-tracker';
   template: `
     <h1>About me</h1>
     <p>
-      I'm a web developer with a passion for learning, who has mostly worked with Front-End (but do find joy in lower-level things such as Rust).
+      I'm a web developer that enjoys learning.
       <br />
-      I thrive on curiosity and exploring new ideas and some of that will be put in this site.
+      The objective of this site is just a dump for some stuff that I'd rather not write on a piece of paper.
+      <br />
+      <small>Especially since I'm a web developer, I should know how to avoid writing on paper</small>
     </p>
 
-    <h3>My background</h3>
-    <p>
-      I studied Psychology at UCV (Universidad Central de Venezuela, which by the way is the best university in the world<sup>[1]</sup>).
+    <h4>Some background</h4>
+    <p style="margin-top: 0">
+      I studied Psychology at UCV (Universidad Central de Venezuela, one of the best universities in the world<sup style="opacity: 0.75">[1]</sup>).
       <br />
-      I graduated with a specialization in Behavioral Sciences and disertation in Consumer Psychology.
+      Graduated with a specialization in Behavioral Sciences with a disertation in Consumer Psychology.
       <br />
-      Very fun stuff.
-      <br />
-      I'd summarize that knowledge into: <i>how people gets programmed into their habits and misbehaviors</i>.
+      <i>Very fun stuff.</i>
     </p>
     <p>
-      Nonetheless, that degree (emphasis: the degree. NOT the knowledge) is now useless to me.
+      Nonetheless, that degree (emphasis in <em>the degree</em>) is now useless to me.
     </p>
     <p>
-      I moved into Spain and looked into ratifying said degree.
+      When I moved to Spain I looked into ratifying that degree.
       <br />
-      I quickly discovered it was a daunting and expensive goal.
+      I quickly discovered it was a multi-year, study-required and expensive goal.
       <br />
-      Plus I did not really find joy in the role of a Clinical Psychologist — nothing against it, it just wasn't for me.
+      In addition I did not find joy in the role of the Clinical Psychologist — nothing against it, it just wasn't for me.
     </p>
     <p>
-      So I had to choose between investing time, money and effort into a career which I loved but didn't find fulfilling or...
+      So my choices were between investing time, money and effort into that career that I was not eager to pursue
       <br />
-      not do that at all and improvise. And I did the latter. Fuck my degree.
+      and not doing that at all without a plan whatsoever. So of course I did the latter.
+      <br />
+      <small>Fuck that college degree.</small>
     </p>
     <p>
-      I knew I could enjoy the development world so I decided to go and learn HTML, CSS & Javascript.
+      I ended up trying to learn HTML, CSS & Javascript.
       <br />
       At first I sucked at it and got very frustrated.
       <br />
-      Now I don't get frustrated.
+      Now I know <em>how worse</em> I used to suck (I still do though a lil less), but don't get frustrated anymore.
       <br />
-      Eventually this became my career, and am currently working as a Front-End Developer.
-      <br />
-      I ended up creating my self-made bloggy-kinda site (this) with that as well, which is nice.
+      Eventually I followed this career, and am currently trying to figure out how to properly adult.
     </p>
     <p>
-      I plan to use this site to write my thoughts down, create tools for my day to day life, etc.
-      <br />
-      It'll be my brain-dump, feel free to poke around.
+      And that's how I'm here. Can't believe you read all that though.
     </p>
 
-    <small>[1] source: my biased opinion</small>
+    <small>[1] A biased opinion</small>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

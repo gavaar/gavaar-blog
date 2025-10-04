@@ -1,12 +1,28 @@
 :root {
   font-size: 20px;
 
-  --background: #030604;
-  --text: #FFF9D9;
-  --primary: #008000;
-  --secondary: #00BFFF;
-  --error: #FF4500;
-  --disabled: #414141;
+  // Original
+  // --background: #030604;
+  // --text: #FFF9D9;
+  // --primary: #008000;
+  // --secondary: #00BFFF;
+  // --error: #FF4500;
+  // --disabled: #414141;
+
+  // Gemini
+  // --background: #222222;
+  // --text: #F8F8F8;
+  // --primary: #5C8E7F;
+  // --secondary: #4A7C9B;
+  // --error: #A34C4C;
+  // --disabled: #A3A3A3;
+
+  --background: #111111;
+  --text: #F8F8F8;
+  --primary: #4E9A7B;
+  --secondary: #3C81B7;
+  --error: #A55B5B;
+  --disabled: #7B7B7B;
   
   .light {
     --background: #FFF9D9;
@@ -24,8 +40,4 @@
   ***/
   --text-margin-left: 1rem;
   --max-content-width: 64rem;
-
-  @media screen and (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
