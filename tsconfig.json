@@ -13,7 +13,7 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2024",
     "useDefineForClassFields": false,
@@ -22,9 +22,15 @@
       "dom"
     ],
     "paths": {
-      "@app/*": ["./src/app/*"],
-      "@lib/*": ["./src/lib/*"],
-      "@environments/*": ["./src/environments/*"]
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "@environments/*": [
+        "./src/environments/*"
+      ]
     }
   },
   "angularCompilerOptions": {
