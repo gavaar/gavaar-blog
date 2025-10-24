@@ -1,1 +1,37 @@
-Hello task tracker
+<div class="task-tracker">
+  <h3>New Task</h3>
+  <form
+    class="task-tracker__new"
+    [formGroup]="newTaskForm"
+  >
+    <input
+      type="text"
+      class="task-tracker__input"
+      formControlName="icon"
+      placeholder="icon"
+    />
+    <input
+      type="text"
+      class="task-tracker__input"
+      formControlName="title"
+      placeholder="title"
+    />
+    <input
+      type="text"
+      class="task-tracker__input"
+      formControlName="id"
+      placeholder="id"
+    />
+    <textarea
+      class="task-tracker__input"
+      formControlName="description">
+    </textarea>
+
+    <button
+      class="task-tracker__button"
+      (click)="submitNewTask()"
+    >
+      +
+    </button>
+  </form>
+</div>

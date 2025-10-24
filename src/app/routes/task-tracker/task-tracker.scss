@@ -1,0 +1,32 @@
+.task-tracker {
+  padding: 0 1rem;
+}
+
+.task-tracker__new {
+  width: 100%;
+  display: grid;
+  gap: 0.25rem;
+  grid-template-columns: 4rem 1fr 6rem;
+  grid-template-areas:
+    "icon title id"
+    "desc desc butt"
+  ;
+
+  textarea {
+    grid-area: desc;
+    resize: none;
+    field-sizing: content;
+  }
+
+  button {
+    grid-area: butt;
+  }
+}
+
+.task-tracker__input {
+  padding: 0.2rem;
+}
+
+.task-tracker__button {
+  cursor: pointer;
+}
