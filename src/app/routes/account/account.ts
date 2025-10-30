@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AuthClient } from '@app/services/auth-client';
 
 @Component({
@@ -23,15 +22,5 @@ import { AuthClient } from '@app/services/auth-client';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Account {
-  authService = inject(AuthClient);
-  private router = inject(Router);
-
-  private _redirectCallback = effect(() => {
-    const user = this.authService.user();
-    const redirect = history.state.redirect;
-
-    if (user && redirect) {
-      this.router.navigateByUrl(redirect);
-    }
-  });
+  protected authService = inject(AuthClient);
 }

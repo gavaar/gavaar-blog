@@ -4,6 +4,7 @@ import { PostClient, POST_CATEGORY } from '@app/services/post-client';
 import { Icon } from '@lib/icon';
 import { GavNavItemInput } from '@lib/sidenav/models';
 import { computed } from '@angular/core';
+import { isAuthenticated } from './auth.guard';
 
 export type RouteConfig = Route & GavNavItemInput & { description?: string };
 
@@ -128,6 +129,7 @@ export const TOOLS_DATA: RouteConfig[] = [
       memory.patch(Memory.HiddenRoutes, { beta: true });
       return import('./task-tracker/task-tracker').then(c => c.TaskTracker);
     },
+    canActivate: [isAuthenticated],
   },
 ];
 

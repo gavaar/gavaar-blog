@@ -9,6 +9,7 @@ const buildRoutes = (routeConfigs: RouteConfig[]): Routes => {
         title: `Gavaar | ${config.title === 'Home' ? 'All purpose site' : config.title }`,
         loadComponent: config.loadComponent,
         loadChildren: config.loadChildren,
+        canActivate: config.canActivate,
         providers: config.providers,
         data: config,    
       })

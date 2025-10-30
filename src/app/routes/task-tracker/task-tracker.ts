@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AuthClient } from '@app/services/auth-client';
+import { NonZeroHabit } from '@app/entities';
+import { NonZeroTrackerClient } from '@app/services/non-zero-tracker';
 
 @Component({
   selector: 'task-tracker',
@@ -11,26 +11,22 @@ import { AuthClient } from '@app/services/auth-client';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskTracker {
-  private router = inject(Router);
-  private auth = inject(AuthClient);
+  private nonZeroTracker = inject(NonZeroTrackerClient);
 
   protected newTaskForm = new FormGroup({
-    id: new FormControl('', Validators.required),
-    title: new FormControl('', Validators.required),
-    description: new FormControl(''),
-    icon: new FormControl('', Validators.required),
-  });
-
-  private _authRedirect = effect(() => {
-    const user = this.auth.user();  
-    if (!user) this.router.navigateByUrl('acc', { state: { redirect: 'task-tracker' } });
+    id: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
+    title: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
+    icon: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
+    description: new FormControl<string|null>(null),
   });
 
   protected submitNewTask(): void {
     if (this.newTaskForm.invalid) {
-      alert('Invalid new task');
+      return alert('Invalid new task');
     }
 
-    console.log('Add task here');
+    this.nonZeroTracker
+      .saveHabit(this.newTaskForm.value as NonZeroHabit)
+      .subscribe(_habit => this.newTaskForm.reset());
   }
 }
