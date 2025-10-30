@@ -19,7 +19,7 @@ import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
 export class GavPostList {
   protected title = '';
   protected description = '';
-  protected posts = this.postService.postList;
+  protected posts = this.postService.cache.list;
   protected admin = this.permissionsService.admin;
 
   constructor(
@@ -35,7 +35,7 @@ export class GavPostList {
   // Admin stuff
   deletePost(id: string): void {
     if (confirm('Sure?')) {
-      this.postService.deletePost(id);
+      this.postService.deletePost(id).subscribe();
     }
   }
 }

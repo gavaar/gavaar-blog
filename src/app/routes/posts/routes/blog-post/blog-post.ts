@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,10 +29,14 @@ import { ViewsTracker } from '@app/services/views-tracker';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GavBlogPost {
-  blogPost = signal<BlogPost | null>(null);
-  views = signal(0);
-  blogContent = computed(() => this.blogPost()?.content || '');
-  
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private permissionsService = inject(Permissions);
+  private postClient = inject(PostClient);
+  private viewService = inject(ViewsTracker);
+
+  protected blogPost = signal<BlogPost | null>(null);
+  protected views = signal(0);
   protected Icon = Icon;
   protected admin = this.permissionsService.admin;
   protected postForm = new FormGroup({
@@ -40,27 +44,20 @@ export class GavBlogPost {
     assetURI: new FormControl(''),
     title: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    category: new FormControl(this.PostClient.category, Validators.required),
+    category: new FormControl(this.postClient.category, Validators.required),
     content: new FormControl(''),
     date: new FormControl<Timestamp | null>(null),
     updated: new FormControl<Timestamp | null>(null),
   });
   protected showCreated = signal(false);
 
-  constructor(
-    meta: Meta,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private permissionsService: Permissions,
-    private PostClient: PostClient,
-    private viewService: ViewsTracker,
-  ) {
+  constructor(meta: Meta) {
     const postId = this.activatedRoute.snapshot.paramMap.get('id');
 
     if (postId) {
       this.postForm.controls.id.disable();
 
-      this.PostClient.post(postId).subscribe(post => {
+      this.postClient.post(postId).subscribe(post => {
         this.viewService.increaseViews('posts', postId).subscribe(views => this.views.set(views));
         this.blogPost.set(post);
   
@@ -98,7 +95,7 @@ export class GavBlogPost {
       post.title = title!;
       post.updated = now;
 
-      this.PostClient.savePost(post).subscribe((updatedPost) => {
+      this.postClient.savePost(post).subscribe((updatedPost) => {
         const isNewPost = !this.blogPost()?.id;
         const categoryChanged = this.blogPost()?.category !== category;
 

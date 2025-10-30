@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { GavHeader } from './components/gav-header';
+import { GavHeader } from './components';
 import { GavSidenav } from "../lib/sidenav/sidenav.component";
 import { GavNavCategory, GavNavItem, GavNavUncategorized } from '@lib/sidenav';
 import { Icon } from '@lib/icon';
