@@ -1,54 +1,45 @@
-import { Inject, Injectable, InjectionToken, computed, signal } from '@angular/core';
+import { Injectable, InjectionToken, inject } from '@angular/core';
 import { Observable, map, of, tap } from 'rxjs';
 import { BlogPost } from '@app/entities';
 import { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument } from '@app/firebase';
+import { GavListCache } from '@lib/list-cache';
 
 export const POST_CATEGORY = new InjectionToken<string>('post_category', { providedIn: 'root', factory: () => 'default' });
 
 @Injectable()
 export class PostClient {
-  private posts = signal<{ [id: string]: BlogPost }>({});
-
-  postList = computed(() => Object.values(this.posts()));
-
-  constructor(
-    @Inject(POST_CATEGORY) public category: string,
-  ) {
-    this.initService();
-  }
+  category = inject(POST_CATEGORY);
+  cache = new GavListCache<BlogPost>(
+    readFbCollection<BlogPost>(
+      'posts',
+      { orderBy: 'date', limit: 12, asMap: true, where: ['category', '==', this.category] },
+    ),
+  );
 
   post(id: string): Observable<BlogPost> {
-    const foundPost = this.posts()?.[id];
+    const foundPost = this.cache.get(id);
 
     if (foundPost) {
       return of(foundPost);
     }
 
     return readFbDocument<BlogPost>(`posts/${id}`).pipe(
-      tap(post => this.posts.set({
-        ...this.posts(),
-        [post.id]: post,
-      })),
+      tap(post => this.cache.put(post)),
     );
   }
 
   savePost(post: Partial<BlogPost> & { id: string }): Observable<BlogPost> {
     const { id, ...updatedPost } = post;
 
-    return updateFbDocument(`posts/${post.id}`, updatedPost)
-      .pipe(map(() => ({ ...updatedPost, id }) as BlogPost));
+    return updateFbDocument(`posts/${id}`, updatedPost).pipe(
+        map(() => ({ ...updatedPost, id }) as BlogPost),
+        tap(post => this.cache.put(post)),
+      );
   }
 
-  deletePost(id: string): void {
-    deleteFbDocument(`posts/${id}`).subscribe(() => {
-      const updatedPosts = { ...this.posts() };
-      delete updatedPosts[id];
-      this.posts.set(updatedPosts);
-    });
-  }
-
-  private initService(): void {
-    readFbCollection<BlogPost>('posts', { orderBy: 'date', limit: 12, asMap: true, where: ['category', '==', this.category] })
-      .subscribe(list => this.posts.set(list));
+  deletePost(id: string): Observable<void> {
+    return deleteFbDocument(`posts/${id}`).pipe(
+      tap(() => this.cache.delete(id)),
+    );
   }
 }
