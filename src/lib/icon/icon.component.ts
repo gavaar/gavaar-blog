@@ -12,7 +12,7 @@ import { Icon } from './gav-icons.enum';
   encapsulation: ViewEncapsulation.None,
 })
 export class GavIcon {
-  icon = input.required<Icon>();
+  icon = input.required<string | Icon>();
   text = input<string>('');
 
   protected iconSvg = computed(() => `url(assets/icons/${this.icon()}.svg)`);

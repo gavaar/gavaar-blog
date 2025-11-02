@@ -1,31 +1,76 @@
-import { inject, Injectable } from '@angular/core';
-import { NonZeroHabit } from '@app/entities';
+import { computed, inject, Injectable } from '@angular/core';
+import { Habit, HabitDay, HabitConfig } from '@app/entities';
 import { deleteFbDocument, readFbCollection, updateFbDocument } from '@app/firebase';
 import { AuthClient } from './auth-client';
-import { map, Observable, take, tap } from 'rxjs';
+import { Observable, take, tap } from 'rxjs';
 import { GavListCache } from '@lib/list-cache';
+import { Timestamp } from 'firebase/firestore/lite';
+
+const xDaysAgo = (x: number): Date => {
+  const today = new Date();
+  return new Date(today.getFullYear(), today.getMonth(), today.getDate() - x);
+}
 
 @Injectable({ providedIn: 'root' })
 export class NonZeroTrackerClient {
   private auth = inject(AuthClient);
 
-  cache = new GavListCache(
-    readFbCollection(`non-zero-tracker/${this.auth.user()?.uid}/v1`, { asMap: true })
+  habitConfigCache = new GavListCache<HabitConfig>(
+    readFbCollection(`non-zero-tracker/${this.auth.user()?.uid}/v1`, { asMap: true }),
+  );
+  habitDaysCache = new GavListCache<HabitDay>(
+    readFbCollection(
+      `non-zero-tracker/${this.auth.user()?.uid}/habits`,
+      {
+        asMap: true,
+        orderBy: ['date', 'asc'],
+        startAfter: Timestamp.fromDate(xDaysAgo(7)),
+      },
+    ),
   );
 
-  saveHabit(habit: NonZeroHabit): Observable<NonZeroHabit> {
+  habits = computed<Habit[]>(() => {
+    const habitConfigMap = this.habitConfigCache.listMap() as { [habitId: string]: Habit };
+    const habits7DaysAgo = this.habitDaysCache.list();
+
+    const habits = habits7DaysAgo.reduce((habitMap, day) => {
+      const date = new Date(day.date.seconds * 1000);
+      const habitConfig = habitMap[day.habitId] || {};
+      
+      if (!habitConfig.lastWeeks) {
+        habitConfig.lastWeeks = {};
+      }
+      habitConfig.lastWeeks[`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`] = {
+        done: day.done,
+        message: day.message,
+      };
+      return habitMap;
+    }, habitConfigMap);
+
+    return Object.values(habits);
+  });
+
+  saveHabit(habit: HabitConfig): Observable<void> {
     const userId = this.auth.user()?.uid;
     const { id, ...partialHabit } = habit;
 
     return updateFbDocument(`non-zero-tracker/${userId}/v1/${habit.id}`, partialHabit)
       .pipe(
-        map(() => ({ ...partialHabit, id })),
-        tap(habit => this.cache.put(habit)),
+        tap(() => this.habitConfigCache.put(habit)),
         take(1),
       );
   }
 
-  updateTracker() {}
+  addHabitEntry(habit: HabitDay): Observable<void> {
+    const userId = this.auth.user()?.uid;
+    const { id, ...partialHabit } = habit;
+
+    return updateFbDocument(`non-zero-tracker/${userId}/habits/${id}`, partialHabit).pipe(
+      tap(() => this.habitDaysCache.put(habit)),
+      take(1),
+    );
+  }
+
   deleteHabit(habitId: string): Observable<void> {
     const userId = this.auth.user()?.uid;
     return deleteFbDocument(`non-zero-tracker/${userId}/v1/${habitId}`)

@@ -1,14 +1,25 @@
-interface NonZeroStats {
-  done: number;
-  doneWeighted: number;
-  totalDays: number;
-}
+import { Timestamp } from 'firebase/firestore/lite';
 
-export interface NonZeroHabit {
+export interface HabitConfig {
   id: string;
   icon: string;
   title: string;
   description?: string;
-  avgYear?: { [year: number]: NonZeroStats };
-  avgMonths?: { [yearMonth: `${number}-${number}`]: NonZeroStats };
+}
+
+export interface HabitDay {
+  id: string;
+  date: Timestamp;
+  done: number;
+  habitId: string;
+  message?: string;
+}
+
+export interface Habit extends HabitConfig {
+  lastWeeks: {
+    [date: `${number}-${number}-${number}`]: {
+      done: number;
+      message?: string;
+    }
+  };
 }

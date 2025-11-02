@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, where, QueryConstraint, WhereFilterOp, setDoc, DocumentSnapshot, startAfter } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, where, QueryConstraint, WhereFilterOp, setDoc, DocumentSnapshot, startAfter, Timestamp, OrderByDirection } from 'firebase/firestore/lite';
 import { firebaseConfig } from './firebase-config';
 import { Observable, from, map } from 'rxjs';
 import { getAuth } from 'firebase/auth';
@@ -8,7 +8,13 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-type DataOptions = { orderBy?: string; limit?: number, asMap?: boolean, where?: [string, WhereFilterOp, string], startAfter?: any };
+type DataOptions = {
+  orderBy?: string | [string, OrderByDirection];
+  limit?: number;
+  asMap?: boolean;
+  where?: [string, WhereFilterOp, string];
+  startAfter?: Timestamp;
+};
 
 export function readFbCollection<T>(collectionName: string, options: DataOptions & { asMap: true }): Observable<{ [id: string]: T }>
 export function readFbCollection<T>(collectionName: string, options: DataOptions & { asMap?: false }): Observable<T[]>
@@ -17,7 +23,11 @@ export function readFbCollection<T>(collectionName: string, options: DataOptions
   const constraints: QueryConstraint[] = [];
 
   if (options.orderBy) {
-    constraints.push(orderBy(options.orderBy, 'desc'));
+    if (Array.isArray(options.orderBy)) {
+      constraints.push(orderBy(options.orderBy[0], options.orderBy[1]));
+    } else {
+      constraints.push(orderBy(options.orderBy, 'desc'));
+    }
   }
   if (options.limit) {
     constraints.push(limit(options.limit));
@@ -35,19 +45,19 @@ export function readFbCollection<T>(collectionName: string, options: DataOptions
     map(snapshot => {
       if (options.asMap) {
         return snapshot.docs.reduce((acc, document) => {
-          acc[document.id] = doctoDataObject(document) as T;
+          acc[document.id] = docToDataObject(document) as T;
           return acc;
         }, {} as { [id: string]: T });
       }
 
-      return snapshot.docs.map(document => doctoDataObject(document) as T);
+      return snapshot.docs.map(document => docToDataObject(document) as T);
     }),
   );
 }
 
 export function readFbDocument<T>(documentPath: string): Observable<T> {
   return from(getDoc(doc(db, documentPath))).pipe(
-    map(snapshot => doctoDataObject(snapshot) as T),
+    map(snapshot => docToDataObject(snapshot) as T),
   )
 }
 
@@ -60,6 +70,6 @@ export function deleteFbDocument(documentPath: string): Observable<void> {
 }
 
 // HELPERS
-const doctoDataObject = (snapshot: DocumentSnapshot) => {
+const docToDataObject = (snapshot: DocumentSnapshot) => {
   return { id: snapshot.id, ...snapshot.data() };
 }

@@ -2,7 +2,7 @@ import { computed, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export class GavListCache<T> {
-  private listMap = signal<{ [id: string]: T }>({});
+  listMap = signal<{ [id: string]: T }>({});
 
   list = computed(() => Object.values(this.listMap()));
 
