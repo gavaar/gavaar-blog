@@ -10,6 +10,7 @@ export enum Icon {
   Ninja = 'ninja',
   Sun = 'sun',
   ThreeLines = 'three-lines',
+  Tools = 'tools',
   Upload = 'upload',
   Write = 'write',
 }

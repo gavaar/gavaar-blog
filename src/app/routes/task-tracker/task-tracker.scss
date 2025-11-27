@@ -1,75 +1,9 @@
-:host {
-  --task-tracker-success-color--3: #800000;
-  --task-tracker-success-color--2: #BF4040;
-  --task-tracker-success-color--1: #E8A0A0;
-  --task-tracker-success-color-0: #FFFFFF;
-  --task-tracker-success-color-1: #A0E8A0;
-  --task-tracker-success-color-2: #40BF40;
-  --task-tracker-success-color-3: #008000;
-}
-
 .task-tracker {
   display: flex;
   flex-wrap: wrap;
   padding: 0 1rem;
   gap: 1rem;
   margin: 1rem 0;
-}
-
-.task-tracker__task {
-  cursor: pointer;
-  flex: 1 0 20rem;
-  max-width: min(calc((var(--max-content-width) - 7rem) / 2), 100%);
-
-  &.info {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
-.task-tracker__task-title {
-  --gav-icon__height: 1rem;
-  --gav-icon__color: #{var(--disabled)};
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  white-space: nowrap;
-
-  h5, small { margin: 0 }
-  small {
-    margin-left: auto;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-}
-
-.task-tracker__task-form {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  input:first-child {
-    flex-grow: 1;
-  }
-}
-
-.task-tracker__last-weeks {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 0.1rem;
-  max-width: 15rem ; // 14 inputs
-  margin-top: 0.5rem;
-  align-content: center;
-  margin-top: auto;
-  align-self: center;
-
-  span {
-    width: 0.95rem;
-    aspect-ratio: 1/1;
-    border-radius: 0.25rem;
-    text-align: center;
-  }
 }
 
 .task-tracker__new {
@@ -81,6 +15,9 @@
     "icon title id"
     "desc desc butt"
   ;
+  cursor: pointer;
+  flex: 1 0 20rem;
+  max-width: min(calc((var(--max-content-width) - 7rem) / 2), 100%);
 
   textarea {
     grid-area: desc;

@@ -1,0 +1,33 @@
+<div class="task-card">
+  <div class="task-tracker__task-title">
+    <gav-icon [icon]="habit().icon" />
+    <h5>{{ habit().title }}</h5>
+    <small>[{{ habit().id }}]</small>
+  </div>
+
+  <small>{{ habit().description }}</small>
+
+  <form class="task-tracker__task-form" [formGroup]="habitForm">
+    <input
+      formControlName="message"
+      class="task-tracker__input"
+      placeholder="context about today's score"
+    />
+    <input
+      formControlName="weightedDone"
+      class="task-tracker__input"
+      type="number"
+      min="-3"
+      max="3"
+    />
+    <button (click)="patchHabit()">✔️</button>
+  </form>
+  <div class="task-tracker__last-weeks">
+    @let weeks = habit().lastWeeks || {};
+
+    @for (day of lastWeeks; track day) {
+      @let doneDayValue = weeks[day]?.done;
+      <span [style.background-color]="`var(--task-tracker-success-color-${doneDayValue}, darkgray)`"></span>
+    }
+  </div>
+</div>

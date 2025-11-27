@@ -1,15 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HabitConfig, HabitDay } from '@app/entities';
+import { HabitConfig } from '@app/entities';
 import { NonZeroTrackerClient } from '@app/services/non-zero-tracker';
-import { GavIcon } from "@lib/icon";
-import { Timestamp } from 'firebase/firestore/lite';
+import { TaskCard } from './components';
 
 @Component({
   selector: 'task-tracker',
   templateUrl: './task-tracker.html',
   styleUrl: './task-tracker.scss',
-  imports: [ReactiveFormsModule, GavIcon],
+  imports: [ReactiveFormsModule, TaskCard],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskTracker {
@@ -22,7 +21,6 @@ export class TaskTracker {
     description: new FormControl<string|null>(null),
   });
   protected taskList = this.nonZeroTrackerClient.habits;
-  protected lastWeeks = this.getLastWeeks();
 
   protected submitNewTask(): void {
     if (this.newTaskForm.invalid) {
@@ -32,32 +30,5 @@ export class TaskTracker {
     this.nonZeroTrackerClient
       .saveHabit(this.newTaskForm.value as HabitConfig)
       .subscribe(() => this.newTaskForm.reset());
-  }
-
-  protected patchHabit(habitId: string, message: string, value: number) {
-    const date = new Date();
-    const timestampDate = new Date(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours() - 8);
-    const habit: HabitDay = {
-      habitId, 
-      message,
-      id: `${habitId}::${timestampDate.getFullYear()}-${timestampDate.getMonth()}-${timestampDate.getDate()}`,
-      date: Timestamp.fromDate(timestampDate),
-      done: value,
-    };
-
-    this.nonZeroTrackerClient.addHabitEntry(habit).subscribe();
-  }
-
-  private getLastWeeks(): `${number}-${number}-${number}`[] {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    const arrayLength = 56;
-
-    return Array(arrayLength).fill(null).map((_, idx) => {
-      const targetDate = new Date(year, month, day - (arrayLength - 1) + idx)
-      return `${targetDate.getFullYear()}-${targetDate.getMonth()}-${targetDate.getDate()}` as `${number}-${number}-${number}`;
-    });
   }
 }

@@ -52,20 +52,6 @@ export const BLOG_DATA: RouteConfig[] = [
 
 export const EXTERNAL_DATA: RouteConfig[] = [
   {
-    title: 'Poetry',
-    path: 'poe',
-    portrait: 'category/poetry/portrait.jpg',
-    bg: 'category/poetry/bg.jpg',
-    loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
-    providers: [
-      {
-        provide: POST_CATEGORY,
-        useValue: 'poe',
-      },
-      PostClient,
-    ],
-  },
-  {
     title: 'Enkrateia',
     description: 'State of power over something, usually a state of self-control and self-mastery where one holds power over one\'s own passions and instincts.',
     path: 'enk',
@@ -79,7 +65,21 @@ export const EXTERNAL_DATA: RouteConfig[] = [
       },
       PostClient,
     ],
-  }
+  },
+  {
+    title: 'Poetry',
+    path: 'poe',
+    portrait: 'category/poetry/portrait.jpg',
+    bg: 'category/poetry/bg.jpg',
+    loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'poe',
+      },
+      PostClient,
+    ],
+  },
 ];
 
 export const FOOTER_DATA: RouteConfig[] = [

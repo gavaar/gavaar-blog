@@ -1,30 +1,10 @@
 <div class="task-tracker">
-  @for (task of taskList(); track task.id) {
-    <div class="task-tracker__task info">
-      <div class="task-tracker__task-title">
-        <gav-icon [icon]="task.icon" />
-        <h5>{{ task.title }}</h5>
-        <small>[{{ task.id }}]</small>
-      </div>
-      <small>{{ task.description }}</small>
-      <div class="task-tracker__task-form">
-        <input #message class="task-tracker__input" placeholder="context about today's score" />
-        <input #value class="task-tracker__input" type="number" min="-3" max="3" />
-        <button (click)="patchHabit(task.id, message.value, +value.value)">✔️</button>
-      </div>
-      <div class="task-tracker__last-weeks">
-        @let weeks = task.lastWeeks || {};
-
-        @for (day of lastWeeks; track day) {
-          @let doneDayValue = weeks[day]?.done;
-          <span [style.background-color]="`var(--task-tracker-success-color-${doneDayValue}, darkgray)`"></span>
-        }
-      </div>
-    </div>
+  @for (habit of taskList(); track habit.id) {
+    <task-card [habit]="habit" />
   }
 
   <form
-    class="task-tracker__task task-tracker__new"
+    class="task-tracker__new"
     [formGroup]="newTaskForm"
   >
     <input

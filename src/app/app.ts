@@ -13,7 +13,7 @@ const SIDENAV_CONFIG = [
   }),
   new GavNavCategory({
     title: 'Tools',
-    icon: Icon.Write,
+    icon: Icon.Tools,
     items: TOOLS_DATA.map(data => new GavNavItem(data)),
   }),
   new GavNavCategory({

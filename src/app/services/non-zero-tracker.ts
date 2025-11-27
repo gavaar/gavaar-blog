@@ -35,15 +35,18 @@ export class NonZeroTrackerClient {
 
     const habits = habits7DaysAgo.reduce((habitMap, day) => {
       const date = new Date(day.date.seconds * 1000);
-      const habitConfig = habitMap[day.habitId] || {};
-      
-      if (!habitConfig.lastWeeks) {
-        habitConfig.lastWeeks = {};
-      }
-      habitConfig.lastWeeks[`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`] = {
-        done: day.done,
-        message: day.message,
+      const habitConfig = {
+        ...habitMap[day.habitId],
+        lastWeeks: {
+          ...habitMap[day.habitId].lastWeeks,
+          [`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`]: {
+            done: day.done,
+            message: day.message,
+          },
+        }
       };
+      habitMap[day.habitId] = habitConfig;
+
       return habitMap;
     }, habitConfigMap);
 
@@ -66,7 +69,7 @@ export class NonZeroTrackerClient {
     const { id, ...partialHabit } = habit;
 
     return updateFbDocument(`non-zero-tracker/${userId}/habits/${id}`, partialHabit).pipe(
-      tap(() => this.habitDaysCache.put(habit)),
+      tap(() => this.habitDaysCache.put({ id, ...partialHabit })),
       take(1),
     );
   }
