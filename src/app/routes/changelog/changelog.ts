@@ -54,7 +54,7 @@ const FIRST_APP_VERSION = '0.0.1';
     @if (loading()) {
       <img class="changelog__loading" src="assets/images/loading/dancing.gif" alt="loading rolling abitoad" />
     } @else if (!firstVersionLoaded()) {
-      <gav-icon class="changelog__load-more" [icon]="Icon.Changelog" text="Load more..." (click)="loadMore()" />
+      <gav-icon class="changelog__load-more" [icon]="Icon.Rewind" text="Load more..." (click)="loadMore()" />
     }
 
   `,

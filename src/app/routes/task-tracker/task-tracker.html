@@ -1,33 +1,36 @@
 <div class="task-tracker">
-  @for (habit of taskList(); track habit.id) {
-    <task-card [habit]="habit" />
-  }
+  <day-tracker />
+
+  <div class="task-tracker__cards">
+    @for (habit of taskList(); track habit.id) {
+      <task-card [habit]="habit" />
+    }
+  </div>
 
   <form
     class="task-tracker__new"
     [formGroup]="newTaskForm"
   >
-    <input
-      type="text"
-      class="task-tracker__input"
-      formControlName="icon"
-      placeholder="icon"
-    />
-    <input
-      type="text"
-      class="task-tracker__input"
-      formControlName="title"
-      placeholder="title"
-    />
-    <input
-      type="text"
-      class="task-tracker__input"
+    <gav-input
+      label="id"
       formControlName="id"
       placeholder="id"
     />
+    <gav-input
+      label="title"
+      formControlName="title"
+      placeholder="title"
+    />
+    <gav-input
+      label="icon"
+      formControlName="icon"
+      placeholder="icon"
+    />
     <textarea
       class="task-tracker__input"
-      formControlName="description"></textarea>
+      placeholder="description"
+      formControlName="description">
+    </textarea>
 
     <button
       class="task-tracker__button"

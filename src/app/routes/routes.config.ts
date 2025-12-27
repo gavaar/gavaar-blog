@@ -104,7 +104,7 @@ export const FOOTER_DATA: RouteConfig[] = [
   {
     title: 'Changelog',
     path: 'cl',
-    icon: Icon.Changelog,
+    icon: Icon.Rewind,
     bg: 'category/changelog/bg.jpg',
     loadComponent: () => import('./changelog/changelog').then(c => c.Changelog),
   },

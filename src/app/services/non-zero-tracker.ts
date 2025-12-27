@@ -24,21 +24,22 @@ export class NonZeroTrackerClient {
       {
         asMap: true,
         orderBy: ['date', 'asc'],
-        startAfter: Timestamp.fromDate(xDaysAgo(7)),
+        startAfter: Timestamp.fromDate(xDaysAgo(28)),
       },
     ),
   );
 
   habits = computed<Habit[]>(() => {
     const habitConfigMap = this.habitConfigCache.listMap() as { [habitId: string]: Habit };
-    const habits7DaysAgo = this.habitDaysCache.list();
+    const habits28DaysAgo = this.habitDaysCache.list();
 
-    const habits = habits7DaysAgo.reduce((habitMap, day) => {
+    const habits = habits28DaysAgo.reduce((habitMap, day) => {
       const date = new Date(day.date.seconds * 1000);
+      const habitDay = habitMap?.[day.habitId] || {};
       const habitConfig = {
-        ...habitMap[day.habitId],
+        ...habitDay,
         lastWeeks: {
-          ...habitMap[day.habitId].lastWeeks,
+          ...habitDay.lastWeeks,
           [`${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`]: {
             done: day.done,
             message: day.message,
@@ -64,7 +65,7 @@ export class NonZeroTrackerClient {
       );
   }
 
-  addHabitEntry(habit: HabitDay): Observable<void> {
+  postHabitEntry(habit: HabitDay): Observable<void> {
     const userId = this.auth.user()?.uid;
     const { id, ...partialHabit } = habit;
 

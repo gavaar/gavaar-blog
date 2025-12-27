@@ -1,7 +1,12 @@
 .task-tracker {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   padding: 0 1rem;
+}
+
+.task-tracker__cards {
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin: 1rem 0;
 }
@@ -16,7 +21,6 @@
     "desc desc butt"
   ;
   cursor: pointer;
-  flex: 1 0 20rem;
   max-width: min(calc((var(--max-content-width) - 7rem) / 2), 100%);
 
   textarea {

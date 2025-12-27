@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+.day-tracker__next {
+  transform: rotate(180deg);
+
+  &[disabled] {
+    opacity: 0.2;
+    cursor: default;
+  }
+}
+
+.day-tracker__date {
+  cursor: pointer;
+}

@@ -1,0 +1,13 @@
+<button class="round-button" (click)="selectedDayService.updateDate(-1)">
+  <gav-icon icon="back-arrow" />
+</button>
+<span class="day-tracker__date"
+  (click)="selectedDayService.setToday()">
+  {{ presentationDate() }}
+</span>
+<button
+  class="day-tracker__next round-button"
+  [disabled]="selectedDayService.selectedTimestamp() === selectedDayService.lastDayTimestamp"
+  (click)="selectedDayService.updateDate(1)">
+  <gav-icon icon="back-arrow" />
+</button>
