@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, where, QueryConstraint, WhereFilterOp, setDoc, DocumentSnapshot, startAfter, Timestamp, OrderByDirection } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, where, QueryConstraint, WhereFilterOp, setDoc, DocumentSnapshot, startAfter, Timestamp, OrderByDirection, writeBatch } from 'firebase/firestore/lite';
 import { firebaseConfig } from './firebase-config';
 import { Observable, from, map } from 'rxjs';
 import { getAuth } from 'firebase/auth';
@@ -67,6 +67,18 @@ export function updateFbDocument<T>(documentPath: string, value: Partial<T>): Ob
 
 export function deleteFbDocument(documentPath: string): Observable<void> {
   return from(deleteDoc(doc(db, documentPath)));
+}
+
+export class FbBatch {
+  private batch = writeBatch(db);
+
+  delete(path: string): void {
+    this.batch.delete(doc(db, path));
+  }
+
+  commit(): Observable<void> {
+    return from(this.batch.commit());
+  }
 }
 
 // HELPERS

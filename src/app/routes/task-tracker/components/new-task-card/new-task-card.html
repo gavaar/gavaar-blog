@@ -1,0 +1,32 @@
+<form
+  class="new-task-card"
+  [formGroup]="newTaskForm"
+>
+  <div class="new-task-card__identifiers">
+    <gav-input
+      formControlName="id"
+      placeholder="id"
+    />
+    <gav-input
+      formControlName="icon"
+      placeholder="icon"
+    />
+  </div>
+
+  <gav-input
+    formControlName="title"
+    placeholder="title"
+  />
+  <gav-input
+    type="textarea"
+    formControlName="description"
+    placeholder="description"
+  />
+
+  <button
+    class="new-task-card__button round-button"
+    (click)="submitNewTask()"
+  >
+    <gav-icon icon="plus" />
+  </button>
+</form>

@@ -11,45 +11,12 @@
   margin: 1rem 0;
 }
 
-.task-tracker__new {
-  width: 100%;
-  display: grid;
-  gap: 0.25rem;
-  grid-template-columns: 3rem 1fr 3rem;
-  grid-template-areas:
-    "icon title id"
-    "desc desc butt"
-  ;
-  cursor: pointer;
-  max-width: min(calc((var(--max-content-width) - 7rem) / 2), 100%);
-
-  textarea {
-    grid-area: desc;
-    resize: none;
-    field-sizing: content;
-  }
-
-  button {
-    grid-area: butt;
-  }
+.task-tracker__edit {
+  border-color: var(--secondary);
+  --gav-icon__color: #{var(--secondary)};
 }
 
-.task-tracker__input {
-  padding: 0.2rem;
-  margin: 0.5rem;
-  background-color: transparent;
-  border-top: 0;
-  border-left: 0;
-  border-radius: 0 0 0.25rem 0;
-  resize: none;
-  color: var(--white);
-  outline: none;
-}
-
-.task-tracker__button {
-  cursor: pointer;
-  border-radius: 50%;
-  margin: 0.5rem;
-  border: 0;
-  background-color: var(--secondary);
+.task-tracker__delete {
+  border-color: var(--error);
+  --gav-icon__color: #{var(--error)};
 }

@@ -1,8 +1,8 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { Habit, HabitDay, HabitConfig } from '@app/entities';
-import { deleteFbDocument, readFbCollection, updateFbDocument } from '@app/firebase';
+import { FbBatch, readFbCollection, updateFbDocument } from '@app/firebase';
 import { AuthClient } from './auth-client';
-import { Observable, take, tap } from 'rxjs';
+import { Observable, switchMap, take, tap } from 'rxjs';
 import { GavListCache } from '@lib/list-cache';
 import { Timestamp } from 'firebase/firestore/lite';
 
@@ -58,7 +58,7 @@ export class NonZeroTrackerClient {
     const userId = this.auth.user()?.uid;
     const { id, ...partialHabit } = habit;
 
-    return updateFbDocument(`non-zero-tracker/${userId}/v1/${habit.id}`, partialHabit)
+    return updateFbDocument(`non-zero-tracker/${userId}/v1/${id}`, partialHabit)
       .pipe(
         tap(() => this.habitConfigCache.put(habit)),
         take(1),
@@ -77,7 +77,22 @@ export class NonZeroTrackerClient {
 
   deleteHabit(habitId: string): Observable<void> {
     const userId = this.auth.user()?.uid;
-    return deleteFbDocument(`non-zero-tracker/${userId}/v1/${habitId}`)
-      .pipe(take(1));
+    const relatedHabitDays = readFbCollection<HabitDay>(`non-zero-tracker/${userId}/habits`, { where: ['habitId', '==', habitId] });
+    
+    return relatedHabitDays.pipe(
+      switchMap(habitsToDelete => {
+        console.log(habitsToDelete);
+        const batch = new FbBatch();
+        batch.delete(`non-zero-tracker/${userId}/v1/${habitId}`);
+        habitsToDelete.forEach(habit => batch.delete(`non-zero-tracker/${userId}/habits/${habit.id}`));
+        
+        return batch.commit();
+      }),
+      tap(() => {
+        this.habitConfigCache.delete(habitId);
+        this.habitDaysCache.delete_substr(habitId);
+      }),
+      take(1),
+    );
   }
 }

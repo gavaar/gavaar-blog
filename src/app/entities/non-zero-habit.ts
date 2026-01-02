@@ -5,6 +5,7 @@ export interface HabitConfig {
   icon: string;
   title: string;
   description?: string;
+  updated?: Timestamp;
 }
 
 export interface HabitDay {
@@ -15,7 +16,15 @@ export interface HabitDay {
   message?: string;
 }
 
+export interface HabitGoal {
+  start: Timestamp;
+  streak: number;
+  value: string;
+  weightedDone: number;
+}
+
 export interface Habit extends HabitConfig {
+  goal?: HabitGoal;
   lastWeeks: {
     [date: `${number}-${number}-${number}`]: {
       done: number;

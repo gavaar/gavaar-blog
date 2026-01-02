@@ -1,0 +1,34 @@
+:host {
+  display: contents;
+}
+
+.new-task-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 20rem;
+  row-gap: 1rem;
+  max-width: min(calc((var(--max-content-width) - 7rem) / 2), 100%);
+  border: 2px solid var(--disabled);
+  padding: 1.5rem 1rem;
+  border-radius: 2rem;
+  position: relative;
+}
+
+.new-task-card__identifiers {
+  display: flex;
+  gap: 0.25rem;
+
+  gav-input {
+    flex: 1 0 0;
+  }
+}
+
+.new-task-card__button {
+  position: absolute;
+  bottom: -0.5rem;
+  right: -0.5rem;
+  border-color: var(--primary);
+
+  --gav-icon__height: 1rem;
+  --gav-icon__color: #{var(--primary)};
+}

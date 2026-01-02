@@ -1,42 +1,26 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HabitConfig } from '@app/entities';
 import { NonZeroTrackerClient } from '@app/services/non-zero-tracker';
-import { DayTracker, TaskCard } from './components';
-import { GavInput } from "@lib/input";
+import { DayTracker, TaskCard, NewTaskCard } from './components';
 import { SelectedDayService } from './services/selected-day.service';
-
-const extractTimestampStringFromDate = (date: Date): `${number}-${number}-${number}` => {
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-};
+import { GavIcon } from "@lib/icon";
 
 @Component({
   selector: 'task-tracker',
   templateUrl: './task-tracker.html',
   styleUrl: './task-tracker.scss',
-  imports: [ReactiveFormsModule, TaskCard, GavInput, DayTracker],
+  imports: [TaskCard, DayTracker, NewTaskCard, GavIcon],
   providers: [SelectedDayService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskTracker {
-  private nonZeroTrackerClient = inject(NonZeroTrackerClient);
+  private nonZeroTracker = inject(NonZeroTrackerClient);
   protected selectedDayService = inject(SelectedDayService);
+  protected taskList = this.nonZeroTracker.habits;
+  protected editingIds: { [key: string]: boolean } = {};
 
-  protected newTaskForm = new FormGroup({
-    id: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
-    title: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
-    icon: new FormControl<string>('', { validators: Validators.required, nonNullable: true }),
-    description: new FormControl<string|null>(null),
-  });
-  protected taskList = this.nonZeroTrackerClient.habits;
-
-  protected submitNewTask(): void {
-    if (this.newTaskForm.invalid) {
-      return alert('Invalid new task');
+  protected deleteHabit(habitId: string): void {
+    if (confirm('sure?')) {
+      this.nonZeroTracker.deleteHabit(habitId).subscribe();
     }
-
-    this.nonZeroTrackerClient
-      .saveHabit(this.newTaskForm.value as HabitConfig)
-      .subscribe(() => this.newTaskForm.reset());
   }
 }

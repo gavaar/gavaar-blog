@@ -3,40 +3,18 @@
 
   <div class="task-tracker__cards">
     @for (habit of taskList(); track habit.id) {
-      <task-card [habit]="habit" />
+      <task-card [habit]="habit">
+        <button class="task-tracker__edit round-button">
+          <gav-icon icon="pencil" />
+        </button>
+        <button 
+          class="task-tracker__delete round-button"
+          (click)="deleteHabit(habit.id)"
+        >
+          <gav-icon icon="bin" />
+        </button>
+      </task-card>
     }
+    <new-task-card />
   </div>
-
-  <form
-    class="task-tracker__new"
-    [formGroup]="newTaskForm"
-  >
-    <gav-input
-      label="id"
-      formControlName="id"
-      placeholder="id"
-    />
-    <gav-input
-      label="title"
-      formControlName="title"
-      placeholder="title"
-    />
-    <gav-input
-      label="icon"
-      formControlName="icon"
-      placeholder="icon"
-    />
-    <textarea
-      class="task-tracker__input"
-      placeholder="description"
-      formControlName="description">
-    </textarea>
-
-    <button
-      class="task-tracker__button"
-      (click)="submitNewTask()"
-    >
-      +
-    </button>
-  </form>
 </div>

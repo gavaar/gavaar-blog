@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 export class GavListCache<T> {
   listMap = signal<{ [id: string]: T }>({});
 
+  keys = computed(() => Object.keys(this.listMap()));
   list = computed(() => Object.values(this.listMap()));
 
   constructor(initializer: Observable<{ [id: string]: T }>) {
@@ -17,10 +18,16 @@ export class GavListCache<T> {
     if (entity) {
       const list = this.listMap();
       delete list[id];
-      this.listMap.set(list);
+      this.listMap.set({ ...list });
       return entity;
     }
 
     return;
   };
+
+  delete_substr(matcher: string): void {
+    for (const id of this.keys()) {
+      if (id.includes(matcher)) this.delete(id);
+    }
+  }
 }

@@ -1,6 +1,7 @@
 export enum Icon {
   Account = 'account',
   BackArrow = 'back-arrow',
+  Bin = 'bin',
   Bolt = 'bolt',
   External = 'external',
   Eye = 'eye',
@@ -8,6 +9,8 @@ export enum Icon {
   Home = 'home',
   Moon = 'moon',
   Ninja = 'ninja',
+  Pencil = 'pencil',
+  Plus = 'plus',
   Rewind = 'rewind',
   Save = 'save',
   Sun = 'sun',
