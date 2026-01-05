@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
-import { GavHoldClick } from '../hold-click';
+import { GavHoldClick } from '../../directives';
 import { fromEvent, map } from 'rxjs';
 
 const DHV_UNIT=  (window.visualViewport?.height || 100) / 100;

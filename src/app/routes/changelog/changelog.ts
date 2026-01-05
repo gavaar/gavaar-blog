@@ -3,7 +3,7 @@ import { DatePipe } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 import { readFbCollection } from '@app/firebase';
 import { Changelog as Log } from '@app/entities';
-import { GavIcon, Icon } from '@lib/icon';
+import { GavIcon, Icon } from '@lib/components';
 import { take, tap } from 'rxjs';
 import { ViewsTracker } from '@app/services/views-tracker';
 

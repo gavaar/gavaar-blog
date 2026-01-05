@@ -5,10 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 import { Timestamp } from 'firebase/firestore/lite';
 
-import { GavInput } from '@lib/input';
-import { GavRichText } from '@lib/rich-text';
-import { GavTextarea } from '@lib/textarea';
-import { GavIcon, Icon } from "@lib/icon";
+import { GavRichText, GavInput, GavIcon, Icon } from "@lib/components";
 import { BlogPost } from '@app/entities';
 import { Permissions } from '@app/services/permissions';
 import { PostClient } from '@app/services/post-client';
@@ -20,7 +17,6 @@ import { ViewsTracker } from '@app/services/views-tracker';
     DatePipe,
     ReactiveFormsModule,
     GavInput,
-    GavTextarea,
     GavRichText,
     GavIcon
   ],

@@ -3,9 +3,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Habit, HabitDay } from '@app/entities';
 import { NonZeroTrackerClient } from '@app/services/non-zero-tracker';
-import { GavIcon } from '@lib/icon';
+import { GavIcon, GavInput } from '@lib/components';
 import { Timestamp } from 'firebase/firestore/lite';
-import { GavInput } from "@lib/input";
 import { SelectedDayService } from '../../services/selected-day.service';
 
 const getLastWeeks = (): `${number}-${number}-${number}`[] => {
@@ -32,6 +31,7 @@ export class TaskCard {
   habit = input.required<Habit>();
   
   private nonZeroTrackerClient = inject(NonZeroTrackerClient);
+  protected saving = signal(false);
   protected selectedDayService = inject(SelectedDayService);
 
   private todayHabitId = computed<`${string}::${number}-${number}-${number}`>(() => {
@@ -39,7 +39,7 @@ export class TaskCard {
     const selectedTimestamp = this.selectedDayService.selectedTimestamp();
     return `${habitId}::${selectedTimestamp}`;
   });
-  
+
   protected lastWeeks = getLastWeeks();
   protected habitForm = new FormGroup({
     message: new FormControl(''),
@@ -60,6 +60,7 @@ export class TaskCard {
   });
 
   protected patchHabit(): void {
+    this.saving.set(true);
     const { message, weightedDone } = this.habitForm.value as { message: string; weightedDone: number };
 
     const habit: HabitDay = {
@@ -70,7 +71,7 @@ export class TaskCard {
       done: weightedDone,
     };
 
-    this.nonZeroTrackerClient.postHabitEntry(habit).subscribe();
+    this.nonZeroTrackerClient.postHabitEntry(habit).subscribe(() => this.saving.set(false));
   }
 
   protected resetHabit(): void {

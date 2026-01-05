@@ -1,5 +1,16 @@
 :host {
   display: contents;
+
+  ::ng-deep {
+    .gav-input-select__options {
+      --gav-icon__color: #{var(--disabled)};
+
+      span:hover,
+      span.selected {
+        --gav-icon__color: #{var(--white)};
+      }
+    }
+  }
 }
 
 .new-task-card {
@@ -18,8 +29,11 @@
   display: flex;
   gap: 0.25rem;
 
-  gav-input {
+  gav-input[name="id"] {
     flex: 1 0 0;
+  }
+  gav-input[name="icon"] {
+    width: 4rem;
   }
 }
 
@@ -31,4 +45,7 @@
 
   --gav-icon__height: 1rem;
   --gav-icon__color: #{var(--primary)};
+}
+.new-task-card__select-input-icon {
+  --gav-icon__height: 1rem;
 }

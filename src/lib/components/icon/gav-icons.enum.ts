@@ -3,6 +3,7 @@ export enum Icon {
   BackArrow = 'back-arrow',
   Bin = 'bin',
   Bolt = 'bolt',
+  Caret = 'caret',
   External = 'external',
   Eye = 'eye',
   FastForward = 'fast-forward',

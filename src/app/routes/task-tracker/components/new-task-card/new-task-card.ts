@@ -2,8 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { HabitConfig } from '@app/entities';
 import { NonZeroTrackerClient } from '@app/services/non-zero-tracker';
-import { GavIcon } from "@lib/icon";
-import { GavInput } from '@lib/input';
+import { GavInput, GavIcon, Icon } from "@lib/components";
 
 @Component({
   selector: 'new-task-card',
@@ -14,6 +13,7 @@ import { GavInput } from '@lib/input';
 })
 export class NewTaskCard {
   private nonZeroTrackerClient = inject(NonZeroTrackerClient);
+  protected allIcons = Object.entries(Icon).map(([_key, value]) => ({ key: value, value }));
 
   newTaskForm = new FormGroup({
     id: new FormControl(''),

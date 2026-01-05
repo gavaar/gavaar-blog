@@ -1,5 +1,5 @@
 import { computed, Signal, signal } from '@angular/core';
-import { Icon } from '@lib/icon';
+import { Icon } from '@lib/components';
 
 export type GavNavItemInput = {
   title: string;

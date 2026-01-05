@@ -1,5 +1,6 @@
 <form
   class="task-card"
+  [class.saving]="saving()"
   [formGroup]="habitForm"
   [style.--task-card-selection-color]="`var(--task-card-success-color-${habitFormValue()?.weightedDone}, var(--disabled))`"
 >
@@ -18,10 +19,10 @@
     <small>{{ habit().description }}</small>
 
     <gav-input
-      formControlName="message"
       class="task-card__input"
+      formControlName="message"
       type="textarea"
-      placeholder="context about today's score"
+      [options]="{ placeholder: 'context about today\'s score' }"
     />
 
     <div class="task-card__last-weeks">

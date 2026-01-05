@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { GavIcon } from "@lib/icon";
+import { GavIcon } from "@lib/components";
 import { SelectedDayService } from '../../services/selected-day.service';
 
 @Component({

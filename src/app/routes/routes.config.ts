@@ -1,8 +1,7 @@
 import { Route } from '@angular/router';
 import { Memory, memory } from '@app/state';
 import { PostClient, POST_CATEGORY } from '@app/services/post-client';
-import { Icon } from '@lib/icon';
-import { GavNavItemInput } from '@lib/sidenav/models';
+import { Icon, GavNavItemInput } from '@lib/components';
 import { computed } from '@angular/core';
 import { isAuthenticated } from './auth.guard';
 

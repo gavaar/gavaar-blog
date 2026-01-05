@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { GavHeader } from './components';
-import { GavSidenav } from "../lib/sidenav/sidenav.component";
-import { GavNavCategory, GavNavItem, GavNavUncategorized } from '@lib/sidenav';
-import { Icon } from '@lib/icon';
+import { GavSidenav, GavNavCategory, GavNavItem, GavNavUncategorized, Icon } from '@lib/components';
 import { BLOG_DATA, EXTERNAL_DATA, FOOTER_DATA, HIDDEN_DATA, HOME_DATA, TOOLS_DATA } from './routes/routes.config';
 import { Memory, memory } from './state';
 

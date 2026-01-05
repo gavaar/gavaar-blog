@@ -4,23 +4,30 @@
 >
   <div class="new-task-card__identifiers">
     <gav-input
+      name="id"
       formControlName="id"
-      placeholder="id"
+      [options]="{ placeholder: 'id' }"
     />
     <gav-input
+      name="icon"
+      type="select"
       formControlName="icon"
-      placeholder="icon"
+      [options]="{
+        placeholder: 'icon',
+        selectOptions: allIcons,
+        selectOptionTemplate: iconSelectorTemplate,
+      }"
     />
   </div>
 
   <gav-input
     formControlName="title"
-    placeholder="title"
+    [options]="{ placeholder: 'title' }"
   />
   <gav-input
     type="textarea"
     formControlName="description"
-    placeholder="description"
+    [options]="{ placeholder: 'description' }"
   />
 
   <button
@@ -30,3 +37,8 @@
     <gav-icon icon="plus" />
   </button>
 </form>
+
+<!-- Templates -->
+<ng-template #iconSelectorTemplate let-value>
+  <gav-icon class="new-task-card__select-input-icon" [icon]="value" />
+</ng-template>

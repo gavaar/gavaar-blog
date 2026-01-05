@@ -3,7 +3,7 @@ import { Habit, HabitDay, HabitConfig } from '@app/entities';
 import { FbBatch, readFbCollection, updateFbDocument } from '@app/firebase';
 import { AuthClient } from './auth-client';
 import { Observable, switchMap, take, tap } from 'rxjs';
-import { GavListCache } from '@lib/list-cache';
+import { GavListCache } from '@lib/helpers';
 import { Timestamp } from 'firebase/firestore/lite';
 
 const xDaysAgo = (x: number): Date => {

@@ -30,6 +30,11 @@
     opacity: 0.1;
     border-radius: 2rem;
   }
+
+  &.saving {
+    pointer-events: none;
+    opacity: 0.25;
+  }
 }
 
 .task-card__slider {

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output, ViewEncapsulation } from '@angular/core';
 import { GavNavCategory } from './models';
-import { GavIcon } from "../icon/icon.component";
 import { animate, style, transition, trigger } from '@angular/animations';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { GavIcon } from '../icon';
 
 @Component({
   selector: 'gav-sidenav',
