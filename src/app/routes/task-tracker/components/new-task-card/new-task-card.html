@@ -1,6 +1,6 @@
 <form
   class="new-task-card"
-  [formGroup]="newTaskForm"
+  [formGroup]="taskForm()"
 >
   <div class="new-task-card__identifiers">
     <gav-input
@@ -8,6 +8,7 @@
       formControlName="id"
       [options]="{ placeholder: 'id' }"
     />
+
     <gav-input
       name="icon"
       type="select"
@@ -30,12 +31,24 @@
     [options]="{ placeholder: 'description' }"
   />
 
-  <button
-    class="new-task-card__button round-button"
-    (click)="submitNewTask()"
-  >
-    <gav-icon icon="plus" />
-  </button>
+  <div class="new-task-card__buttons">
+    @if (taskId()) {
+      <button
+        class="new-task-card__cancel round-button"
+        (click)="cancel.emit()"
+      >
+        <gav-icon icon="plus" />
+      </button>
+    }
+
+    <button
+      class="new-task-card__submit round-button"
+      (click)="submitNewTask()"
+    >
+      @let icon = taskId() ? 'save' : 'plus';
+      <gav-icon [icon]="icon" />
+    </button>
+  </div>
 </form>
 
 <!-- Templates -->

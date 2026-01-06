@@ -65,12 +65,12 @@ export class NonZeroTrackerClient {
       );
   }
 
-  postHabitEntry(habit: HabitDay): Observable<void> {
+  postTask(task: HabitDay): Observable<void> {
     const userId = this.auth.user()?.uid;
-    const { id, ...partialHabit } = habit;
+    const { id, ...partialTask } = task;
 
-    return updateFbDocument(`non-zero-tracker/${userId}/habits/${id}`, partialHabit).pipe(
-      tap(() => this.habitDaysCache.put({ id, ...partialHabit })),
+    return updateFbDocument(`non-zero-tracker/${userId}/habits/${id}`, partialTask).pipe(
+      tap(() => this.habitDaysCache.put({ id, ...partialTask })),
       take(1),
     );
   }

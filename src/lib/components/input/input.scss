@@ -19,7 +19,8 @@ gav-input {
   border-bottom: 1px solid var(--disabled);
 
   &[disabled] {
-    background-color: var(--disabled);
+    color: var(--disabled);
+    cursor: default;
   }
 }
 

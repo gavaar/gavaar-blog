@@ -37,15 +37,32 @@
   }
 }
 
-.new-task-card__button {
+.new-task-card__buttons {
   position: absolute;
-  bottom: -0.5rem;
-  right: -0.5rem;
-  border-color: var(--primary);
-
+  bottom: -1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.25rem;
   --gav-icon__height: 1rem;
+}
+
+.new-task-card__submit {
+  border-color: var(--primary);
   --gav-icon__color: #{var(--primary)};
 }
+
+.new-task-card__cancel {
+  transform: rotate(45deg);
+  border-color: var(--disabled);
+  --gav-icon__color: #{var(--disabled)};
+}
+
 .new-task-card__select-input-icon {
   --gav-icon__height: 1rem;
+}
+
+@media screen and (min-width: var(--max-content-width)) {
+  .new-task-card {
+    min-height: 17.5rem;
+  }
 }

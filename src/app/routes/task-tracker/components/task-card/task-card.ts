@@ -63,7 +63,7 @@ export class TaskCard {
     this.saving.set(true);
     const { message, weightedDone } = this.habitForm.value as { message: string; weightedDone: number };
 
-    const habit: HabitDay = {
+    const task: HabitDay = {
       habitId: this.habit().id,
       message,
       id: this.todayHabitId(),
@@ -71,7 +71,9 @@ export class TaskCard {
       done: weightedDone,
     };
 
-    this.nonZeroTrackerClient.postHabitEntry(habit).subscribe(() => this.saving.set(false));
+    this.nonZeroTrackerClient
+      .postTask(task)
+      .subscribe(() => this.saving.set(false));
   }
 
   protected resetHabit(): void {

@@ -11,7 +11,7 @@ export class GavListCache<T> {
     initializer.subscribe(listMap => this.listMap.set(listMap));
   }
 
-  get = (id: string): T | undefined => this.listMap()[id];
+  get = (id?: string): T | undefined => id ? this.listMap()[id] : undefined;
   put = (entity: T & { id: string }): void => this.listMap.update(list => ({ ...list, [entity.id]: entity }));
   delete = (id: string): T | undefined => {
     const entity = this.listMap()[id];

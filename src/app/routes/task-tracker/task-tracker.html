@@ -3,18 +3,26 @@
 
   <div class="task-tracker__cards">
     @for (habit of taskList(); track habit.id) {
-      <task-card [habit]="habit">
-        <button class="task-tracker__edit round-button">
-          <gav-icon icon="pencil" />
-        </button>
-        <button 
-          class="task-tracker__delete round-button"
-          (click)="deleteHabit(habit.id)"
-        >
-          <gav-icon icon="bin" />
-        </button>
-      </task-card>
+      @if (habit.editing) {
+        <new-task-card
+          [taskId]="habit.id"
+          (cancel)="habit.editing = false"
+        />
+      } @else {
+        <task-card [habit]="habit">
+          <button class="task-tracker__edit round-button">
+            <gav-icon icon="pencil" (click)="habit.editing = !habit.editing" />
+          </button>
+          <button 
+            class="task-tracker__delete round-button"
+            (click)="deleteHabit(habit.id)"
+          >
+            <gav-icon icon="bin" />
+          </button>
+        </task-card>
+      }
     }
+
     <new-task-card />
   </div>
 </div>

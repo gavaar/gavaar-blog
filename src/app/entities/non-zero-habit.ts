@@ -24,6 +24,7 @@ export interface HabitGoal {
 }
 
 export interface Habit extends HabitConfig {
+  editing?: boolean;
   goal?: HabitGoal;
   lastWeeks: {
     [date: `${number}-${number}-${number}`]: {
