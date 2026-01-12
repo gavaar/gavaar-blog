@@ -7,9 +7,9 @@ import { Timestamp } from 'firebase/firestore/lite';
 
 import { GavRichText, GavInput, GavIcon, Icon } from "@lib/components";
 import { BlogPost } from '@app/entities';
-import { Permissions } from '@app/services/permissions';
-import { PostClient } from '@app/services/post-client';
-import { ViewsTracker } from '@app/services/views-tracker';
+import { Permissions } from '@app/clients/permissions';
+import { PostClient } from '@app/clients/post';
+import { ViewsTracker } from '@app/clients/views-tracker';
 
 @Component({
   selector: 'blog-post',

@@ -1,6 +1,6 @@
 import { Route } from '@angular/router';
 import { Memory, memory } from '@app/state';
-import { PostClient, POST_CATEGORY } from '@app/services/post-client';
+import { PostClient, POST_CATEGORY } from '@app/clients/post';
 import { Icon, GavNavItemInput } from '@lib/components';
 import { computed } from '@angular/core';
 import { isAuthenticated } from './auth.guard';
@@ -119,14 +119,14 @@ export const FOOTER_DATA: RouteConfig[] = [
 export const TOOLS_DATA: RouteConfig[] = [
   {
     title: 'Task tracker',
-    path: 'task-tracker',
+    path: 'non-zero',
     description: 'Tools created to automate some tasks I do daily',
     bg: 'tools/bg.jpg',
-    portrait: 'tools/task-tracker/portrait.jpg',
+    portrait: 'tools/non-zero/portrait.jpg',
     hide: computed(() => !memory.watch(Memory.HiddenRoutes)().beta),
     loadComponent: () => {
       memory.patch(Memory.HiddenRoutes, { beta: true });
-      return import('./task-tracker/task-tracker').then(c => c.TaskTracker);
+      return import('./non-zero/non-zero').then(c => c.NonZero);
     },
     canActivate: [isAuthenticated],
   },

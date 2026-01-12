@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AuthClient } from '@app/services/auth-client';
+import { AuthClient } from '@app/clients/auth';
 
 @Component({
   selector: 'account',

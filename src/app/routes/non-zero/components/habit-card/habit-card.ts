@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, input, si
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Habit, HabitDay } from '@app/entities';
-import { NonZeroTrackerClient } from '@app/services/non-zero-tracker';
+import { NonZeroClient } from '@app/clients/non-zero';
 import { GavIcon, GavInput } from '@lib/components';
 import { Timestamp } from 'firebase/firestore/lite';
-import { SelectedDayService } from '../../services/selected-day.service';
+import { SelectedDayState } from '../../state/selected-day.state';
+import { NonZeroDateString } from '@app/entities/non-zero';
 
-const getLastWeeks = (): `${number}-${number}-${number}`[] => {
+const getLastWeeks = (): NonZeroDateString[] => {
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth();
@@ -16,23 +17,23 @@ const getLastWeeks = (): `${number}-${number}-${number}`[] => {
 
   return Array(arrayLength).fill(null).map((_, idx) => {
     const targetDate = new Date(year, month, day - (arrayLength - 1) + idx, date.getHours());
-    return `${targetDate.getFullYear()}-${targetDate.getMonth()}-${targetDate.getDate()}` as `${number}-${number}-${number}`;
+    return `${targetDate.getFullYear()}-${targetDate.getMonth()}-${targetDate.getDate()}` as NonZeroDateString;
   });
 }
 
 @Component({
-  selector: 'task-card',
+  selector: 'habit-card',
   imports: [ReactiveFormsModule, GavIcon, GavInput],
-  templateUrl: './task-card.html',
-  styleUrl: './task-card.scss',
+  templateUrl: './habit-card.html',
+  styleUrl: './habit-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TaskCard {
+export class HabitCard {
   habit = input.required<Habit>();
   
-  private nonZeroTrackerClient = inject(NonZeroTrackerClient);
+  private NonZeroClient = inject(NonZeroClient);
   protected saving = signal(false);
-  protected selectedDayService = inject(SelectedDayService);
+  protected selectedDayService = inject(SelectedDayState);
 
   private todayHabitId = computed<`${string}::${number}-${number}-${number}`>(() => {
     const habitId = this.habit().id;
@@ -71,7 +72,7 @@ export class TaskCard {
       done: weightedDone,
     };
 
-    this.nonZeroTrackerClient
+    this.NonZeroClient
       .postTask(task)
       .subscribe(() => this.saving.set(false));
   }

@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
 import { EMPTY, Observable, catchError, map } from 'rxjs';
-import { PostClient, POST_CATEGORY } from '../../services/post-client';
+import { PostClient, POST_CATEGORY } from '../../clients/post';
 
 const loadPost = (activatedRouteSnapshot: ActivatedRouteSnapshot) => {
   const postService = inject(PostClient);

@@ -1,22 +1,22 @@
-.task-tracker {
+.non-zero {
   display: flex;
   flex-direction: column;
   padding: 0 1rem;
 }
 
-.task-tracker__cards {
+.non-zero__cards {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   margin: 1rem 0;
 }
 
-.task-tracker__edit {
+.non-zero__edit {
   border-color: var(--secondary);
   --gav-icon__color: #{var(--secondary)};
 }
 
-.task-tracker__delete {
+.non-zero__delete {
   border-color: var(--error);
   --gav-icon__color: #{var(--error)};
 }

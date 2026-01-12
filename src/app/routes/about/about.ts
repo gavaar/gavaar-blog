@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { ViewsTracker } from '@app/services/views-tracker';
+import { ViewsTracker } from '@app/clients/views-tracker';
 
 @Component({
   selector: 'about',

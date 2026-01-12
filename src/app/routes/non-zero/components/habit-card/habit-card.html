@@ -1,17 +1,17 @@
 <form
-  class="task-card"
+  class="habit-card"
   [class.saving]="saving()"
   [formGroup]="habitForm"
-  [style.--task-card-selection-color]="`var(--task-card-success-color-${habitFormValue()?.weightedDone}, var(--disabled))`"
+  [style.--habit-card-selection-color]="`var(--habit-card-success-color-${habitFormValue()?.weightedDone}, var(--disabled))`"
 >
-  <div class="task-card__info">
-    <div class="task-card__task-title">
+  <div class="habit-card__info">
+    <div class="habit-card__task-title">
       <gav-icon [icon]="habit().icon" />
       <h5>{{ habit().title }}</h5>
       <small>[ {{ habit().id }} ]</small>
     </div>
 
-    <div class="task-card__goal">
+    <div class="habit-card__goal">
       <gav-icon icon="fast-forward" />
       Goal
     </div>
@@ -19,27 +19,27 @@
     <small>{{ habit().description }}</small>
 
     <gav-input
-      class="task-card__input"
+      class="habit-card__input"
       formControlName="message"
       type="textarea"
       [options]="{ placeholder: 'context about today\'s score' }"
     />
 
-    <div class="task-card__last-weeks">
+    <div class="habit-card__last-weeks">
       @let weeks = habit().lastWeeks || {};
 
       @for (day of lastWeeks; track day) {
         @let doneDayValue = weeks[day]?.done;
         <span
-          [style.background-color]="`var(--task-card-success-color-${doneDayValue}, darkgray)`"
+          [style.background-color]="`var(--habit-card-success-color-${doneDayValue}, darkgray)`"
           [class.today]="selectedDayService.selectedTimestamp() == day">
         </span>
       }
     </div>
   </div>
 
-  <div class="task-card__slider">
-    <div class="task-card__slider-value">
+  <div class="habit-card__slider">
+    <div class="habit-card__slider-value">
       <span>
         {{ habitFormValue()?.weightedDone ?? '-' }}
       </span>
@@ -51,15 +51,15 @@
   </div>
 
   @if (!habitIsReset()) {
-    <button class="task-card__save-button round-button" (click)="patchHabit()">
+    <button class="habit-card__save-button round-button" (click)="patchHabit()">
       <gav-icon icon="save" />
     </button>
-    <button class="task-card__rewind-button round-button" (click)="resetHabit()">
+    <button class="habit-card__rewind-button round-button" (click)="resetHabit()">
       <gav-icon icon="rewind" />
     </button>
   }
 
-  <div class="task-card__option-buttons">
+  <div class="habit-card__option-buttons">
     <ng-content />
   </div>
 </form>

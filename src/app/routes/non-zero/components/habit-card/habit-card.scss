@@ -1,15 +1,15 @@
 :host {
   display: contents;
-  --task-card-success-color--3: #800000;
-  --task-card-success-color--2: #BF4040;
-  --task-card-success-color--1: #E8A0A0;
-  --task-card-success-color-0: #FFFFFF;
-  --task-card-success-color-1: #A0E8A0;
-  --task-card-success-color-2: #40BF40;
-  --task-card-success-color-3: #008000;
+  --habit-card-success-color--3: #800000;
+  --habit-card-success-color--2: #BF4040;
+  --habit-card-success-color--1: #E8A0A0;
+  --habit-card-success-color-0: #FFFFFF;
+  --habit-card-success-color-1: #A0E8A0;
+  --habit-card-success-color-2: #40BF40;
+  --habit-card-success-color-3: #008000;
 }
 
-.task-card {
+.habit-card {
   position: relative;
   padding: 1rem 0.75rem;
   flex: 1 0 20rem;
@@ -17,7 +17,7 @@
   display: flex;
   gap: 1rem;
   border-radius: 2rem;
-  border: 2px solid var(--task-card-selection-color);
+  border: 2px solid var(--habit-card-selection-color);
 
   &:before {
     content: '';
@@ -26,7 +26,7 @@
     left: 0;
     bottom: 0;
     right: 0;
-    background-color: var(--task-card-selection-color);
+    background-color: var(--habit-card-selection-color);
     opacity: 0.1;
     border-radius: 2rem;
   }
@@ -37,32 +37,32 @@
   }
 }
 
-.task-card__slider {
+.habit-card__slider {
   display: flex;
   flex-flow: column nowrap;
   gap: 0.5rem;
   justify-content: space-between;
 
-  --gav-input-slider-color: var(--task-card-selection-color);
+  --gav-input-slider-color: var(--habit-card-selection-color);
 }
 
-.task-card__slider-value {
+.habit-card__slider-value {
   display: flex;
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
-  border: 2px solid var(--task-card-selection-color);
+  border: 2px solid var(--habit-card-selection-color);
   text-align: center;
   
   span {
     font-size: 0.75rem;
     height: 0.75rem;
-    color: var(--task-card-selection-color);
+    color: var(--habit-card-selection-color);
     margin: auto;
   }
 }
 
-.task-card__info {
+.habit-card__info {
   overflow: hidden;
   flex-grow: 1;
   display: flex;
@@ -70,7 +70,7 @@
   gap: 0.25rem;
 }
 
-.task-card__task-title {
+.habit-card__task-title {
   --gav-icon__height: 1rem;
   --gav-icon__color: #{var(--disabled)};
   display: flex;
@@ -87,7 +87,7 @@
   }
 }
 
-.task-card__goal {
+.habit-card__goal {
   color: var(--secondary);
   font-size: 0.75rem;
   font-weight: 800;
@@ -95,7 +95,7 @@
   --gav-icon__color: #{var(--secondary)};
 }
 
-.task-card__last-weeks {
+.habit-card__last-weeks {
   display: flex;
   flex-flow: row wrap;
   gap: 0.1rem;
@@ -114,7 +114,7 @@
   }
 }
 
-.task-card__rewind-button {
+.habit-card__rewind-button {
   position: absolute;
   top: -0.5rem;
   right: -0.5rem;
@@ -124,7 +124,7 @@
   --gav-icon__color: #{var(--disabled)};
 }
 
-.task-card__save-button {
+.habit-card__save-button {
   position: absolute;
   bottom: -0.5rem;
   right: -0.5rem;
@@ -134,11 +134,11 @@
   --gav-icon__color: #{var(--primary)};
 }
 
-.task-card:hover .task-card__option-buttons {
+.habit-card:hover .habit-card__option-buttons {
   opacity: 1;
   transition: 0.25s;
 }
-.task-card__option-buttons {
+.habit-card__option-buttons {
   opacity: 0;
   display: flex;
   position: absolute;
@@ -154,7 +154,7 @@
 }
 
 @media screen and (min-width: var(--max-content-width)) {
-  .task-card {
+  .habit-card {
     min-height: 17.5rem;
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { AuthClient } from './auth-client';
+import { AuthClient } from './auth';
 import { readFbDocument } from '@app/firebase';
 
 type PermissionMap = { admin: boolean };

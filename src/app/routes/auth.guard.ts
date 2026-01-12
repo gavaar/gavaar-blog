@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { CanActivateFn, RedirectCommand, Router } from '@angular/router';
-import { AuthClient } from '@app/services/auth-client';
+import { AuthClient } from '@app/clients/auth';
 import { catchError, of, retry, switchMap, throwError } from 'rxjs';
 
 export const isAuthenticated: CanActivateFn = () => {

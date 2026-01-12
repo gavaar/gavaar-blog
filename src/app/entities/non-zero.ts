@@ -1,5 +1,7 @@
 import { Timestamp } from 'firebase/firestore/lite';
 
+export type NonZeroDateString = `${number}-${number}-${number}`;
+
 export interface HabitConfig {
   id: string;
   icon: string;
@@ -17,17 +19,17 @@ export interface HabitDay {
 }
 
 export interface HabitGoal {
-  start: Timestamp;
+  start: NonZeroDateString;
   streak: number;
-  value: string;
-  weightedDone: number;
+  effort: number;
+  title: string;
 }
 
 export interface Habit extends HabitConfig {
   editing?: boolean;
   goal?: HabitGoal;
   lastWeeks: {
-    [date: `${number}-${number}-${number}`]: {
+    [date: NonZeroDateString]: {
       done: number;
       message?: string;
     }

@@ -1,7 +1,7 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { Habit, HabitDay, HabitConfig } from '@app/entities';
 import { FbBatch, readFbCollection, updateFbDocument } from '@app/firebase';
-import { AuthClient } from './auth-client';
+import { AuthClient } from './auth';
 import { Observable, switchMap, take, tap } from 'rxjs';
 import { GavListCache } from '@lib/helpers';
 import { Timestamp } from 'firebase/firestore/lite';
@@ -12,7 +12,7 @@ const xDaysAgo = (x: number): Date => {
 }
 
 @Injectable({ providedIn: 'root' })
-export class NonZeroTrackerClient {
+export class NonZeroClient {
   private auth = inject(AuthClient);
 
   habitConfigCache = new GavListCache<HabitConfig>(

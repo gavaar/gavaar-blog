@@ -5,7 +5,7 @@ import { readFbCollection } from '@app/firebase';
 import { Changelog as Log } from '@app/entities';
 import { GavIcon, Icon } from '@lib/components';
 import { take, tap } from 'rxjs';
-import { ViewsTracker } from '@app/services/views-tracker';
+import { ViewsTracker } from '@app/clients/views-tracker';
 
 const FIRST_APP_VERSION = '0.0.1';
 
