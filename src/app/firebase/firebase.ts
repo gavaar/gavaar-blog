@@ -72,6 +72,10 @@ export function deleteFbDocument(documentPath: string): Observable<void> {
 export class FbBatch {
   private batch = writeBatch(db);
 
+  update<T>(path: string, partial: { [x: string]: any }): void {
+    this.batch.set(doc(db, path), partial, { merge: true });
+  }
+
   delete(path: string): void {
     this.batch.delete(doc(db, path));
   }

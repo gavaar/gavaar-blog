@@ -12,7 +12,13 @@ export class GavListCache<T> {
   }
 
   get = (id?: string): T | undefined => id ? this.listMap()[id] : undefined;
-  put = (entity: T & { id: string }): void => this.listMap.update(list => ({ ...list, [entity.id]: entity }));
+  put = (entity: Partial<T> & { id: string }): void => {
+    const list = this.listMap();
+    const preUpdateEntity = list[entity.id] || {};
+    const updatedEntity = { ...preUpdateEntity, ...entity } as T;
+    list[entity.id] = updatedEntity;
+    this.listMap.set({ ...list });
+  }
   delete = (id: string): T | undefined => {
     const entity = this.listMap()[id];
     if (entity) {

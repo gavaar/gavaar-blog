@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Habit, HabitDay } from '@app/entities';
+import { Habit, Task } from '@app/entities';
 import { NonZeroClient } from '@app/clients/non-zero';
 import { GavIcon, GavInput } from '@lib/components';
 import { Timestamp } from 'firebase/firestore/lite';
 import { SelectedDayState } from '../../state/selected-day.state';
-import { NonZeroDateString } from '@app/entities/non-zero';
+import { HabitUtils, NonZeroDateString } from '@app/entities/non-zero';
 
 const getLastWeeks = (): NonZeroDateString[] => {
   const date = new Date();
@@ -31,20 +31,20 @@ const getLastWeeks = (): NonZeroDateString[] => {
 export class HabitCard {
   habit = input.required<Habit>();
   
-  private NonZeroClient = inject(NonZeroClient);
+  private nonZeroClient = inject(NonZeroClient);
   protected saving = signal(false);
   protected selectedDayService = inject(SelectedDayState);
 
-  private todayHabitId = computed<`${string}::${number}-${number}-${number}`>(() => {
+  private selectedDateHabitId = computed<`${string}::${NonZeroDateString}`>(() => {
     const habitId = this.habit().id;
-    const selectedTimestamp = this.selectedDayService.selectedTimestamp();
-    return `${habitId}::${selectedTimestamp}`;
+    const selectedDate = this.selectedDayService.selectedDate();
+    return HabitUtils.buildTaskId(habitId, selectedDate);
   });
 
   protected lastWeeks = getLastWeeks();
   protected habitForm = new FormGroup({
-    message: new FormControl(''),
-    weightedDone: new FormControl(0, [Validators.min(-3), Validators.max(3)]),
+    message: new FormControl('', Validators.maxLength(140)),
+    effort: new FormControl(0, [Validators.min(-3), Validators.max(3)]),
   });
   protected habitFormValue = toSignal(this.habitForm.valueChanges);
   protected habitIsReset = computed(() => {
@@ -53,8 +53,9 @@ export class HabitCard {
     const selectedTimestamp = this.selectedDayService.selectedTimestamp();
     const todayHabitData = habit.lastWeeks?.[selectedTimestamp];
 
-    return todayHabitData?.message == habitValue?.message && todayHabitData?.done == habitValue?.weightedDone;
+    return todayHabitData?.message == habitValue?.message && todayHabitData?.done == habitValue?.effort;
   });
+  protected newGoalForm = new FormControl('', Validators.required);
 
   protected _habitUpdateEffect = effect(() => {
     this.resetHabit()
@@ -62,17 +63,17 @@ export class HabitCard {
 
   protected patchHabit(): void {
     this.saving.set(true);
-    const { message, weightedDone } = this.habitForm.value as { message: string; weightedDone: number };
+    const { message, effort } = this.habitForm.value as { message: string; effort: number };
 
-    const task: HabitDay = {
+    const task: Task = {
       habitId: this.habit().id,
       message,
-      id: this.todayHabitId(),
+      id: this.selectedDateHabitId(),
       date: Timestamp.fromDate(this.selectedDayService.selectedDate()),
-      done: weightedDone,
+      done: effort,
     };
 
-    this.NonZeroClient
+    this.nonZeroClient
       .postTask(task)
       .subscribe(() => this.saving.set(false));
   }
@@ -83,6 +84,18 @@ export class HabitCard {
 
     const todayHabitData = habit.lastWeeks?.[selectedTimestamp];
     const { done, message } = todayHabitData || { done: null, message: null };
-    this.habitForm.patchValue({ message, weightedDone: done });
+    this.habitForm.patchValue({ message, effort: done });
+  }
+
+  protected submitNewGoal(): void {
+    if (this.newGoalForm.invalid) return alert('Goal input is empty');
+
+    if (this.newGoalForm.value && confirm(`You won't be able to edit this goal, and you will only be able to abandon it later. Proceed?`)) {
+      this.saving.set(true);
+
+      this.nonZeroClient
+        .submitNewGoal(this.habit().id, this.newGoalForm.value!)
+        .subscribe({ next: () => this.saving.set(false) });
+    }
   }
 }

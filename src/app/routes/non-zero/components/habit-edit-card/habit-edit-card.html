@@ -1,5 +1,6 @@
 <form
   class="habit-edit-card"
+  [class.saving]="saving()"
   [formGroup]="taskForm()"
 >
   <div class="habit-edit-card__identifiers">
@@ -43,7 +44,7 @@
 
     <button
       class="habit-edit-card__submit round-button"
-      (click)="submitNewTask()"
+      (click)="patchHabit()"
     >
       @let icon = taskId() ? 'save' : 'plus';
       <gav-icon [icon]="icon" />
@@ -53,5 +54,7 @@
 
 <!-- Templates -->
 <ng-template #iconSelectorTemplate let-value>
-  <gav-icon class="habit-edit-card__select-input-icon" [icon]="value" />
+  @if (value) {
+    <gav-icon class="habit-edit-card__select-input-icon" [icon]="value" />
+  }
 </ng-template>

@@ -7,6 +7,8 @@
   --habit-card-success-color-1: #A0E8A0;
   --habit-card-success-color-2: #40BF40;
   --habit-card-success-color-3: #008000;
+
+  h5, small { margin: 0 }
 }
 
 .habit-card {
@@ -35,6 +37,15 @@
     pointer-events: none;
     opacity: 0.25;
   }
+}
+
+.habit-card__goal-streak {
+  --gav-icon__color: #{var(--secondary)};
+  color: var(--secondary);
+}
+.habit-card__goal-effort {
+  --gav-icon__color: #{var(--secondary)};
+  color: var(--secondary);
 }
 
 .habit-card__slider {
@@ -67,7 +78,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.5rem;
 }
 
 .habit-card__task-title {
@@ -75,10 +86,9 @@
   --gav-icon__color: #{var(--disabled)};
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   white-space: nowrap;
 
-  h5, small { margin: 0 }
   small {
     margin-left: auto;
     white-space: nowrap;
@@ -88,11 +98,21 @@
 }
 
 .habit-card__goal {
+  align-items: flex-end;
+  display: flex;
+  gap: 0.5rem;
   color: var(--secondary);
   font-size: 0.75rem;
   font-weight: 800;
-  --gav-icon__height: 0.5rem;
+  --gav-icon__height: 1rem;
   --gav-icon__color: #{var(--secondary)};
+
+  gav-input {
+    flex-grow: 1;
+  }
+  gav-icon.disabled {
+    --gav-icon__color: #{var(--disabled)};
+  }
 }
 
 .habit-card__last-weeks {
@@ -103,7 +123,7 @@
   align-self: stretch;
 
   span {
-    height: 0.95rem;
+    height: 1.5rem;
     border-radius: 0.25rem;
     text-align: center;
     flex: 0 0 6.3%;

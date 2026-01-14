@@ -1,17 +1,13 @@
 import { computed, Injectable, signal } from '@angular/core';
-import { NonZeroDateString } from '@app/entities/non-zero';
-
-const extractTimestampStringFromDate = (date: Date): NonZeroDateString => {
-  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-};
+import { HabitUtils, NonZeroDateString } from '@app/entities/non-zero';
 
 @Injectable()
 export class SelectedDayState {
   selectedDate = signal(new Date());
-  lastDayTimestamp = extractTimestampStringFromDate(new Date());
+  lastDayTimestamp = HabitUtils.dateToNonZeroDate(new Date());
   selectedTimestamp = computed<NonZeroDateString>(() => {
     const date = this.selectedDate();
-    return extractTimestampStringFromDate(date);
+    return HabitUtils.dateToNonZeroDate(date);
   });
 
   setToday(): void {

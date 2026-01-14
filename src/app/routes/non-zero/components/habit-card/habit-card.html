@@ -2,7 +2,7 @@
   class="habit-card"
   [class.saving]="saving()"
   [formGroup]="habitForm"
-  [style.--habit-card-selection-color]="`var(--habit-card-success-color-${habitFormValue()?.weightedDone}, var(--disabled))`"
+  [style.--habit-card-selection-color]="`var(--habit-card-success-color-${habitFormValue()?.effort}, var(--disabled))`"
 >
   <div class="habit-card__info">
     <div class="habit-card__task-title">
@@ -12,8 +12,37 @@
     </div>
 
     <div class="habit-card__goal">
-      <gav-icon icon="fast-forward" />
-      Goal
+      @if (!habit().goal) {
+        <gav-icon class="disabled" icon="target" />
+        <gav-input
+          [formControl]="newGoalForm"
+          [options]="{ placeholder: 'Set a measurable short-term goal for this habit' }"
+        />
+        <gav-icon
+          icon="checkmark"
+          [class.disabled]="newGoalForm.invalid"
+          (click)="submitNewGoal()"
+        />
+      } @else {
+        @let goal = habit().goal!;
+        @let showStreak = goal.streak > 3;
+        @let showEffort = goal.effort > 3;
+
+        <gav-icon icon="target" />
+        <span>{{ goal.title }}</span>
+        @if (showStreak) {
+          <span class="habit-card__goal-streak">
+            {{ goal.streak }}
+            <gav-icon icon="flame" />
+          </span>
+        }
+        @if (showEffort) {
+          <span class="habit-card__goal-effort">
+            {{ goal.effort }}
+            <gav-icon icon="upload" />
+          </span>
+        }
+      }
     </div>
 
     <small>{{ habit().description }}</small>
@@ -41,12 +70,12 @@
   <div class="habit-card__slider">
     <div class="habit-card__slider-value">
       <span>
-        {{ habitFormValue()?.weightedDone ?? '-' }}
+        {{ habitFormValue()?.effort ?? '-' }}
       </span>
     </div>
     <gav-input
       type="slider"
-      formControlName="weightedDone"
+      formControlName="effort"
     />
   </div>
 

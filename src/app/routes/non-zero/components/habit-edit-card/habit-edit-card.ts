@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HabitConfig } from '@app/entities';
 import { NonZeroClient } from '@app/clients/non-zero';
@@ -18,7 +18,8 @@ export class HabitEditCard {
   private NonZeroClient = inject(NonZeroClient);
   protected allIcons = Object.entries(Icon).map(([_key, value]) => ({ key: value, value }));
 
-  taskForm = computed(() => {
+  protected saving = signal(false);
+  protected taskForm = computed(() => {
     const taskId = this.taskId();
     const task = this.NonZeroClient.habitConfigCache.get(taskId);
 
@@ -30,15 +31,16 @@ export class HabitEditCard {
     });
   });
 
-  protected submitNewTask(): void {
+  protected patchHabit(): void {
     const taskForm = this.taskForm();
 
     if (taskForm.invalid) {
       return alert('Invalid new task');
     }
 
+    this.cancel.emit()
     this.NonZeroClient
       .saveHabit(taskForm.getRawValue() as HabitConfig)
-      .subscribe(() => taskForm.reset());
+      .subscribe();
   }
 }
