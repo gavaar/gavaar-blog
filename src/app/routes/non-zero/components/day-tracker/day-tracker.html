@@ -7,7 +7,7 @@
 </span>
 <button
   class="day-tracker__next round-button"
-  [disabled]="selectedDayService.selectedTimestamp() === selectedDayService.lastDayTimestamp"
+  [disabled]="selectedDayService.selectedTimestamp() === selectedDayService.today"
   (click)="selectedDayService.updateDate(1)">
   <gav-icon icon="back-arrow" />
 </button>

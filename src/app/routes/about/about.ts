@@ -58,7 +58,7 @@ import { ViewsTracker } from '@app/clients/views-tracker';
 })
 export class About {
   constructor(meta: Meta, viewService: ViewsTracker) {
-    viewService.increaseViews('pages', 'about').subscribe();
+    viewService.increaseViews('pages', 'about');
     meta.updateTag({ name: 'title', content: 'Gavaar | About me' });
     meta.updateTag({ name: 'description', content: 'Gavaar | Who am I' });
   }

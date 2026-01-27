@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HabitConfig } from '@app/entities';
-import { NonZeroClient } from '@app/clients/non-zero';
+import { Habit } from '@app/entities/non-zero';
+import { HabitClient } from '@app/clients/non-zero/habit';
 import { GavInput, GavIcon, Icon } from "@lib/components";
 
 @Component({
@@ -12,35 +12,43 @@ import { GavInput, GavIcon, Icon } from "@lib/components";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HabitEditCard {
-  taskId = input<string | undefined>();
+  habitId = input<string | undefined>();
   cancel = output();
 
-  private NonZeroClient = inject(NonZeroClient);
+  private habitClient = inject(HabitClient);
   protected allIcons = Object.entries(Icon).map(([_key, value]) => ({ key: value, value }));
 
+  private habit = computed(() => this.habitClient.habits.get(this.habitId()));
   protected saving = signal(false);
-  protected taskForm = computed(() => {
-    const taskId = this.taskId();
-    const task = this.NonZeroClient.habitConfigCache.get(taskId);
+  protected habitForm = computed(() => {
+    const habitId = this.habitId();
+    const habit = this.habit();
 
     return new FormGroup({
-      id: new FormControl({ value: task?.id ?? '', disabled: this.taskId() != null }, Validators.required),
-      title: new FormControl(task?.title, Validators.required),
-      icon: new FormControl(task?.icon, Validators.required),
-      description: new FormControl(task?.description),
+      id: new FormControl({ value: habitId ?? '', disabled: habitId != null }, Validators.required),
+      title: new FormControl(habit?.title, Validators.required),
+      icon: new FormControl(habit?.icon, Validators.required),
+      description: new FormControl(habit?.description),
     });
   });
 
   protected patchHabit(): void {
-    const taskForm = this.taskForm();
+    const habitForm = this.habitForm();
 
-    if (taskForm.invalid) {
-      return alert('Invalid new task');
+    if (habitForm.invalid) {
+      return alert('Invalid habit');
     }
 
-    this.cancel.emit()
-    this.NonZeroClient
-      .saveHabit(taskForm.getRawValue() as HabitConfig)
-      .subscribe();
+    const updatedHabit = {
+      streak: 0,
+      latestTasks: {},
+      ...(this.habit() || {}),
+      ...habitForm.getRawValue()
+    } as Habit;
+
+    this.habitClient.saveHabit(updatedHabit).then(() => {
+      this.saving.set(false);
+      this.cancel.emit();
+    });
   }
 }

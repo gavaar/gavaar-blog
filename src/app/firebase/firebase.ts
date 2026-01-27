@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, where, QueryConstraint, WhereFilterOp, setDoc, DocumentSnapshot, startAfter, Timestamp, OrderByDirection, writeBatch } from 'firebase/firestore/lite';
+import { getFirestore, collection, getDocs, query, orderBy, limit, getDoc, doc, deleteDoc, where, QueryConstraint, WhereFilterOp, setDoc, startAfter, Timestamp, OrderByDirection, writeBatch, getAggregate, AggregateSpec } from 'firebase/firestore/lite';
 import { firebaseConfig } from './firebase-config';
-import { Observable, from, map } from 'rxjs';
 import { getAuth } from 'firebase/auth';
 
 const app = initializeApp(firebaseConfig);
@@ -9,22 +8,24 @@ export const auth = getAuth(app);
 export const db = getFirestore(app);
 
 type DataOptions = {
-  orderBy?: string | [string, OrderByDirection];
+  orderBy?: string | string[] | [string, OrderByDirection];
   limit?: number;
   asMap?: boolean;
-  where?: [string, WhereFilterOp, string];
+  where?: [string, WhereFilterOp, string | number] | (string | number)[];
   startAfter?: Timestamp;
+  aggregate?: AggregateSpec;
 };
 
-export function readFbCollection<T>(collectionName: string, options: DataOptions & { asMap: true }): Observable<{ [id: string]: T }>
-export function readFbCollection<T>(collectionName: string, options: DataOptions & { asMap?: false }): Observable<T[]>
-export function readFbCollection<T>(collectionName: string, options: DataOptions) {
+export async function readFbCollection<T>(collectionName: string, options?: DataOptions & { asMap: true }): Promise<{ [id: string]: T }>
+export async function readFbCollection<T>(collectionName: string, options?: DataOptions & { asMap?: false, aggregate?: null }): Promise<T[]>
+export async function readFbCollection<T>(collectionName: string, options?: DataOptions & { aggregate: AggregateSpec }): Promise<{ [id: string]: number }>
+export async function readFbCollection<T>(collectionName: string, options: DataOptions = {}): Promise<T[] | { [id: string]: T } | { [id: string]: number }> {
   const collectionRef = collection(db, collectionName);
   const constraints: QueryConstraint[] = [];
 
   if (options.orderBy) {
     if (Array.isArray(options.orderBy)) {
-      constraints.push(orderBy(options.orderBy[0], options.orderBy[1]));
+      constraints.push(orderBy(options.orderBy[0], options.orderBy[1] as OrderByDirection));
     } else {
       constraints.push(orderBy(options.orderBy, 'desc'));
     }
@@ -37,36 +38,37 @@ export function readFbCollection<T>(collectionName: string, options: DataOptions
   }
   if (options.where) {
     const [property, equality, value] = options.where;
-    constraints.push(where(property, equality, value));
+    constraints.push(where(property as string, equality as WhereFilterOp, value));
   }
 
-  const docsQuery = getDocs(query(collectionRef, ...constraints));
-  return from(docsQuery).pipe(
-    map(snapshot => {
-      if (options.asMap) {
-        return snapshot.docs.reduce((acc, document) => {
-          acc[document.id] = docToDataObject(document) as T;
-          return acc;
-        }, {} as { [id: string]: T });
-      }
+  const snapshot = await getDocs(query(collectionRef, ...constraints));
 
-      return snapshot.docs.map(document => docToDataObject(document) as T);
-    }),
-  );
+  if (options.aggregate) {
+    const aggregated = await getAggregate(query(collectionRef, ...constraints), options.aggregate);
+    return aggregated.data() as { [id: string]: number };
+  }
+
+  if (options.asMap) {
+    return snapshot.docs.reduce((acc, document) => {
+      acc[document.id] = { id: document.id, ...document.data() } as T;
+      return acc;
+    }, {} as { [id: string]: T });
+  }
+
+  return snapshot.docs.map(document => ({ id: document.id, ...document.data() } as T));
 }
 
-export function readFbDocument<T>(documentPath: string): Observable<T> {
-  return from(getDoc(doc(db, documentPath))).pipe(
-    map(snapshot => docToDataObject(snapshot) as T),
-  )
+export async function readFbDocument<T>(documentPath: string): Promise<T> {
+  const document = await getDoc(doc(db, documentPath));
+  return { id: document.id, ...document.data() } as T;
 }
 
-export function updateFbDocument<T>(documentPath: string, value: Partial<T>): Observable<void> {
-  return from(setDoc(doc(db, documentPath), value, { merge: true }));
+export async function updateFbDocument<T>(documentPath: string, value: Partial<T>): Promise<void> {
+  return setDoc(doc(db, documentPath), value, { merge: true });
 }
 
-export function deleteFbDocument(documentPath: string): Observable<void> {
-  return from(deleteDoc(doc(db, documentPath)));
+export async function deleteFbDocument(documentPath: string): Promise<void> {
+  return deleteDoc(doc(db, documentPath));
 }
 
 export class FbBatch {
@@ -80,12 +82,7 @@ export class FbBatch {
     this.batch.delete(doc(db, path));
   }
 
-  commit(): Observable<void> {
-    return from(this.batch.commit());
+  commit(): Promise<void> {
+    return this.batch.commit();
   }
-}
-
-// HELPERS
-const docToDataObject = (snapshot: DocumentSnapshot) => {
-  return { id: snapshot.id, ...snapshot.data() };
 }

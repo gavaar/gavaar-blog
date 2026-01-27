@@ -1,5 +1,4 @@
 import { computed, signal } from '@angular/core';
-import { Observable } from 'rxjs';
 
 export class GavListCache<T> {
   listMap = signal<{ [id: string]: T }>({});
@@ -7,8 +6,10 @@ export class GavListCache<T> {
   keys = computed(() => Object.keys(this.listMap()));
   list = computed(() => Object.values(this.listMap()));
 
-  constructor(initializer: Observable<{ [id: string]: T }>) {
-    initializer.subscribe(listMap => this.listMap.set(listMap));
+  constructor(initializer?: Promise<{ [id: string]: T }>) {
+    if (initializer) {
+      initializer.then(listMap => this.listMap.set(listMap));
+    }
   }
 
   get = (id?: string): T | undefined => id ? this.listMap()[id] : undefined;

@@ -2,9 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, OnInit, signal } from '@a
 import { DatePipe } from '@angular/common';
 import { Meta } from '@angular/platform-browser';
 import { readFbCollection } from '@app/firebase';
-import { Changelog as Log } from '@app/entities';
+import { Changelog as Log } from '@app/entities/changelog';
 import { GavIcon, Icon } from '@lib/components';
-import { take, tap } from 'rxjs';
 import { ViewsTracker } from '@app/clients/views-tracker';
 
 const FIRST_APP_VERSION = '0.0.1';
@@ -69,7 +68,7 @@ export class Changelog implements OnInit {
   private latestVersionLoaded = computed<Log | undefined>(() => this.changelog()?.at(-1));
 
   constructor(meta: Meta, viewService: ViewsTracker) {
-    viewService.increaseViews('pages', 'changelog').subscribe();
+    viewService.increaseViews('pages', 'changelog');
     meta.updateTag({ name: 'title', content: 'Changelog - Gavaar\'s random writings' });
     meta.updateTag({ name: 'description', content: 'Gavaar\'s random writings changelog. Versions and changes.' });
   }
@@ -78,10 +77,9 @@ export class Changelog implements OnInit {
     this.loadMore();
   }
 
-  protected loadMore(): void {
+  protected async loadMore(): Promise<void> {
     this.loading.set(true);
-    readFbCollection<Log>('changelog', { orderBy: 'date', limit: 12, startAfter: this.latestVersionLoaded()?.date })
-      .pipe(take(1), tap(() => this.loading.set(false)))
-      .subscribe(changelog => this.changelog.set((this.changelog() || []).concat(changelog)));
+    const changelog = await readFbCollection<Log>('changelog', { orderBy: 'date', limit: 12, startAfter: this.latestVersionLoaded()?.date });
+    this.changelog.set((this.changelog() || []).concat(changelog));
   }
 }

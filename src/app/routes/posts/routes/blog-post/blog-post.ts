@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { Meta } from '@angular/platform-browser';
 import { Timestamp } from 'firebase/firestore/lite';
 
 import { GavRichText, GavInput, GavIcon, Icon } from "@lib/components";
-import { BlogPost } from '@app/entities';
+import { BlogPost } from '@app/entities/blog_post';
 import { Permissions } from '@app/clients/permissions';
 import { PostClient } from '@app/clients/post';
 import { ViewsTracker } from '@app/clients/views-tracker';
@@ -53,8 +53,8 @@ export class GavBlogPost {
     if (postId) {
       this.postForm.controls.id.disable();
 
-      this.postClient.post(postId).subscribe(post => {
-        this.viewService.increaseViews('posts', postId).subscribe(views => this.views.set(views));
+      this.postClient.post(postId).then(post => {
+        this.viewService.increaseViews('posts', postId).then(views => this.views.set(views));
         this.blogPost.set(post);
   
         this.postForm.setValue({
@@ -72,7 +72,7 @@ export class GavBlogPost {
     }
   }
 
-  protected savePost(): void {
+  protected async savePost(): Promise<void> {
     const post = this.blogPost() || {} as BlogPost;
 
     if (this.postForm.valid && confirm('Save?')) {
@@ -91,18 +91,17 @@ export class GavBlogPost {
       post.title = title!;
       post.updated = now;
 
-      this.postClient.savePost(post).subscribe((updatedPost) => {
-        const isNewPost = !this.blogPost()?.id;
-        const categoryChanged = this.blogPost()?.category !== category;
+      const updatedPost = await this.postClient.savePost(post);
+      const isNewPost = !this.blogPost()?.id;
+      const categoryChanged = this.blogPost()?.category !== category;
 
-        if (isNewPost || categoryChanged) {
-          this.router.navigateByUrl(`${updatedPost.category}/${updatedPost.id}`);
-          return;
-        }
+      if (isNewPost || categoryChanged) {
+        this.router.navigateByUrl(`${updatedPost.category}/${updatedPost.id}`);
+        return;
+      }
 
-        this.blogPost.set(updatedPost);
-        this.postForm.markAsPristine();
-      });
+      this.blogPost.set(updatedPost);
+      this.postForm.markAsPristine();
     }
   }
 }

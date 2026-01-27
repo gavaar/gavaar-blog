@@ -1,6 +1,7 @@
 import { TemplateRef } from '@angular/core';
 
 export enum GavInputType {
+  Number = 'number',
   Text = 'text',
   Textarea = 'textarea',
   Select = 'select',

@@ -12,12 +12,12 @@ export class Permissions {
   admin = computed(() => this.permissions().admin);
 
   constructor() {
-    effect(() => {
+    effect(async () => {
       const userUid = this.authUser()?.uid;
 
       if (userUid) {
-        readFbDocument<PermissionMap>(`permissions/${userUid}`)
-          .subscribe(perms => this.permissions.set(perms || DEFAULT_PERMISSIONS))
+        const perms = await readFbDocument<PermissionMap>(`permissions/${userUid}`)
+        this.permissions.set(perms || DEFAULT_PERMISSIONS);
       }
     });
   }

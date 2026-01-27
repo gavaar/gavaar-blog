@@ -27,8 +27,16 @@ export class GavInput implements ControlValueAccessor {
 
   protected onInputChange(e: any) {
     e.preventDefault();
-    const value = e.target.value;
-    this.onValueChange(value);
+
+    switch (this.type()) {
+      case GavInputType.Number:
+      case GavInputType.Slider:
+        this.onValueChange(+e.target.value);
+        break;
+      default:
+        this.onValueChange(e.target.value);
+        break;
+    }
   }
   
   protected onValueChange(value: any) {

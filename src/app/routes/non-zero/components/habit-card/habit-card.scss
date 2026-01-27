@@ -1,12 +1,12 @@
 :host {
   display: contents;
-  --habit-card-success-color--3: #800000;
-  --habit-card-success-color--2: #BF4040;
+  --habit-card-success-color--3: #BF4040;
+  --habit-card-success-color--2: #D47070;
   --habit-card-success-color--1: #E8A0A0;
   --habit-card-success-color-0: #FFFFFF;
+  --habit-card-success-color-3: #40BF40;
+  --habit-card-success-color-2: #70D470;
   --habit-card-success-color-1: #A0E8A0;
-  --habit-card-success-color-2: #40BF40;
-  --habit-card-success-color-3: #008000;
 
   h5, small { margin: 0 }
 }
@@ -39,13 +39,32 @@
   }
 }
 
-.habit-card__goal-streak {
-  --gav-icon__color: #{var(--secondary)};
-  color: var(--secondary);
+.habit-card__streak,
+.habit-card__goal-effort {
+  --gav-icon__height: 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 0.8rem;
+  display: flex;
+  align-items: flex-end;
+  column-gap: 0.2rem;
+}
+
+.habit-card__streak {
+  --gav-icon__color: #{var(--disabled)};
+  color: var(--disabled);
+  opacity: 0.5;
+
+  &.today-done {
+    --gav-icon__color: #{var(--bright-red)};
+    color: var(--bright-red);
+    opacity: 1;
+    transition: 4s;
+  }
 }
 .habit-card__goal-effort {
-  --gav-icon__color: #{var(--secondary)};
-  color: var(--secondary);
+  --gav-icon__color: #{var(--purple)};
+  color: var(--purple);
 }
 
 .habit-card__slider {
@@ -67,7 +86,6 @@
   
   span {
     font-size: 0.75rem;
-    height: 0.75rem;
     color: var(--habit-card-selection-color);
     margin: auto;
   }
@@ -98,7 +116,7 @@
 }
 
 .habit-card__goal {
-  align-items: flex-end;
+  align-items: center;
   display: flex;
   gap: 0.5rem;
   color: var(--secondary);

@@ -1,7 +1,7 @@
 <form
   class="habit-edit-card"
   [class.saving]="saving()"
-  [formGroup]="taskForm()"
+  [formGroup]="habitForm()"
 >
   <div class="habit-edit-card__identifiers">
     <gav-input
@@ -33,7 +33,7 @@
   />
 
   <div class="habit-edit-card__buttons">
-    @if (taskId()) {
+    @if (habitId()) {
       <button
         class="habit-edit-card__cancel round-button"
         (click)="cancel.emit()"
@@ -46,7 +46,7 @@
       class="habit-edit-card__submit round-button"
       (click)="patchHabit()"
     >
-      @let icon = taskId() ? 'save' : 'plus';
+      @let icon = habitId() ? 'save' : 'plus';
       <gav-icon [icon]="icon" />
     </button>
   </div>

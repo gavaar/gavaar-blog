@@ -8,11 +8,17 @@
     <div class="habit-card__task-title">
       <gav-icon [icon]="habit().icon" />
       <h5>{{ habit().title }}</h5>
+      @if (habit().streak > 2) {
+        <span class="habit-card__streak" [class.today-done]="todaysTask() != null">
+          <span>{{ habit().streak }}</span>
+          <gav-icon icon="flame" />
+        </span>
+      }
       <small>[ {{ habit().id }} ]</small>
     </div>
 
     <div class="habit-card__goal">
-      @if (!habit().goal) {
+      @if (!habit().currentGoal) {
         <gav-icon class="disabled" icon="target" />
         <gav-input
           [formControl]="newGoalForm"
@@ -24,22 +30,15 @@
           (click)="submitNewGoal()"
         />
       } @else {
-        @let goal = habit().goal!;
-        @let showStreak = goal.streak > 3;
-        @let showEffort = goal.effort > 3;
+        @let goal = habit().currentGoal!;
+        @let showEffort = habit().effort! > 2;
 
         <gav-icon icon="target" />
         <span>{{ goal.title }}</span>
-        @if (showStreak) {
-          <span class="habit-card__goal-streak">
-            {{ goal.streak }}
-            <gav-icon icon="flame" />
-          </span>
-        }
         @if (showEffort) {
           <span class="habit-card__goal-effort">
-            {{ goal.effort }}
-            <gav-icon icon="upload" />
+            {{ habit().effort }}
+            <gav-icon icon="effort" />
           </span>
         }
       }
@@ -55,10 +54,10 @@
     />
 
     <div class="habit-card__last-weeks">
-      @let weeks = habit().lastWeeks || {};
+      @let weeks = habit().latestTasks || {};
 
       @for (day of lastWeeks; track day) {
-        @let doneDayValue = weeks[day]?.done;
+        @let doneDayValue = weeks[day]?.effort;
         <span
           [style.background-color]="`var(--habit-card-success-color-${doneDayValue}, darkgray)`"
           [class.today]="selectedDayService.selectedTimestamp() == day">

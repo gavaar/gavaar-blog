@@ -7,6 +7,7 @@ export enum Icon {
   CheckMark = 'checkmark',
   Flame = 'flame',
   Guitar = 'guitar',
+  Effort = 'effort',
   External = 'external',
   Eye = 'eye',
   FastForward = 'fast-forward',

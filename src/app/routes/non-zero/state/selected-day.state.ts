@@ -3,11 +3,11 @@ import { HabitUtils, NonZeroDateString } from '@app/entities/non-zero';
 
 @Injectable()
 export class SelectedDayState {
+  today = HabitUtils.dateToNonZero(new Date());
   selectedDate = signal(new Date());
-  lastDayTimestamp = HabitUtils.dateToNonZeroDate(new Date());
   selectedTimestamp = computed<NonZeroDateString>(() => {
     const date = this.selectedDate();
-    return HabitUtils.dateToNonZeroDate(date);
+    return HabitUtils.dateToNonZero(date);
   });
 
   setToday(): void {

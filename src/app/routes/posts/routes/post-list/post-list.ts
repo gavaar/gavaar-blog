@@ -35,7 +35,7 @@ export class GavPostList {
   // Admin stuff
   deletePost(id: string): void {
     if (confirm('Sure?')) {
-      this.postService.deletePost(id).subscribe();
+      this.postService.deletePost(id);
     }
   }
 }
