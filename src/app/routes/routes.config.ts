@@ -120,14 +120,10 @@ export const TOOLS_DATA: RouteConfig[] = [
   {
     title: 'Task tracker',
     path: 'non-zero',
-    description: 'Tools created to automate some tasks I do daily',
+    description: 'Tools created to help pursue any custom lifestyle',
     bg: 'tools/bg.jpg',
     portrait: 'tools/non-zero/portrait.jpg',
-    hide: computed(() => !memory.watch(Memory.HiddenRoutes)().beta),
-    loadComponent: () => {
-      memory.patch(Memory.HiddenRoutes, { beta: true });
-      return import('./non-zero/non-zero').then(c => c.NonZero);
-    },
+    loadComponent: () => import('./non-zero/non-zero').then(c => c.NonZero),
     canActivate: [isAuthenticated],
   },
 ];

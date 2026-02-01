@@ -81,5 +81,6 @@ export class Changelog implements OnInit {
     this.loading.set(true);
     const changelog = await readFbCollection<Log>('changelog', { orderBy: 'date', limit: 12, startAfter: this.latestVersionLoaded()?.date });
     this.changelog.set((this.changelog() || []).concat(changelog));
+    this.loading.set(false);
   }
 }
