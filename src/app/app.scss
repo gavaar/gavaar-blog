@@ -7,7 +7,7 @@ main {
   display: grid;
   grid-template-areas: "nav content";
   grid-template-columns: auto 1fr;
-  column-gap: 0.5rem;
+  column-gap: 2.5rem;
   align-self: center;
   width: min(100vw, var(--max-content-width));
 }
@@ -31,8 +31,9 @@ gav-sidenav {
   grid-area: nav;
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 64rem) {
   main {
+    column-gap: 0;
     margin-right: 0;
   }
 

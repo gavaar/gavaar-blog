@@ -4,6 +4,7 @@ import { PostClient } from '../../../../clients/post';
 import { Permissions } from '../../../../clients/permissions';
 import { DatePipe } from '@angular/common';
 import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
+import { GavLoading } from "@app/components";
 
 @Component({
   selector: 'post-list',
@@ -11,7 +12,8 @@ import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
     DatePipe,
     RouterLink,
     BgImgUrlPipe,
-  ],
+    GavLoading,
+],
   templateUrl: './post-list.html',
   styleUrl: './post-list.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

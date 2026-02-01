@@ -4,9 +4,9 @@
   --habit-card-success-color--2: #D47070;
   --habit-card-success-color--1: #E8A0A0;
   --habit-card-success-color-0: #FFFFFF;
-  --habit-card-success-color-3: #40BF40;
-  --habit-card-success-color-2: #70D470;
-  --habit-card-success-color-1: #A0E8A0;
+  --habit-card-success-color-3: #4071BF;
+  --habit-card-success-color-2: #70A2D4;
+  --habit-card-success-color-1: #A0D4E8;
 
   h5, small { margin: 0 }
 }
@@ -70,10 +70,14 @@
 .habit-card__slider {
   display: flex;
   flex-flow: column nowrap;
-  gap: 0.5rem;
+  gap: 1rem;
   justify-content: space-between;
 
   --gav-input-slider-color: var(--habit-card-selection-color);
+
+  gav-input[type="slider"] {
+    flex-grow: 1;
+  }
 }
 
 .habit-card__slider-value {
@@ -181,7 +185,7 @@
   display: flex;
   position: absolute;
   top: -0.75rem;
-  right: 2rem;
+  left: 2rem;
   gap: 0.25rem;
 
   ::ng-deep .round-button {
@@ -191,7 +195,7 @@
   }
 }
 
-@media screen and (min-width: var(--max-content-width)) {
+@media screen and (min-width: 63rem) {
   .habit-card {
     min-height: 17.5rem;
   }

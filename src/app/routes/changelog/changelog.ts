@@ -5,12 +5,13 @@ import { readFbCollection } from '@app/firebase';
 import { Changelog as Log } from '@app/entities/changelog';
 import { GavIcon, Icon } from '@lib/components';
 import { ViewsTracker } from '@app/clients/views-tracker';
+import { GavLoading } from "@app/components";
 
 const FIRST_APP_VERSION = '0.0.1';
 
 @Component({
   selector: 'changelog',
-  imports: [DatePipe, GavIcon],
+  imports: [DatePipe, GavIcon, GavLoading],
   template: `
     <h1>Changelog</h1>
     @if (changelog()) {
@@ -51,7 +52,7 @@ const FIRST_APP_VERSION = '0.0.1';
     }
     
     @if (loading()) {
-      <img class="changelog__loading" src="assets/images/loading/dancing.gif" alt="loading rolling abitoad" />
+      <gav-loading />
     } @else if (!firstVersionLoaded()) {
       <gav-icon class="changelog__load-more" [icon]="Icon.Rewind" text="Load more..." (click)="loadMore()" />
     }

@@ -28,6 +28,7 @@ gav-input {
   background: transparent;
   writing-mode: vertical-lr;
   direction: rtl;
+  flex-grow: 1;
   
   &::-moz-range-thumb {
     overflow: visible;

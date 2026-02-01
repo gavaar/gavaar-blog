@@ -1,4 +1,4 @@
-import { computed, inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Habit } from '@app/entities/non-zero';
 import { deleteFbDocument, readFbCollection, updateFbDocument } from '@app/firebase';
 import { AuthClient } from '../auth';
@@ -10,6 +10,7 @@ import { sum, Timestamp } from 'firebase/firestore/lite';
 export class HabitClient {
   private userId = computed(() => inject(AuthClient).user()?.uid || '');
   habits = new GavListCache<Habit>(this.getHabitData());
+  initialized = signal(false);
 
   async saveHabit(habit: Habit): Promise<void> {
     const { id, ...partialHabit } = habit;
@@ -56,6 +57,7 @@ export class HabitClient {
       }
     }
 
+    this.initialized.set(true);
     return habitMap;
   }
 }

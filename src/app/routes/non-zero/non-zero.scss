@@ -1,7 +1,6 @@
 .non-zero {
   display: flex;
   flex-direction: column;
-  padding: 0 1rem;
 }
 
 .non-zero__cards {
@@ -9,6 +8,7 @@
   flex-wrap: wrap;
   gap: 1rem;
   margin: 1rem 0;
+  justify-content: space-evenly;
 }
 
 .non-zero__edit {
