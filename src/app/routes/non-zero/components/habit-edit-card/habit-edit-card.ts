@@ -47,6 +47,7 @@ export class HabitEditCard {
     } as Habit;
 
     this.habitClient.saveHabit(updatedHabit).then(() => {
+      this.habitForm().reset();
       this.saving.set(false);
       this.cancel.emit();
     });
