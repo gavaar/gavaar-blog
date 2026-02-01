@@ -1,0 +1,28 @@
+<div class="non-zero">
+  <day-tracker />
+
+  <div class="non-zero__cards">
+    @for (habit of habits(); track habit.id) {
+      @if (editing[habit.id]) {
+        <habit-edit-card
+          [habitId]="habit.id"
+          (cancel)="editing[habit.id] = false"
+        />
+      } @else {
+        <habit-card [habit]="habit">
+          <button class="non-zero__edit round-button">
+            <gav-icon icon="pencil" (click)="editing[habit.id] = true" />
+          </button>
+          <button 
+            class="non-zero__delete round-button"
+            (click)="deleteHabit(habit.id)"
+          >
+            <gav-icon icon="bin" />
+          </button>
+        </habit-card>
+      }
+    }
+
+    <habit-edit-card />
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { GavCardLink } from '@app/components/gav-card';
+import { GavCardLink } from '@app/components';
 import { BLOG_DATA, EXTERNAL_DATA, HIDDEN_DATA } from '../routes.config';
 
 export type CardConfig = (GavCardLink & { id: string });

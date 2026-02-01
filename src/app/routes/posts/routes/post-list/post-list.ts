@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PostClient } from '../../../../services/post-client';
-import { Permissions } from '../../../../services/permissions';
+import { PostClient } from '../../../../clients/post';
+import { Permissions } from '../../../../clients/permissions';
 import { DatePipe } from '@angular/common';
 import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
 
@@ -19,7 +19,7 @@ import { BgImgUrlPipe } from '../../../../pipes/bg-img-url.pipe';
 export class GavPostList {
   protected title = '';
   protected description = '';
-  protected posts = this.postService.postList;
+  protected posts = this.postService.cache.list;
   protected admin = this.permissionsService.admin;
 
   constructor(

@@ -1,0 +1,41 @@
+gav-input-select {
+  cursor: pointer;
+  height: 100%;
+  border-bottom: 1px solid var(--disabled);
+  display: flex;
+  justify-content: space-between;
+}
+
+.gav-input-select__caret {
+  --gav-icon__color: #{var(--disabled)};
+  --gav-icon__height: 1rem;
+  transition: 0.25s;
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.gav-input-select__preview-value {
+  margin: auto;
+}
+
+.gav-input-select__options {
+  z-index: 1;
+  display: none;
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  padding: 0.5rem 1rem;
+  background-color: var(--background);
+  border: 1px solid var(--disabled);
+  border-radius: 1rem;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: space-between;
+  min-width: 10rem;
+
+  &.open {
+    display: flex;
+  }
+}

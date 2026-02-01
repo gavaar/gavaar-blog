@@ -1,0 +1,60 @@
+<form
+  class="habit-edit-card"
+  [class.saving]="saving()"
+  [formGroup]="habitForm()"
+>
+  <div class="habit-edit-card__identifiers">
+    <gav-input
+      name="id"
+      formControlName="id"
+      [options]="{ placeholder: 'id' }"
+    />
+
+    <gav-input
+      name="icon"
+      type="select"
+      formControlName="icon"
+      [options]="{
+        placeholder: 'icon',
+        selectOptions: allIcons,
+        selectOptionTemplate: iconSelectorTemplate,
+      }"
+    />
+  </div>
+
+  <gav-input
+    formControlName="title"
+    [options]="{ placeholder: 'title' }"
+  />
+  <gav-input
+    type="textarea"
+    formControlName="description"
+    [options]="{ placeholder: 'description' }"
+  />
+
+  <div class="habit-edit-card__buttons">
+    @if (habitId()) {
+      <button
+        class="habit-edit-card__cancel round-button"
+        (click)="cancel.emit()"
+      >
+        <gav-icon icon="plus" />
+      </button>
+    }
+
+    <button
+      class="habit-edit-card__submit round-button"
+      (click)="patchHabit()"
+    >
+      @let icon = habitId() ? 'save' : 'plus';
+      <gav-icon [icon]="icon" />
+    </button>
+  </div>
+</form>
+
+<!-- Templates -->
+<ng-template #iconSelectorTemplate let-value>
+  @if (value) {
+    <gav-icon class="habit-edit-card__select-input-icon" [icon]="value" />
+  }
+</ng-template>

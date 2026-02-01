@@ -1,0 +1,52 @@
+@let label = options().label;
+@let placeholder = options().placeholder;
+
+@if (label) {
+  <label class="gav-input__label" [for]="label">{{ label }}</label>
+}
+@switch (type()) {
+  @case (GavInputType.Text) {
+    <input
+      class="gav-input"
+      [id]="label"
+      [disabled]="disabled"
+      [value]="inputValue()"
+      [placeholder]="placeholder"
+      (keyup)="onInputChange($event)" />
+  }
+  @case (GavInputType.Textarea) {
+    <textarea
+      class="gav-input"
+      rows="4"
+      maxlength="140"
+      [id]="label"
+      [value]="inputValue()"
+      [disabled]="disabled"
+      [placeholder]="placeholder"
+      (keyup)="onInputChange($event)"
+    ></textarea>
+  }
+  @case (GavInputType.Slider) {
+    <input
+      class="gav-input__slider"
+      type="range"
+      min="-3"
+      max="3"
+      [id]="label"
+      [disabled]="disabled"
+      [value]="inputValue()"
+      (pointerup)="!inputValue() && onChange(0)"
+      (input)="onInputChange($event)" />
+  }
+  @case (GavInputType.Select) {
+    <gav-input-select
+      [value]="inputValue()"
+      [options]="options().selectOptions || []"
+      [template]="options().selectOptionTemplate"
+      (selectOption)="onValueChange($event)"
+    />
+  }
+  @default {
+    <span>Input type not supported</span>
+  }
+}

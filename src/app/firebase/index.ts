@@ -1,1 +1,1 @@
-export { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument, auth } from './firebase';
+export { deleteFbDocument, readFbCollection, readFbDocument, updateFbDocument, auth, FbBatch } from './firebase';

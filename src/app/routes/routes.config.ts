@@ -1,9 +1,9 @@
 import { Route } from '@angular/router';
 import { Memory, memory } from '@app/state';
-import { PostClient, POST_CATEGORY } from '@app/services/post-client';
-import { Icon } from '@lib/icon';
-import { GavNavItemInput } from '@lib/sidenav/models';
+import { PostClient, POST_CATEGORY } from '@app/clients/post';
+import { Icon, GavNavItemInput } from '@lib/components';
 import { computed } from '@angular/core';
+import { isAuthenticated } from './auth.guard';
 
 export type RouteConfig = Route & GavNavItemInput & { description?: string };
 
@@ -51,20 +51,6 @@ export const BLOG_DATA: RouteConfig[] = [
 
 export const EXTERNAL_DATA: RouteConfig[] = [
   {
-    title: 'Poetry',
-    path: 'poe',
-    portrait: 'category/poetry/portrait.jpg',
-    bg: 'category/poetry/bg.jpg',
-    loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
-    providers: [
-      {
-        provide: POST_CATEGORY,
-        useValue: 'poe',
-      },
-      PostClient,
-    ],
-  },
-  {
     title: 'Enkrateia',
     description: 'State of power over something, usually a state of self-control and self-mastery where one holds power over one\'s own passions and instincts.',
     path: 'enk',
@@ -78,7 +64,21 @@ export const EXTERNAL_DATA: RouteConfig[] = [
       },
       PostClient,
     ],
-  }
+  },
+  {
+    title: 'Poetry',
+    path: 'poe',
+    portrait: 'category/poetry/portrait.jpg',
+    bg: 'category/poetry/bg.jpg',
+    loadChildren: () => import('./posts/posts.routes').then(c => c.POST_ROUTES),
+    providers: [
+      {
+        provide: POST_CATEGORY,
+        useValue: 'poe',
+      },
+      PostClient,
+    ],
+  },
 ];
 
 export const FOOTER_DATA: RouteConfig[] = [
@@ -103,7 +103,7 @@ export const FOOTER_DATA: RouteConfig[] = [
   {
     title: 'Changelog',
     path: 'cl',
-    icon: Icon.Changelog,
+    icon: Icon.Rewind,
     bg: 'category/changelog/bg.jpg',
     loadComponent: () => import('./changelog/changelog').then(c => c.Changelog),
   },
@@ -119,15 +119,12 @@ export const FOOTER_DATA: RouteConfig[] = [
 export const TOOLS_DATA: RouteConfig[] = [
   {
     title: 'Task tracker',
-    path: 'task-tracker',
-    description: 'Tools created to automate some tasks I do daily',
+    path: 'non-zero',
+    description: 'Tools created to help pursue any custom lifestyle',
     bg: 'tools/bg.jpg',
-    portrait: 'tools/task-tracker/portrait.jpg',
-    hide: computed(() => !memory.watch(Memory.HiddenRoutes)().beta),
-    loadComponent: () => {
-      memory.patch(Memory.HiddenRoutes, { beta: true });
-      return import('./task-tracker/task-tracker').then(c => c.TaskTracker);
-    },
+    portrait: 'tools/non-zero/portrait.jpg',
+    loadComponent: () => import('./non-zero/non-zero').then(c => c.NonZero),
+    canActivate: [isAuthenticated],
   },
 ];
 

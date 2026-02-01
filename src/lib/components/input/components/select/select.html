@@ -1,0 +1,41 @@
+
+<span class="gav-input-select__preview-value">
+  <ng-container
+    [ngTemplateOutlet]="templateOrTextValue"
+    [ngTemplateOutletContext]="{ $implicit: value() }"
+  />
+</span>
+<gav-icon
+  [class.open]="open()"
+  class="gav-input-select__caret"
+  icon="caret"
+/>
+
+<div
+  #popup
+  class="gav-input-select__options"
+  [class.open]="open()"
+>
+  @for (option of options(); track option.key) {
+    <span 
+      [class.selected]="option.key === value()"
+      (click)="onSelectOption(option.key); $event.stopPropagation()"
+    >
+      <ng-container
+        [ngTemplateOutlet]="templateOrTextValue"
+        [ngTemplateOutletContext]="{ $implicit: option.value }"
+      />
+    </span>
+  }
+</div>
+
+<ng-template #templateOrTextValue let-value>
+  @if (template(); as optionTemplate) {
+    <ng-container
+      [ngTemplateOutlet]="optionTemplate"
+      [ngTemplateOutletContext]="{ $implicit: value }"
+    />
+  } @else {
+    {{ value }}
+  }
+</ng-template>

@@ -31,7 +31,8 @@
       "@environments/*": [
         "./src/environments/*"
       ]
-    }
+    },
+    "module": "esnext"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

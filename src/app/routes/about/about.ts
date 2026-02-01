@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { ViewsTracker } from '@app/services/views-tracker';
+import { ViewsTracker } from '@app/clients/views-tracker';
 
 @Component({
   selector: 'about',
@@ -58,7 +58,7 @@ import { ViewsTracker } from '@app/services/views-tracker';
 })
 export class About {
   constructor(meta: Meta, viewService: ViewsTracker) {
-    viewService.increaseViews('pages', 'about').subscribe();
+    viewService.increaseViews('pages', 'about');
     meta.updateTag({ name: 'title', content: 'Gavaar | About me' });
     meta.updateTag({ name: 'description', content: 'Gavaar | Who am I' });
   }

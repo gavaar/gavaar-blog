@@ -2,15 +2,16 @@
   @let controls = postForm.controls;
 
   <div class="gav-blog-post__config">
-    <gav-input label="id" [formControl]="controls.id" />
-    <gav-input label="Asset URI" [formControl]="controls.assetURI" />
-    <gav-input label="Category" [formControl]="controls.category" />
-    <gav-input label="Description" [formControl]="controls.description" />
-    <gav-input label="Title" [formControl]="controls.title" />
+    <gav-input [formControl]="controls.id" [options]="{ label: 'id' }" />
+    <gav-input [formControl]="controls.assetURI" [options]="{ label: 'Asset URI' }"  />
+    <gav-input [formControl]="controls.category" [options]="{ label: 'Category' }"  />
+    <gav-input [formControl]="controls.description" [options]="{ label: 'Description' }"  />
+    <gav-input [formControl]="controls.title" [options]="{ label: 'Title' }"  />
   </div>
 
   <div class="gav-blog-post__textarea">
-    <gav-textarea
+    <gav-input
+      type="textarea"
       label="Edit content"
       [formControl]="controls.content"
     />
