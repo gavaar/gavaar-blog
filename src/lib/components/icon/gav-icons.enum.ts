@@ -14,6 +14,7 @@ export enum Icon {
   Home = 'home',
   Moon = 'moon',
   Ninja = 'ninja',
+  Owl = 'owl',
   Pencil = 'pencil',
   Plus = 'plus',
   Rewind = 'rewind',
