@@ -1,6 +1,10 @@
 export type NonZeroDateString = `${number}-${number}-${number}`;
 
 export class HabitUtils {
+  static today(): NonZeroDateString {
+    return this.dateToNonZero(new Date());
+  }
+
   static nonZeroToDate(nzd: NonZeroDateString): Date {
     const [y,m,d] = nzd.split('-');
     return new Date(+y,+m,+d);

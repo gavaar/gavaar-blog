@@ -1,7 +1,7 @@
 .round-button {
   cursor: pointer;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: var(--round-button__width, 1.75rem);
+  height: var(--round-button__height, 1.75rem);
   display: flex;
   justify-content: center;
   border-width: 2px;

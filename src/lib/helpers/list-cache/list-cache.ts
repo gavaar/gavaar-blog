@@ -4,13 +4,23 @@ export class GavListCache<T> {
   listMap = signal<{ [id: string]: T }>({});
 
   keys = computed(() => Object.keys(this.listMap()));
-  list = computed(() => Object.values(this.listMap()));
+  list = computed(() => {
+    const list = Object.values(this.listMap());
+    const sortFn = this.sortFn();
+    if (sortFn) list.sort(sortFn);
+
+    return list;
+  });
+
+  private sortFn = signal<((a: T, b: T) => number) | null>(null);
 
   constructor(initializer?: Promise<{ [id: string]: T }>) {
     if (initializer) {
       initializer.then(listMap => this.listMap.set(listMap));
     }
   }
+
+  setSort = (sortFn?: (a: T, b: T) => number) => this.sortFn.set(sortFn || null);
 
   get = (id?: string): T | undefined => id ? this.listMap()[id] : undefined;
   put = (entity: Partial<T> & { id: string }): void => {

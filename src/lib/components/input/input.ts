@@ -10,6 +10,9 @@ import { GavInputSelect } from './components';
   styleUrl: './input.scss',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(click)': '$event.stopPropagation()',
+  },
 })
 export class GavInput implements ControlValueAccessor {
   type = input<GavInputType | GavInputType[keyof GavInputType]>(GavInputType.Text);

@@ -1,69 +1,69 @@
 <form
   class="habit-card"
   [class.saving]="saving()"
+  [class.open]="open()"
   [formGroup]="habitForm"
   [style.--habit-card-selection-color]="`var(--habit-card-success-color-${habitFormValue()?.effort}, var(--disabled))`"
+  (click)="open.set(!open())"
 >
-  <div class="habit-card__info">
-    <div class="habit-card__task-title">
-      <gav-icon [icon]="habit().icon" />
-      <h5>{{ habit().title }}</h5>
-      @if (habit().streak > 2) {
-        <span class="habit-card__streak" [class.today-done]="todaysTask() != null">
-          <span>{{ habit().streak }}</span>
-          <gav-icon icon="flame" />
+  <div class="habit-card__task-title">
+    <gav-icon [icon]="habit().icon" />
+    <h5>{{ habit().title }}</h5>
+    @if (habit().streak > 2) {
+      <span class="habit-card__streak" [class.today-done]="todaysTask() != null">
+        <span>{{ habit().streak }}</span>
+        <gav-icon icon="flame" />
+      </span>
+    }
+    <small>[ {{ habit().id }} ]</small>
+  </div>
+
+  <div class="habit-card__goal">
+    @if (!habit().currentGoal) {
+      <gav-icon class="disabled" icon="target" />
+      <gav-input
+        [formControl]="newGoalForm"
+        [options]="{ placeholder: 'Set a measurable short-term goal for this habit' }"
+      />
+      <gav-icon
+        icon="checkmark"
+        [class.disabled]="newGoalForm.invalid"
+        (click)="submitNewGoal()"
+      />
+    } @else {
+      @let goal = habit().currentGoal!;
+      @let showEffort = habit().effort! > 2;
+
+      <gav-icon icon="target" />
+      <span>{{ goal.title }}</span>
+      @if (showEffort) {
+        <span class="habit-card__goal-effort">
+          {{ habit().effort }}
+          <gav-icon icon="effort" />
         </span>
       }
-      <small>[ {{ habit().id }} ]</small>
-    </div>
+    }
+  </div>
 
-    <div class="habit-card__goal">
-      @if (!habit().currentGoal) {
-        <gav-icon class="disabled" icon="target" />
-        <gav-input
-          [formControl]="newGoalForm"
-          [options]="{ placeholder: 'Set a measurable short-term goal for this habit' }"
-        />
-        <gav-icon
-          icon="checkmark"
-          [class.disabled]="newGoalForm.invalid"
-          (click)="submitNewGoal()"
-        />
-      } @else {
-        @let goal = habit().currentGoal!;
-        @let showEffort = habit().effort! > 2;
+  <small class="habit-card__description">{{ habit().description }}</small>
 
-        <gav-icon icon="target" />
-        <span>{{ goal.title }}</span>
-        @if (showEffort) {
-          <span class="habit-card__goal-effort">
-            {{ habit().effort }}
-            <gav-icon icon="effort" />
-          </span>
-        }
-      }
-    </div>
+  <gav-input
+    class="habit-card__input"
+    formControlName="message"
+    type="textarea"
+    [options]="{ placeholder: 'context about today\'s score' }"
+  />
 
-    <small>{{ habit().description }}</small>
+  <div class="habit-card__last-weeks">
+    @let weeks = habit().latestTasks || {};
 
-    <gav-input
-      class="habit-card__input"
-      formControlName="message"
-      type="textarea"
-      [options]="{ placeholder: 'context about today\'s score' }"
-    />
-
-    <div class="habit-card__last-weeks">
-      @let weeks = habit().latestTasks || {};
-
-      @for (day of lastWeeks; track day) {
-        @let doneDayValue = weeks[day]?.effort;
-        <span
-          [style.background-color]="`var(--habit-card-success-color-${doneDayValue}, darkgray)`"
-          [class.today]="selectedDayService.selectedTimestamp() == day">
-        </span>
-      }
-    </div>
+    @for (day of lastWeeks; track day) {
+      @let doneDayValue = weeks[day]?.effort;
+      <span
+        [style.background-color]="`var(--habit-card-success-color-${doneDayValue}, darkgray)`"
+        [class.today]="selectedDayService.selectedTimestamp() == day">
+      </span>
+    }
   </div>
 
   <div class="habit-card__slider">
@@ -73,9 +73,14 @@
       </span>
     </div>
     <gav-input
+      class="habit-card__slider-slider"
       type="slider"
       formControlName="effort"
     />
+  </div>
+
+  <div class="habit-card__expandable-arrow">
+    <gav-icon icon="caret" />
   </div>
 
   @if (!habitIsReset()) {

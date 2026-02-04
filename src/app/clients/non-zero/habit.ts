@@ -9,8 +9,12 @@ import { sum, Timestamp } from 'firebase/firestore/lite';
 @Injectable({ providedIn: 'root' })
 export class HabitClient {
   private userId = computed(() => inject(AuthClient).user()?.uid || '');
-  habits = new GavListCache<Habit>(this.getHabitData());
+  habits = new GavListCache<Habit>();
   initialized = signal(false);
+
+  constructor() {
+    this.initialize();
+  }
 
   async saveHabit(habit: Habit): Promise<void> {
     const { id, ...partialHabit } = habit;
@@ -26,7 +30,7 @@ export class HabitClient {
   }
 
   async submitNewGoal(habitId: string, goalTitle: string): Promise<void> {
-    const today = HabitUtils.dateToNonZero(new Date());
+    const today = HabitUtils.today();
     const currentGoal = {
       started: today,
       title: goalTitle,
@@ -40,24 +44,35 @@ export class HabitClient {
     const habitMap = await readFbCollection<Habit>(`non-zero/${this.userId()}/habit`, { asMap: true });
     const habitIds = Object.keys(habitMap);
 
-    for (const habitId of habitIds) {
-      const habit = habitMap[habitId];
-      const goalStart = habit.currentGoal?.started;
-
-      if (goalStart) {
+    const effortPromise: Promise<{ id: string; effort: number }>[] = habitIds
+      .filter(habitId => habitMap[habitId].currentGoal?.started != null)
+      .map(async habitId => {
+        const goalStart = habitMap[habitId].currentGoal!.started;
         const goalStartDate = HabitUtils.nonZeroToDate(goalStart);
+
         const sumQueryParams = {
           where: ['effort', '>', 0],
           orderBy: ['date', 'asc'],
           startAfter: Timestamp.fromDate(goalStartDate),
           aggregate: { effort: sum('effort') }
         };
-        const effortSum = await readFbCollection(`non-zero/${this.userId()}/habit/${habitId}/task`, sumQueryParams);
-        habitMap[habitId].effort = effortSum['effort'];
-      }
-    }
+
+        const { effort } = await readFbCollection<number>(`non-zero/${this.userId()}/habit/${habitId}/task`, sumQueryParams);
+        return { id: habitId, effort };
+      });
+
+    const efforts = await Promise.all(effortPromise);
+    efforts.forEach(({ effort, id }) => habitMap[id].effort = effort);
+
+    return habitMap;
+  }
+
+  private async initialize(): Promise<void> {
+    const habitData = await this.getHabitData();
+    this.habits.listMap.set(habitData);
+    const today = HabitUtils.today();
+    this.habits.setSort((habitA, _) => habitA.latestTasks[today] != null ? 1 : 0);
 
     this.initialized.set(true);
-    return habitMap;
   }
 }

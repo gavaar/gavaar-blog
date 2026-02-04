@@ -9,7 +9,7 @@ export class TaskUpdater {
 
   private baseUri: string;
   private taskUri: string;
-  private today = HabitUtils.dateToNonZero(new Date());
+  private today = HabitUtils.today();
 
   constructor(habit: Habit, task: Task, userId: string) {
     this.habit = { ...habit };

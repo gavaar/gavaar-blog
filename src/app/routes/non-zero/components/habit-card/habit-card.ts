@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Habit, Task } from '@app/entities/non-zero';
+import { Habit, HabitUtils, Task } from '@app/entities/non-zero';
 import { HabitClient, TaskClient } from '@app/clients/non-zero';
 import { GavIcon, GavInput } from '@lib/components';
 import { SelectedDayState } from '../../state/selected-day.state';
@@ -34,6 +34,13 @@ export class HabitCard {
   private habitClient = inject(HabitClient);
   private taskClient = inject(TaskClient);
   protected saving = signal(false);
+  protected open = linkedSignal(() => {
+    const today = HabitUtils.today();
+    const habit = this.habit();
+    const selectedDate = this.selectedDayService.selectedTimestamp();
+
+    return selectedDate === today && habit.latestTasks[today]?.effort == null;
+  });
   protected selectedDayService = inject(SelectedDayState);
   protected lastWeeks = getLastWeeks();
   protected habitForm = new FormGroup({
