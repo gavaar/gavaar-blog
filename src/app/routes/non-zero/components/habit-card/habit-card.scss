@@ -11,6 +11,10 @@
   h5, small { margin: 0 }
 }
 
+gav-icon[icon="effort"] {
+  transform: rotate(45deg);
+}
+
 .habit-card {
   position: relative;
   padding: 1rem 0.75rem 0.25rem;
@@ -107,9 +111,18 @@
 
   &.today-done {
     --gav-icon__color: #{var(--bright-red)};
+    --gav-icon__transition: 2s;
     color: var(--bright-red);
     opacity: 1;
-    transition: 4s;
+    transition: 2s;
+  }
+  
+  &.frozen {
+    --gav-icon__color: #{var(--blue)};
+    --gav-icon__transition: 2s;
+    color: var(--blue);
+    opacity: 1;
+    transition: 2s;
   }
 }
 .habit-card__goal-effort {
@@ -174,7 +187,7 @@
     flex: 0 0 6.3%;
 
     &.today {
-      border: 2px solid var(--secondary);
+      border: 2px solid var(--text);
     }
   }
 }

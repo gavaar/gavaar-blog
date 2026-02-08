@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal, Signal, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Habit, HabitUtils, Task } from '@app/entities/non-zero';
@@ -33,13 +33,18 @@ export class HabitCard {
   
   private habitClient = inject(HabitClient);
   private taskClient = inject(TaskClient);
+  protected isTodaySelected = computed(() => {
+    const selectedDate = this.selectedDayService.selectedTimestamp();
+    const today = HabitUtils.today();
+    return selectedDate === today;
+  });
   protected saving = signal(false);
   protected open = linkedSignal(() => {
     const today = HabitUtils.today();
     const habit = this.habit();
-    const selectedDate = this.selectedDayService.selectedTimestamp();
+    const todaySelected = this.isTodaySelected();
 
-    return selectedDate === today && habit.latestTasks[today]?.effort == null;
+    return todaySelected && habit.latestTasks[today]?.effort == null;
   });
   protected selectedDayService = inject(SelectedDayState);
   protected lastWeeks = getLastWeeks();
@@ -48,7 +53,6 @@ export class HabitCard {
     effort: new FormControl<number|null>(null, [Validators.required, Validators.min(-3), Validators.max(3)]),
   });
   protected habitFormValue = toSignal(this.habitForm.valueChanges);
-  protected todaysTask = computed(() => this.habit().latestTasks[this.selectedDayService.today]);
   protected habitIsReset = computed(() => {
     const habit = this.habit();
     const habitValue = this.habitFormValue();
@@ -57,8 +61,23 @@ export class HabitCard {
 
     return todayHabitData?.message == habitValue?.message && todayHabitData?.effort == habitValue?.effort;
   });
-  protected newGoalForm = new FormControl('', Validators.required);
-  protected _habitUpdateEffect = effect(() => this.resetHabit());
+  protected streaks = computed<{ selected?: number; previous?: number }>(() => {
+    const habit = this.habit();
+    const selectedDate = this.selectedDayService.selectedTimestamp();
+
+    const [y,m,d] = selectedDate.split('-');
+    const prevDate = HabitUtils.dateToNonZero(new Date(+y, +m, +d - 1));
+
+    const selected = habit.latestTasks[selectedDate]?.streak;
+    const previous = habit.latestTasks[prevDate]?.streak;
+
+    return { selected, previous };
+  });
+  protected newGoalForm = computed(() => {
+    return new FormControl({ value: '', disabled: !this.isTodaySelected() }, Validators.required);
+  });
+
+  private _habitUpdateEffect = effect(() => this.resetHabit());
 
   protected async patchHabit(): Promise<void> {
     if (this.habitForm.invalid) return;
@@ -80,12 +99,23 @@ export class HabitCard {
     this.habitForm.patchValue({ message, effort });
   }
 
-  protected async submitNewGoal(): Promise<void> {
-    if (this.newGoalForm.invalid) return alert('Goal input is empty');
+  protected toggleOpen(): void {
+    if (HabitUtils.today() === this.selectedDayService.selectedTimestamp()) {
+      if (this.habitFormValue()?.effort == null) { return; }
+    }
 
-    if (this.newGoalForm.value && confirm(`You won't be able to edit this goal, and you will only be able to abandon it later.\nProceed?`)) {
+    if (this.habitIsReset()) {
+      this.open.set(!this.open());
+    }
+  }
+
+  protected async submitNewGoal(): Promise<void> {
+    if (this.newGoalForm().invalid) return alert('Goal input is empty');
+
+    const value = this.newGoalForm().value;
+    if (value && confirm(`You won't be able to edit this goal, and you will only be able to abandon it later.\nProceed?`)) {
       this.saving.set(true);
-      await this.habitClient.submitNewGoal(this.habit().id, this.newGoalForm.value!);
+      await this.habitClient.submitNewGoal(this.habit().id, value);
       this.saving.set(false);
     }
   }

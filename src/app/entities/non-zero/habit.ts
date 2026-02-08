@@ -5,11 +5,9 @@ export interface Habit {
   id: string;
   icon: string;
   title: string;
-  streak: number;
-  latestTasks: { [taskId: NonZeroDateString]: Pick<Task, 'message' | 'effort'> };
+  latestTasks: { [taskId: NonZeroDateString]: Pick<Task, 'message' | 'effort'> & { streak?: number } };
   currentGoal?: { title: string; started: NonZeroDateString };
   description?: string;
-  latestEntryTime?: NonZeroDateString;
-  // temp - built in the front end
+  // built in the front end
   effort?: number;
 }

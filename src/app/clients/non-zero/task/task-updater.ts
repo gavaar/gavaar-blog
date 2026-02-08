@@ -22,9 +22,9 @@ export class TaskUpdater {
   updateTaskMemory(): this {
     const filteredTasks = this.filterOutdatedTasks();
 
-    const previousTaskEffort = Math.max(filteredTasks[this.taskDate]?.effort || 0, 0);
-    const newTaskEffort = Math.max(this.task.effort, 0);
-    const effortDiff = (newTaskEffort - previousTaskEffort);
+    const outdatedTaskEffort = Math.max(filteredTasks[this.taskDate]?.effort || 0, 0);
+    const updatedTaskEffort = Math.max(this.task.effort, 0);
+    const effortDiff = (updatedTaskEffort - outdatedTaskEffort);
     this.habit.effort = (this.habit.effort || 0) + effortDiff;
    
     const { effort, message } = this.task;
@@ -39,16 +39,23 @@ export class TaskUpdater {
   updateStreak(): this {
     const taskDate = HabitUtils.dateToNonZero(new Date(this.task.date.seconds * 1000));
     if (taskDate !== this.today) return this;
-
-    const latestEntryTime = this.habit.latestEntryTime;
+    
     const yesterday = HabitUtils.dateToNonZero(HabitUtils.xDaysAgo(1));
+    const yesterdayStreak = this.habit.latestTasks[yesterday].streak || 0;
+    const todayEffort = this.habit.latestTasks[this.today]?.effort;
+    
+    if (todayEffort < 0) { return this; }
 
-    if (!latestEntryTime || latestEntryTime === yesterday) {
-      this.batch.update(this.baseUri, { streak: this.habit.streak + 1, latestEntryTime: this.today });
-      this.habit.streak += 1;
-      this.habit.latestEntryTime = this.today;
+    let streak = 0;
+    if (todayEffort > 0) {
+      streak = yesterdayStreak + 1;
     }
-
+    if (todayEffort === 0) {
+      streak = yesterdayStreak;
+    }
+    this.batch.update(this.baseUri, { latestTasks: { [this.today]: { streak } } });
+    this.habit.latestTasks[this.today].streak = streak;
+    
     return this;
   }
 

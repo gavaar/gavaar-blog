@@ -10,6 +10,7 @@ gav-icon {
 .gav-icon__icon {
   height: var(--gav-icon__height, 1.25rem);
   background-color: var(--gav-icon__color, var(--text));
+  transition: var(--gav-icon__transition, 0);
 
   display: block;
   aspect-ratio : 1 / 1;

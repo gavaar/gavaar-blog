@@ -1,3 +1,11 @@
+<h2>Tools</h2>
+<div class="home__card-links">
+  @for (cardConfig of cardsConfig.tools; track cardConfig.id) {
+    <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />
+  }
+</div>
+
+<h2>Blog</h2>
 <div class="home__card-links">
   @for (cardConfig of cardsConfig.original; track cardConfig.id) {
     <gav-card [routerLink]="cardConfig.id" [config]="cardConfig" />

@@ -4,6 +4,7 @@ import { HabitUtils, NonZeroDateString } from '@app/entities/non-zero';
 @Injectable()
 export class SelectedDayState {
   today = HabitUtils.today();
+  yesterday = HabitUtils.yesterday();
   selectedDate = signal(new Date());
   selectedTimestamp = computed<NonZeroDateString>(() => {
     const date = this.selectedDate();

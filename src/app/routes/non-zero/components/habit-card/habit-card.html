@@ -4,14 +4,17 @@
   [class.open]="open()"
   [formGroup]="habitForm"
   [style.--habit-card-selection-color]="`var(--habit-card-success-color-${habitFormValue()?.effort}, var(--disabled))`"
-  (click)="open.set(!open())"
+  (click)="toggleOpen()"
 >
   <div class="habit-card__task-title">
     <gav-icon [icon]="habit().icon" />
     <h5>{{ habit().title }}</h5>
-    @if (habit().streak > 2) {
-      <span class="habit-card__streak" [class.today-done]="todaysTask() != null">
-        <span>{{ habit().streak }}</span>
+    @let selected = streaks().selected;
+    @let previous = streaks().previous;
+
+    @if ((previous || 0) > 1) {
+      <span class="habit-card__streak" [class.today-done]="selected != null" [class.frozen]="selected === previous">
+        <span>{{ selected || previous }}</span>
         <gav-icon icon="flame" />
       </span>
     }
@@ -22,12 +25,12 @@
     @if (!habit().currentGoal) {
       <gav-icon class="disabled" icon="target" />
       <gav-input
-        [formControl]="newGoalForm"
+        [formControl]="newGoalForm()"
         [options]="{ placeholder: 'Set a measurable short-term goal for this habit' }"
       />
       <gav-icon
         icon="checkmark"
-        [class.disabled]="newGoalForm.invalid"
+        [class.disabled]="newGoalForm().invalid"
         (click)="submitNewGoal()"
       />
     } @else {
@@ -92,7 +95,9 @@
     </button>
   }
 
-  <div class="habit-card__option-buttons">
-    <ng-content />
-  </div>
+  @if (open()) {
+    <div class="habit-card__option-buttons">
+      <ng-content />
+    </div>
+  }
 </form>

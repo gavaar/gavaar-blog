@@ -5,6 +5,10 @@ export class HabitUtils {
     return this.dateToNonZero(new Date());
   }
 
+  static yesterday(): NonZeroDateString {
+    return this.dateToNonZero(this.xDaysAgo(1));
+  }
+
   static nonZeroToDate(nzd: NonZeroDateString): Date {
     const [y,m,d] = nzd.split('-');
     return new Date(+y,+m,+d);
