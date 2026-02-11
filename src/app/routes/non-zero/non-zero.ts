@@ -4,12 +4,13 @@ import { DayTracker, HabitCard, HabitEditCard } from './components';
 import { SelectedDayState } from './state/selected-day.state';
 import { GavIcon } from "@lib/components";
 import { GavLoading } from "@app/components";
+import { GavRequireAuth } from '@app/directives';
 
 @Component({
   selector: 'non-zero',
   templateUrl: './non-zero.html',
   styleUrl: './non-zero.scss',
-  imports: [HabitCard, DayTracker, HabitEditCard, GavIcon, GavLoading],
+  imports: [HabitCard, DayTracker, HabitEditCard, GavIcon, GavLoading, GavRequireAuth],
   providers: [SelectedDayState],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

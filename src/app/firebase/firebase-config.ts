@@ -1,6 +1,6 @@
 export const firebaseConfig = {
   apiKey: "AIzaSyB1qIyOljq6io8yspkHnocAey2upYGaDn4",
-  authDomain: "gavaar-blog.firebaseapp.com",
+  authDomain: "gavaar-blog.web.app",
   projectId: "gavaar-blog",
   storageBucket: "gavaar-blog.appspot.com",
   messagingSenderId: "164747033082",
