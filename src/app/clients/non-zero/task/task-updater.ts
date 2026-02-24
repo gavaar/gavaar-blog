@@ -23,7 +23,7 @@ export class TaskUpdater {
     const filteredTasks = this.filterOutdatedTasks();
 
     const outdatedTaskEffort = Math.max(filteredTasks[this.taskDate]?.effort || 0, 0);
-    const updatedTaskEffort = Math.max(this.task.effort, 0);
+    const updatedTaskEffort = Math.max(this.task.effort || 0, 0);
     const effortDiff = (updatedTaskEffort - outdatedTaskEffort);
     this.habit.effort = (this.habit.effort || 0) + effortDiff;
    
@@ -31,7 +31,6 @@ export class TaskUpdater {
     filteredTasks[this.taskDate] = { effort, message };
     this.batch.update(this.baseUri, { latestTasks: filteredTasks });
     this.habit.latestTasks = filteredTasks;
-    
 
     return this;
   }
@@ -41,7 +40,7 @@ export class TaskUpdater {
     if (taskDate !== this.today) return this;
     
     const yesterday = HabitUtils.dateToNonZero(HabitUtils.xDaysAgo(1));
-    const yesterdayStreak = this.habit.latestTasks[yesterday].streak || 0;
+    const yesterdayStreak = this.habit.latestTasks[yesterday]?.streak || 0;
     const todayEffort = this.habit.latestTasks[this.today]?.effort;
     
     if (todayEffort < 0) { return this; }
