@@ -1,4 +1,4 @@
-<button class="round-button" (click)="selectedDayService.updateDate(-1)">
+<button class="round-button" (click)="selectedDayService.moveSelectedDate(-1)">
   <gav-icon icon="back-arrow" />
 </button>
 <span class="day-tracker__date"
@@ -8,6 +8,6 @@
 <button
   class="day-tracker__next round-button"
   [disabled]="selectedDayService.selectedTimestamp() === selectedDayService.today"
-  (click)="selectedDayService.updateDate(1)">
+  (click)="selectedDayService.moveSelectedDate(1)">
   <gav-icon icon="back-arrow" />
 </button>

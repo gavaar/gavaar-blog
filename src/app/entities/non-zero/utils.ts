@@ -1,8 +1,17 @@
 export type NonZeroDateString = `${number}-${number}-${number}`;
-
+const DATE_HOUR_OFFSET = -6;
 export class HabitUtils {
+  static dateWithOffset({ year, month, date }: { year?: number; month?: number; date?: number } = {}): Date {
+    const today = new Date();
+    year ||= today.getFullYear();
+    month ||= today.getMonth();
+    date ||= today.getDate();
+
+    return new Date(year, month, date, today.getHours() + DATE_HOUR_OFFSET);
+  }
+
   static today(): NonZeroDateString {
-    return this.dateToNonZero(new Date());
+    return this.dateToNonZero(this.dateWithOffset());
   }
 
   static yesterday(): NonZeroDateString {
@@ -19,7 +28,7 @@ export class HabitUtils {
   }
 
   static xDaysAgo(x: number): Date {
-    const today = new Date();
+    const today = this.dateWithOffset();
     return new Date(today.getFullYear(), today.getMonth(), today.getDate() - x);
   }
 

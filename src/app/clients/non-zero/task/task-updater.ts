@@ -36,8 +36,7 @@ export class TaskUpdater {
   }
 
   updateStreak(): this {
-    const taskDate = HabitUtils.dateToNonZero(new Date(this.task.date.seconds * 1000));
-    if (taskDate !== this.today) return this;
+    if (this.taskDate !== this.today) return this;
     
     const yesterday = HabitUtils.dateToNonZero(HabitUtils.xDaysAgo(1));
     const yesterdayStreak = this.habit.latestTasks[yesterday]?.streak || 0;

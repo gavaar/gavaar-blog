@@ -5,22 +5,22 @@ import { HabitUtils, NonZeroDateString } from '@app/entities/non-zero';
 export class SelectedDayState {
   today = HabitUtils.today();
   yesterday = HabitUtils.yesterday();
-  selectedDate = signal(new Date());
+  selectedDate = signal(HabitUtils.dateWithOffset());
   selectedTimestamp = computed<NonZeroDateString>(() => {
     const date = this.selectedDate();
     return HabitUtils.dateToNonZero(date);
   });
 
   setToday(): void {
-    this.selectedDate.set(new Date());
+    this.selectedDate.set(HabitUtils.dateWithOffset());
   }
 
-  updateDate(daysDiff: number): void {
+  moveSelectedDate(offset: number): void {
     const selectedDate = this.selectedDate();
     const newDate = new Date(
       selectedDate.getFullYear(),
       selectedDate.getMonth(),
-      selectedDate.getDate() + daysDiff
+      selectedDate.getDate() + offset
     );
 
     this.selectedDate.set(newDate);

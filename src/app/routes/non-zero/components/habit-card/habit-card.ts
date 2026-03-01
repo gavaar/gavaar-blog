@@ -9,14 +9,14 @@ import { NonZeroDateString } from '@app/entities/non-zero';
 import { Timestamp } from 'firebase/firestore/lite';
 
 const getLastWeeks = (): NonZeroDateString[] => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
+  const today = HabitUtils.dateWithOffset();
+  const year = today.getFullYear();
+  const month = today.getMonth();
+  const day = today.getDate();
   const arrayLength = 56;
 
   return Array(arrayLength).fill(null).map((_, idx) => {
-    const targetDate = new Date(year, month, day - (arrayLength - 1) + idx, date.getHours());
+    const targetDate = new Date(year, month, day - (arrayLength - 1) + idx);
     return `${targetDate.getFullYear()}-${targetDate.getMonth()}-${targetDate.getDate()}` as NonZeroDateString;
   });
 }
@@ -66,7 +66,7 @@ export class HabitCard {
     const selectedDate = this.selectedDayService.selectedTimestamp();
 
     const [y,m,d] = selectedDate.split('-');
-    const prevDate = HabitUtils.dateToNonZero(new Date(+y, +m, +d - 1));
+    const prevDate = HabitUtils.dateToNonZero(HabitUtils.dateWithOffset({ year: +y, month: +m, date: +d - 1 }));
 
     const selected = habit.latestTasks[selectedDate]?.streak;
     const previous = habit.latestTasks[prevDate]?.streak;
