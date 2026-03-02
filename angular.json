@@ -47,7 +47,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "https://gavaar-blog.web.app/",
+              "baseHref": "https://gavaar.me/",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
