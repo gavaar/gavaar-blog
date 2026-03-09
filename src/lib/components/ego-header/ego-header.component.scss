@@ -1,5 +1,5 @@
-/* min 7vh | max 27vh*/
-$heightCalc: calc(7vh + (20vh * (1 - var(--gav-ego-header__animation-range))));
+/* min 7vh | max 15vh*/
+$heightCalc: calc(7vh + (8vh * (1 - var(--gav-ego-header__animation-range))));
 
 gav-ego-header {
   display: block;
@@ -42,7 +42,7 @@ gav-ego-header {
 
 .gav-ego-header__dynamic-height {
   height: $heightCalc;
-  margin-bottom: calc(30vh -  $heightCalc);
+  margin-bottom: calc(18vh -  $heightCalc);
   border-radius: 0 0
     calc(50% * (1 - var(--gav-ego-header__animation-range)))
     calc(50% * (1 - var(--gav-ego-header__animation-range)));
