@@ -13,7 +13,7 @@ export class TaskClient {
 
   tasks = new GavListCache<Task>();
 
-  async saveTask(habitId: string, task: Task): Promise<void> {
+  async saveTask(habitId: string, task: Task, { completeGoal }: { completeGoal?: boolean } = {}): Promise<void> {
     const habit = this.habitClient.habits.get(habitId);
     if (!habit) throw Error(`Habit ${habitId} does not exist`);
 
@@ -22,6 +22,10 @@ export class TaskClient {
       .updateTaskMemory()
       .updateStreak()
       .appendTask();
+
+    if (completeGoal) {
+      updateRequest.completeGoal();
+    }
 
     try {
       await updateRequest.batch.commit();

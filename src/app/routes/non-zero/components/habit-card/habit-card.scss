@@ -4,9 +4,11 @@
   --habit-card-success-color--2: #D47070;
   --habit-card-success-color--1: #E8A0A0;
   --habit-card-success-color-0: #FFFFFF;
-  --habit-card-success-color-3: #4071BF;
-  --habit-card-success-color-2: #70A2D4;
   --habit-card-success-color-1: #A0D4E8;
+  --habit-card-success-color-2: #70A2D4;
+  --habit-card-success-color-3: #4071BF;
+  --habit-card-success-color-3: #4071BF;
+  --habit-card-success-color-goal-completed: #7140BF;
 
   h5, small { margin: 0 }
 }
@@ -43,7 +45,7 @@ gav-icon[icon="effort"] {
     left: 0;
     bottom: 0;
     right: 0;
-    background: linear-gradient(180deg, var(--habit-card-selection-color) 90%, var(--background));
+    background: linear-gradient(180deg, var(--habit-card-selection-color) 90%);
     opacity: 0.1;
     border-radius: 2rem;
   }
@@ -51,6 +53,11 @@ gav-icon[icon="effort"] {
   &.saving {
     pointer-events: none;
     opacity: 0.25;
+  }
+
+  &.goal-complete:before {
+    background-image: url("/assets/images/animated/purple-smoke.gif");
+    background-size: cover;
   }
 }
 
@@ -146,6 +153,11 @@ gav-icon[icon="effort"] {
   }
   gav-icon.disabled {
     --gav-icon__color: #{var(--disabled)};
+  }
+
+  &.complete {
+    color: var(--habit-card-success-color-goal-completed);
+    --gav-icon__color: #{var(--habit-card-success-color-goal-completed)};
   }
 }
 
@@ -247,6 +259,23 @@ gav-icon[icon="effort"] {
 
   --gav-icon__height: 1rem;
   --gav-icon__color: #{var(--primary)};
+}
+
+.habit-card__goal-button {
+  position: absolute;
+  top: -0.75rem;
+  right: 2.5rem;
+  border-color: var(--disabled);
+
+  --gav-icon__height: 0.75rem;
+  --gav-icon__color: #{var(--disabled)};
+  --round-button__height: 1.5rem;
+  --round-button__width: 1.5rem;
+
+  &.active {
+    border-color: var(--habit-card-success-color-goal-completed);
+    --gav-icon__color: #{var(--habit-card-success-color-goal-completed)};
+  }
 }
 
 .habit-card:hover .habit-card__option-buttons {

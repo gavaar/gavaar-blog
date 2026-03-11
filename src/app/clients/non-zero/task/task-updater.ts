@@ -1,5 +1,5 @@
 import { Habit, HabitUtils, NonZeroDateString, Task } from "@app/entities/non-zero";
-import { FbBatch } from "@app/firebase";
+import { FbBatch, generateDocId } from "@app/firebase";
 
 export class TaskUpdater {
   batch = new FbBatch();
@@ -36,7 +36,7 @@ export class TaskUpdater {
   }
 
   updateStreak(): this {
-    if (this.taskDate !== this.today) return this;
+    if (!this.taskIsToday()) return this;
     
     const yesterday = HabitUtils.dateToNonZero(HabitUtils.xDaysAgo(1));
     const yesterdayStreak = this.habit.latestTasks[yesterday]?.streak || 0;
@@ -60,6 +60,25 @@ export class TaskUpdater {
   appendTask(): this {
     this.batch.update(this.taskUri, this.task);
     return this;
+  }
+
+  completeGoal(): this {
+    if (!this.habit.currentGoal || !this.taskIsToday()) return this;
+    
+    const goalUrl = `${this.baseUri}/goal`;
+    const goalId = generateDocId(goalUrl);
+
+    const { title, started } = this.habit.currentGoal;
+
+    this.batch.update(`${goalUrl}/${goalId}`, { goal: title, start: started, end: this.today });
+    this.batch.update(this.baseUri, { currentGoal: null });
+    delete this.habit.currentGoal;
+
+    return this;
+  }
+
+  private taskIsToday(): boolean {
+    return this.today === this.taskDate;
   }
 
   private filterOutdatedTasks(): Habit['latestTasks'] {

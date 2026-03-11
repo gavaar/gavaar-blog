@@ -71,6 +71,10 @@ export async function deleteFbDocument(documentPath: string): Promise<void> {
   return deleteDoc(doc(db, documentPath));
 }
 
+export function generateDocId(collectionPath: string): string {
+  return doc(collection(db, collectionPath)).id;
+}
+
 export class FbBatch {
   private batch = writeBatch(db);
 

@@ -2,8 +2,9 @@
   class="habit-card"
   [class.saving]="saving()"
   [class.open]="open()"
+  [class.goal-complete]="goalComplete()"
   [formGroup]="habitForm"
-  [style.--habit-card-selection-color]="`var(--habit-card-success-color-${habitFormValue()?.effort}, var(--disabled))`"
+  [style.--habit-card-selection-color]="`var(--habit-card-success-color-${successColor()}, var(--disabled))`"
   (click)="toggleOpen()"
 >
   <div class="habit-card__task-title">
@@ -21,23 +22,18 @@
     <small>[ {{ habit().id }} ]</small>
   </div>
 
-  <div class="habit-card__goal">
+  <div class="habit-card__goal" [class.complete]="goalComplete()">
     @if (!habit().currentGoal) {
       <gav-icon class="disabled" icon="target" />
       <gav-input
         [formControl]="newGoalForm()"
         [options]="{ placeholder: 'Set a measurable short-term goal for this habit' }"
       />
-      <gav-icon
-        icon="checkmark"
-        [class.disabled]="newGoalForm().invalid"
-        (click)="submitNewGoal()"
-      />
     } @else {
       @let goal = habit().currentGoal!;
       @let showEffort = habit().effort! > 2;
 
-      <gav-icon icon="target" />
+      <gav-icon [icon]="goalComplete() ? 'flame' : 'target'" />
       <span>{{ goal.title }}</span>
       @if (showEffort) {
         <span class="habit-card__goal-effort">
@@ -92,6 +88,23 @@
     </button>
     <button class="habit-card__rewind-button round-button" (click)="resetHabit()">
       <gav-icon icon="rewind" />
+    </button>
+  }
+  @if (!habit().currentGoal) {
+    <button
+      class="habit-card__goal-button round-button"
+      [class.active]="newGoalForm().valid"
+      (click)="submitNewGoal()"
+    >
+      <gav-icon icon="target" />
+    </button>
+  } @else {
+    <button
+      class="habit-card__goal-button round-button"
+      [class.active]="goalComplete()"
+      (click)="toggleGoalCompleted()"
+    >
+      <gav-icon icon="target" />
     </button>
   }
 

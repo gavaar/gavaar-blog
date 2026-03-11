@@ -58,8 +58,9 @@ export class HabitCard {
     const habitValue = this.habitFormValue();
     const selectedTimestamp = this.selectedDayService.selectedTimestamp();
     const todayHabitData = habit.latestTasks?.[selectedTimestamp];
+    const goalComplete = this.goalComplete();
 
-    return todayHabitData?.message == habitValue?.message && todayHabitData?.effort == habitValue?.effort;
+    return todayHabitData?.message == habitValue?.message && todayHabitData?.effort == habitValue?.effort && !goalComplete;
   });
   protected streaks = computed<{ selected?: number; previous?: number }>(() => {
     const habit = this.habit();
@@ -76,6 +77,14 @@ export class HabitCard {
   protected newGoalForm = computed(() => {
     return new FormControl({ value: '', disabled: !this.isTodaySelected() }, Validators.required);
   });
+  protected goalComplete = signal(false);
+  protected successColor = computed(() => {
+    const goalComplete = this.goalComplete();
+    const habitForm = this.habitFormValue();
+
+    if (goalComplete) return 'goal-completed'
+    return habitForm?.effort;
+  });
 
   private _habitUpdateEffect = effect(() => this.resetHabit());
 
@@ -86,7 +95,7 @@ export class HabitCard {
     const { message, effort } = this.habitForm.value as { message: string; effort: number };
     const task: Task = { message, effort, date: Timestamp.fromDate(this.selectedDayService.selectedDate()) };
 
-    await this.taskClient.saveTask(this.habit().id, task);
+    await this.taskClient.saveTask(this.habit().id, task, { completeGoal: this.goalComplete() });
     this.saving.set(false);
   }
 
@@ -97,6 +106,7 @@ export class HabitCard {
 
     const { effort, message } = todayHabitData || { effort: null, message: null };
     this.habitForm.patchValue({ message, effort });
+    this.goalComplete.set(false);
   }
 
   protected toggleOpen(): void {
@@ -106,6 +116,13 @@ export class HabitCard {
 
     if (this.habitIsReset()) {
       this.open.set(!this.open());
+    }
+  }
+
+  protected toggleGoalCompleted(): void {
+    this.goalComplete.update(g => !g);
+    if (this.goalComplete()) {
+      this.open.set(true);
     }
   }
 
