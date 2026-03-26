@@ -21,7 +21,7 @@ export class ViewsTracker {
 
   private async updateOrIgnoreIncrement(path: string, id: string): Promise<void> {
     const pathKey = `${path}/${id}`;
-    const deviceViewed = memory.get(Memory.Views);
+    const deviceViewed = memory.watch(Memory.Views)();
 
     // admins and devs won't update.
     const forbidUpdate = this.admin() || !environment.production; 

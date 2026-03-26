@@ -8,10 +8,6 @@ class MemoryService {
     [Memory.Config]: signal(getStorage(Memory.Config)),
     [Memory.HiddenRoutes]: signal(getStorage(Memory.HiddenRoutes)),
   };
-  
-  get<T extends Memory>(key: T): MemoryTypes[T] {
-    return this.memory[key]();
-  }
 
   set<T extends Memory>(key: T, value: MemoryTypes[T]): void {
     setStorage(key, value);

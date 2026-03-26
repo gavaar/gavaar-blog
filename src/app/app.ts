@@ -56,7 +56,10 @@ const SIDENAV_CONFIG = [
 })
 export class App {
   protected sidenavConfig = SIDENAV_CONFIG;
-  protected navOpen = computed(() => memory.get(Memory.Config).sidenavOpen);
+  protected navOpen = computed(() => {
+    const memConfig = memory.watch(Memory.Config)();
+    return memConfig.sidenavOpen;
+  });
   protected closeNav = () => memory.patch(Memory.Config, { sidenavOpen: false });
 
   private _ = effect(() => {

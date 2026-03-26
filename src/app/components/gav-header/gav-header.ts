@@ -41,7 +41,10 @@ export class GavHeader {
   protected Icon = Icon;
 
   protected parentUrl = signal({ currentRoute: '', parentLink: '~' });
-  protected navOpen = computed(() => memory.get(Memory.Config).sidenavOpen);
+  protected navOpen = computed(() => {
+    const memConfig = memory.watch(Memory.Config)();
+    return memConfig.sidenavOpen;
+  });
   protected bg = computed(() => this.routerData()?.data['bg'] || 'default_bg.jpg');
   protected portrait = computed(() => this.routerData()?.data['portrait'] || 'loading/rolling.gif');
 

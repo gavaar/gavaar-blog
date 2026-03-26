@@ -89,11 +89,11 @@ export const FOOTER_DATA: RouteConfig[] = [
     loadComponent: () => import('./account/account').then(c => c.Account),
   },
   {
-    title: memory.get(Memory.Config).theme ? 'Psychopath' : 'Dark',
-    icon: memory.get(Memory.Config).theme ? Icon.Sun : Icon.Moon,
+    title: memory.watch(Memory.Config)().theme ? 'Psychopath' : 'Dark',
+    icon: memory.watch(Memory.Config)().theme ? Icon.Sun : Icon.Moon,
     children: [],
     click() {
-      const currentTheme = memory.get(Memory.Config).theme;
+      const currentTheme = memory.watch(Memory.Config)().theme;
       this.icon = currentTheme ? Icon.Moon : Icon.Sun;
       this.title = currentTheme ? 'Dark' : 'Psychopath';
       memory.patch(Memory.Config, { theme: currentTheme ? '' : 'light' });
