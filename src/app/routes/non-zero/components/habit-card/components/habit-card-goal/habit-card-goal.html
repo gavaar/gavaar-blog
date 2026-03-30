@@ -1,0 +1,10 @@
+<gav-icon class="habit-card-goal__target" icon="target" />
+<span class="habit-card-goal__goal">{{ goal() ?? '- - -' }}</span>
+@if (open() && goal()) {
+  <gav-icon
+    class="habit-card-goal__check"
+    [class.checked]="value()"
+    icon="checkmark"
+    (click)="value.set(!value())"
+  />
+}

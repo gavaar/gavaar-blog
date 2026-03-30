@@ -1,0 +1,33 @@
+@if (open()) {
+  <div
+    class="habit-card-history__last-weeks"
+    animate.enter="slide-y__grow"
+    animate.leave="slide-y__shrink"
+  >
+    @for (day of lastWeeks[0]; track day) {
+      <ng-container
+        [ngTemplateOutlet]="dayBox"
+        [ngTemplateOutletContext]="{ $implicit: day }"
+      />
+    }
+  </div>
+}
+
+<div class="habit-card-history__last-weeks">
+  @for (day of lastWeeks[1]; track day) {
+    <ng-container
+      [ngTemplateOutlet]="dayBox"
+      [ngTemplateOutletContext]="{ $implicit: day }"
+    />
+  }
+</div>
+
+<ng-template #dayBox let-day>
+  @let doneDayValue = latestTasks()[day]?.effort;
+
+  <span
+    class="habit-card-history__day-box"
+    [style.background-color]="`var(--habit-card-color_${doneDayValue}, darkgray)`"
+    [class.today]="selectedDay.selectedTimestamp() == day">
+  </span>
+</ng-template>

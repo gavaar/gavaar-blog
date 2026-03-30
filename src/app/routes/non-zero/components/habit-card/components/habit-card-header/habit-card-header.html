@@ -1,0 +1,20 @@
+<gav-icon class="habit-card-header__icon" [icon]="icon()" />
+<h4 class="habit-card-header__title">{{ title() }}</h4>
+<small class="habit-card-header__id">[{{ id() }}]</small>
+@if (open()) {
+  <p
+    [style.--anim__max-height]="'2rem'"
+    class="habit-card-header__desc"
+    animate.enter="slide-v__grow"
+    animate.leave="slide-v__shrink"
+  >
+    {{ description() }}
+  </p>
+}
+@if (showCaret()) {
+  <gav-icon
+    class="habit-card-header__arrow"
+    [class.open]="open()"
+    icon="caret"
+  />
+}

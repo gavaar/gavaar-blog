@@ -1,0 +1,27 @@
+<div class="habit-card-actions__settings-list">
+  <gav-icon class="habit-card-actions__settings" icon="external" />
+
+  <div class="habit-card-actions__settings-options">
+    <gav-icon
+      class="habit-card-actions__edit"
+      icon="pencil"
+      (click)="onEdit.emit()"
+    />
+    <gav-icon
+      class="habit-card-actions__delete"
+      icon="bin"
+      (click)="onDelete.emit()"
+    />
+  </div>
+</div>
+
+<gav-icon
+  class="habit-card-actions__reset"
+  icon="rewind"
+  (click)="onReset.emit()"
+/>
+<gav-icon
+  class="habit-card-actions__save"
+  icon="save"
+  (click)="onSave.emit()"
+/>

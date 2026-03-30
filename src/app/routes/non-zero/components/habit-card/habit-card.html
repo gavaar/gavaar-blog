@@ -1,116 +1,63 @@
-<form
+@let selectedEffort = cardValues().effort;
+
+<div
   class="habit-card"
-  [class.saving]="saving()"
-  [class.open]="open()"
-  [class.goal-complete]="goalComplete()"
-  [formGroup]="habitForm"
-  [style.--habit-card-selection-color]="`var(--habit-card-success-color-${successColor()}, var(--disabled))`"
-  (click)="toggleOpen()"
+  [class.disabled]="disableCard()"
+  [style.--habit-card-selection]="`var(--habit-card-color_${selectedEffort}, var(--disabled))`"
 >
-  <div class="habit-card__task-title">
-    <gav-icon [icon]="habit().icon" />
-    <h5>{{ habit().title }}</h5>
-    @let selected = streaks().selected;
-    @let previous = streaks().previous;
-
-    @if ((previous || 0) > 1) {
-      <span class="habit-card__streak" [class.today-done]="selected != null" [class.frozen]="selected === previous">
-        <span>{{ selected || previous }}</span>
-        <gav-icon icon="flame" />
-      </span>
-    }
-    <small>[ {{ habit().id }} ]</small>
-  </div>
-
-  <div class="habit-card__goal" [class.complete]="goalComplete()">
-    @if (!habit().currentGoal) {
-      <gav-icon class="disabled" icon="target" />
-      <gav-input
-        [formControl]="newGoalForm()"
-        [options]="{ placeholder: 'Set a measurable short-term goal for this habit' }"
-      />
-    } @else {
-      @let goal = habit().currentGoal!;
-      @let showEffort = habit().effort! > 2;
-
-      <gav-icon [icon]="goalComplete() ? 'flame' : 'target'" />
-      <span>{{ goal.title }}</span>
-      @if (showEffort) {
-        <span class="habit-card__goal-effort">
-          {{ habit().effort }}
-          <gav-icon icon="effort" />
-        </span>
-      }
-    }
-  </div>
-
-  <small class="habit-card__description">{{ habit().description }}</small>
-
-  <gav-input
-    class="habit-card__input"
-    formControlName="message"
-    type="textarea"
-    [options]="{ placeholder: 'context about today\'s score' }"
+  <habit-card-header
+    class="habit-card__header"
+    [icon]="habit().icon"
+    [title]="habit().title"
+    [id]="habit().id"
+    [description]="habit().description"
+    [open]="open()"
+    [showCaret]="selectedTask()?.effort != null"
+    (click)="toggleMinimize()"
   />
 
-  <div class="habit-card__last-weeks">
-    @let weeks = habit().latestTasks || {};
+  <div class="habit-card__slider">
+    <div class="habit-card__slider-effot">
+      {{ selectedEffort === '' ? '-' : selectedEffort }}
+    </div>
 
-    @for (day of lastWeeks; track day) {
-      @let doneDayValue = weeks[day]?.effort;
-      <span
-        [style.background-color]="`var(--habit-card-success-color-${doneDayValue}, darkgray)`"
-        [class.today]="selectedDayService.selectedTimestamp() == day">
-      </span>
+    @if (open()) {
+      <gav-input
+        [style.--anim__max-height]="'10rem'"
+        animate.enter="slide-y__grow"
+        animate.leave="slide-y__shrink"
+        type="slider"
+        [formField]="cardValuesForm.effort"
+      />
     }
   </div>
 
-  <div class="habit-card__slider">
-    <div class="habit-card__slider-value">
-      <span>
-        {{ habitFormValue()?.effort ?? '-' }}
-      </span>
-    </div>
-    <gav-input
-      class="habit-card__slider-slider"
-      type="slider"
-      formControlName="effort"
-    />
-  </div>
+  <habit-card-goal
+    [formField]="cardValuesForm.goal"
+    [goal]="habit().currentGoal?.title"
+    [open]="open()"
+  />
 
-  <div class="habit-card__expandable-arrow">
-    <gav-icon icon="caret" />
-  </div>
-
-  @if (!habitIsReset()) {
-    <button class="habit-card__save-button round-button" (click)="patchHabit()">
-      <gav-icon icon="save" />
-    </button>
-    <button class="habit-card__rewind-button round-button" (click)="resetHabit()">
-      <gav-icon icon="rewind" />
-    </button>
-  }
-  @if (!habit().currentGoal) {
-    <button
-      class="habit-card__goal-button round-button"
-      [class.active]="newGoalForm().valid"
-      (click)="submitNewGoal()"
-    >
-      <gav-icon icon="target" />
-    </button>
-  } @else {
-    <button
-      class="habit-card__goal-button round-button"
-      [class.active]="goalComplete()"
-      (click)="toggleGoalCompleted()"
-    >
-      <gav-icon icon="target" />
-    </button>
-  }
-
+  <habit-card-history 
+    [open]="open()"
+    [latestTasks]="habit().latestTasks || {}"
+  />
   @if (open()) {
-    <div class="habit-card__option-buttons">
-      <ng-content />
-    </div>
+    <habit-card-input
+      [style.--anim__max-height]="'3rem'"
+      animate.enter="slide-y__grow"
+      animate.leave="slide-y__shrink"
+      [formField]="cardValuesForm.context"
+      />
+      
+    <habit-card-actions
+      animate.enter="slide-y__grow"
+      animate.leave="slide-y__shrink"
+      [style.--anim__max-height]="'1.5rem'"
+      (onDelete)="deleteHabit()"
+      (onEdit)="editHabit.emit()"
+      (onReset)="resetForm()"
+      (onSave)="patchHabit()"
+    />
   }
-</form>
+</div>

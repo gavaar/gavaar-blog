@@ -1,139 +1,98 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal, Signal, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Habit, HabitUtils, Task } from '@app/entities/non-zero';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, linkedSignal, output, signal } from '@angular/core';
+import { form, FormField, required } from '@angular/forms/signals';
+import { Habit, Task } from '@app/entities/non-zero';
 import { HabitClient, TaskClient } from '@app/clients/non-zero';
-import { GavIcon, GavInput } from '@lib/components';
+import { GavInput } from '@lib/components';
 import { SelectedDayState } from '../../state/selected-day.state';
-import { NonZeroDateString } from '@app/entities/non-zero';
 import { Timestamp } from 'firebase/firestore/lite';
+import { HabitCardActions, HabitCardGoal, HabitCardHeader, HabitCardHistory, HabitCardInput } from './components';
 
-const getLastWeeks = (): NonZeroDateString[] => {
-  const today = HabitUtils.dateWithOffset();
-  const year = today.getFullYear();
-  const month = today.getMonth();
-  const day = today.getDate();
-  const arrayLength = 56;
-
-  return Array(arrayLength).fill(null).map((_, idx) => {
-    const targetDate = new Date(year, month, day - (arrayLength - 1) + idx);
-    return `${targetDate.getFullYear()}-${targetDate.getMonth()}-${targetDate.getDate()}` as NonZeroDateString;
-  });
+interface CardValues {
+  effort: number | '';
+  context: string;
+  goal: boolean;
 }
 
 @Component({
   selector: 'habit-card',
-  imports: [ReactiveFormsModule, GavIcon, GavInput],
+  imports: [
+    FormField,
+    GavInput,
+    HabitCardHeader,
+    HabitCardGoal,
+    HabitCardHistory,
+    HabitCardInput,
+    HabitCardActions,
+],
   templateUrl: './habit-card.html',
   styleUrl: './habit-card.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HabitCard {
   habit = input.required<Habit>();
-  
-  private habitClient = inject(HabitClient);
+
+  editHabit = output();
+
+  private selectedDayState = inject(SelectedDayState);
   private taskClient = inject(TaskClient);
-  protected isTodaySelected = computed(() => {
-    const selectedDate = this.selectedDayService.selectedTimestamp();
-    const today = HabitUtils.today();
-    return selectedDate === today;
-  });
-  protected saving = signal(false);
-  protected open = linkedSignal(() => {
-    const today = HabitUtils.today();
-    const habit = this.habit();
-    const todaySelected = this.isTodaySelected();
+  private habitClient = inject(HabitClient);
 
-    return todaySelected && habit.latestTasks[today]?.effort == null;
-  });
-  protected selectedDayService = inject(SelectedDayState);
-  protected lastWeeks = getLastWeeks();
-  protected habitForm = new FormGroup({
-    message: new FormControl<string|null>(null, Validators.maxLength(140)),
-    effort: new FormControl<number|null>(null, [Validators.required, Validators.min(-3), Validators.max(3)]),
-  });
-  protected habitFormValue = toSignal(this.habitForm.valueChanges);
-  protected habitIsReset = computed(() => {
-    const habit = this.habit();
-    const habitValue = this.habitFormValue();
-    const selectedTimestamp = this.selectedDayService.selectedTimestamp();
-    const todayHabitData = habit.latestTasks?.[selectedTimestamp];
-    const goalComplete = this.goalComplete();
-
-    return todayHabitData?.message == habitValue?.message && todayHabitData?.effort == habitValue?.effort && !goalComplete;
-  });
-  protected streaks = computed<{ selected?: number; previous?: number }>(() => {
-    const habit = this.habit();
-    const selectedDate = this.selectedDayService.selectedTimestamp();
-
-    const [y,m,d] = selectedDate.split('-');
-    const prevDate = HabitUtils.dateToNonZero(HabitUtils.dateWithOffset({ year: +y, month: +m, date: +d - 1 }));
-
-    const selected = habit.latestTasks[selectedDate]?.streak;
-    const previous = habit.latestTasks[prevDate]?.streak;
-
-    return { selected, previous };
-  });
-  protected newGoalForm = computed(() => {
-    return new FormControl({ value: '', disabled: !this.isTodaySelected() }, Validators.required);
-  });
-  protected goalComplete = signal(false);
-  protected successColor = computed(() => {
-    const goalComplete = this.goalComplete();
-    const habitForm = this.habitFormValue();
-
-    if (goalComplete) return 'goal-completed'
-    return habitForm?.effort;
-  });
-
-  private _habitUpdateEffect = effect(() => this.resetHabit());
-
-  protected async patchHabit(): Promise<void> {
-    if (this.habitForm.invalid) return;
-
-    this.saving.set(true);
-    const { message, effort } = this.habitForm.value as { message: string; effort: number };
-    const task: Task = { message, effort, date: Timestamp.fromDate(this.selectedDayService.selectedDate()) };
-
-    await this.taskClient.saveTask(this.habit().id, task, { completeGoal: this.goalComplete() });
-    this.saving.set(false);
-  }
-
-  protected resetHabit(): void {
-    const habit = this.habit();
-    const selectedTimestamp = this.selectedDayService.selectedTimestamp();
-    const todayHabitData = habit.latestTasks[selectedTimestamp];
-
-    const { effort, message } = todayHabitData || { effort: null, message: null };
-    this.habitForm.patchValue({ message, effort });
-    this.goalComplete.set(false);
-  }
-
-  protected toggleOpen(): void {
-    if (HabitUtils.today() === this.selectedDayService.selectedTimestamp()) {
-      if (this.habitFormValue()?.effort == null) { return; }
+  private _cardOpener = effect(() => {
+    const selectedTask = this.selectedTask();
+    if (selectedTask?.effort == null) {
+      this.open.set(true);
     }
+  });
 
-    if (this.habitIsReset()) {
+  protected selectedTask = computed<Pick<Task, 'message' | 'effort'> | undefined>(() => {
+    const habit = this.habit();
+    const selectedDay = this.selectedDayState.selectedTimestamp();
+    return habit.latestTasks[selectedDay];
+  });
+  protected open = signal(false);
+  protected disableCard = signal(false);
+  protected cardValues = linkedSignal<CardValues>(() => {
+    const latestTasks = this.habit().latestTasks || {};
+    const selectedDay = this.selectedDayState.selectedTimestamp();
+    const effort = latestTasks[selectedDay]?.effort ?? '';
+    const context = latestTasks[selectedDay]?.message ?? '';
+
+    return { effort, context, goal: false };
+  })
+  protected cardValuesForm = form(this.cardValues, (schema) => {
+    required(schema.effort);
+  });
+
+  protected toggleMinimize(): void {
+    if (this.selectedTask()?.effort != null) {
       this.open.set(!this.open());
     }
   }
 
-  protected toggleGoalCompleted(): void {
-    this.goalComplete.update(g => !g);
-    if (this.goalComplete()) {
-      this.open.set(true);
-    }
+  protected resetForm(): void {
+    const { latestTasks } = this.habit();
+    const selectedDay = this.selectedDayState.selectedTimestamp();
+    const effort = latestTasks[selectedDay]?.effort || '';
+    const context = latestTasks[selectedDay]?.message || '';
+    this.cardValues.set({ effort, context, goal: false });
+  }
+  
+  protected async patchHabit(): Promise<void> {
+    if (this.cardValuesForm().invalid()) return;
+    this.disableCard.set(true);
+
+    const { context, effort, goal } = this.cardValues() as { context: string; effort: number; goal: boolean };
+    const task = { message: context, effort, date: Timestamp.fromDate(this.selectedDayState.selectedDate()) };
+    
+    await this.taskClient.saveTask(this.habit().id, task, { completeGoal: goal });
+    this.disableCard.set(false);
+    this.open.set(false);
   }
 
-  protected async submitNewGoal(): Promise<void> {
-    if (this.newGoalForm().invalid) return alert('Goal input is empty');
-
-    const value = this.newGoalForm().value;
-    if (value && confirm(`You won't be able to edit this goal, and you will only be able to abandon it later.\nProceed?`)) {
-      this.saving.set(true);
-      await this.habitClient.submitNewGoal(this.habit().id, value);
-      this.saving.set(false);
+  protected deleteHabit(): void {
+    const habitId = this.habit().id;
+    if (confirm(`You are about to delete habit [${habitId}].\nAre you sure?`)) {
+      this.habitClient.deleteHabit(habitId);
     }
   }
 }

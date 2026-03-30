@@ -1,0 +1,27 @@
+@keyframes slide-y__grow {
+  from {
+    overflow: hidden;
+    // opacity: 0.75;
+    max-height: 0rem;
+  }
+
+  to {
+    overflow: hidden;
+    // opacity: 1;
+    max-height: var(--anim__max-height);
+  }
+}
+
+@keyframes slide-y__shrink {
+  from {
+    overflow: hidden;
+    // opacity: 1;
+    max-height: var(--anim__max-height);
+  }
+
+  to {
+    overflow: hidden;
+    // opacity: 0;
+    max-height: 0rem;
+  }
+}

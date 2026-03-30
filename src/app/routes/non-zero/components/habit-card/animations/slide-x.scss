@@ -1,0 +1,12 @@
+@keyframes slide-x {
+  from {
+    overflow: hidden;
+    opacity: 0.75;
+    max-width: 0rem;
+  }
+  to {
+    overflow: hidden;
+    opacity: 1;
+    max-width: var(--anim__max-width);
+  }
+}

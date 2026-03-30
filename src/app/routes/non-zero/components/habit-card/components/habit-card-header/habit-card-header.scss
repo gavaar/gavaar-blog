@@ -1,0 +1,61 @@
+@use '../../animations/slide-y.scss';
+
+:host {
+  display: grid;
+  grid-template-areas: 
+  "icon title arrow"
+  "icon id ."
+  "icon desc desc"
+  ;
+  grid-template-columns: 1.25rem 1fr 1.25rem;
+  grid-template-rows: repeat(3, auto);
+  gap: 0.25rem;
+  align-content: baseline;
+
+  &:hover .habit-card-header__arrow {
+    opacity: 1;
+    transition: 0.25s;
+  }
+}
+
+.habit-card-header__icon {
+  grid-area: icon;
+  --gav-icon__height: 1.25rem;
+  --gav-icon__color: #{var(--habit-card-selection)};
+}
+
+.habit-card-header__title {
+  margin: 0;
+  grid-area: title;
+}
+
+.habit-card-header__id {
+  grid-area: id;
+  margin: 0;
+  color: var(--disabled);
+}
+
+.habit-card-header__desc {
+  grid-area: desc;
+  margin: 0;
+  font-size: 0.75rem;
+}
+
+.habit-card-header__arrow {
+  grid-area: arrow;
+  opacity: 0;
+  --gav-icon__height: 1rem;
+  --gav-icon__color: #{var(--text)};
+
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+.slide-v__grow {
+  animation: slide-y__grow 0.25s ease-out;
+}
+
+.slide-v__shrink {
+  animation: slide-y__shrink 0.25s ease-out;
+}

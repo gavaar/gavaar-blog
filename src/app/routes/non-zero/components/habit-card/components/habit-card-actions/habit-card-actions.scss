@@ -1,0 +1,78 @@
+@use '../../animations/slide-x.scss';
+
+:host {
+  display: flex;
+  column-gap: 0.25rem;
+}
+
+gav-icon {
+  cursor: pointer;
+  padding: 0.25rem;
+  border: 1px solid;
+  border-radius: 50%;
+  --gav-icon__height: #{calc(0.75rem - 1px)};
+}
+
+.habit-card-actions__settings-list {
+  position: relative;
+  overflow: hidden;
+  margin-right: auto;
+  display: flex;
+  gap: 0.25rem;
+  border-radius: 2rem;
+
+  &:hover {
+    box-shadow: 0 0 2px var(--gray);
+
+    .habit-card-actions__settings {
+      border-color: transparent;
+    }
+    
+    .habit-card-actions__settings-options {
+      --anim__max-width: 6rem;
+      display: flex;
+      animation: slide-x 0.25s ease-in;
+    }
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--disabled);
+    opacity: 0.25;
+  }
+}
+
+.habit-card-actions__settings-options {
+  display: none;
+  gap: 0.25rem;
+}
+
+.habit-card-actions__settings {
+  border-color: var(--disabled);
+  --gav-icon__color: #{var(--disabled)};
+}
+
+.habit-card-actions__edit {
+  border-color: var(--blue);
+  --gav-icon__color: #{var(--blue)};
+}
+
+.habit-card-actions__delete {
+  border-color: var(--error);
+  --gav-icon__color: #{var(--error)};
+}
+
+.habit-card-actions__reset {
+  border-color: var(--gray);
+  --gav-icon__color: #{var(--gray)};
+}
+
+.habit-card-actions__save {
+  border-color: var(--primary);
+  --gav-icon__color: #{var(--primary)};
+}

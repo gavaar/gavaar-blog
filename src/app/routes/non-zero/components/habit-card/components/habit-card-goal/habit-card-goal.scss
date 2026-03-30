@@ -1,0 +1,23 @@
+:host {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.habit-card-goal__goal {
+  font-size: 0.75rem;
+}
+
+.habit-card-goal__target {
+  --gav-icon__height: 1.25rem;
+  --gav-icon__color: #{var(--secondary)};
+}
+
+.habit-card-goal__check {
+  --gav-icon__height: 1rem;
+  --gav-icon__color: #{var(--disabled)};
+  
+  &.checked {
+    --gav-icon__color: #{var(--purple)};
+  }
+}

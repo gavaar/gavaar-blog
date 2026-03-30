@@ -1,42 +1,34 @@
+@use './animations/slide-y.scss';
+
 :host {
   display: contents;
-  --habit-card-success-color--3: #BF4040;
-  --habit-card-success-color--2: #D47070;
-  --habit-card-success-color--1: #E8A0A0;
-  --habit-card-success-color-0: #FFFFFF;
-  --habit-card-success-color-1: #A0D4E8;
-  --habit-card-success-color-2: #70A2D4;
-  --habit-card-success-color-3: #4071BF;
-  --habit-card-success-color-3: #4071BF;
-  --habit-card-success-color-goal-completed: #7140BF;
-
-  h5, small { margin: 0 }
-}
-
-gav-icon[icon="effort"] {
-  transform: rotate(45deg);
+  --habit-card-color_-3: #BF4040;
+  --habit-card-color_-2: #D47070;
+  --habit-card-color_-1: #E8A0A0;
+  --habit-card-color_0: #FFFFFF;
+  --habit-card-color_1: #A0D4E8;
+  --habit-card-color_2: #70A2D4;
+  --habit-card-color_3: #4071BF;
+  --habit-card-color_3: #4071BF;
+  --habit-card-color_goal: #7140BF;
 }
 
 .habit-card {
   position: relative;
-  padding: 1rem 0.75rem 0.25rem;
-  border-radius: 2rem;
-  border: 2px solid var(--habit-card-selection-color);
-  flex: 1 0 20rem;
-  max-width: min(calc((var(--max-content-width) - 7rem) / 2), 100%);
   display: grid;
-  grid-template-areas: "title title"
-    "goal slider"
-    "description slider"
-    "day-context slider"
-    "last-days slider"
-    "expandable-arrow expandable-arrow";
-  grid-template-columns: 1fr 3rem;
   gap: 0.5rem;
-  grid-auto-rows: min-content;
-  cursor: pointer;
-  height: fit-content;
-  transition: height 0.5s;
+  grid-template-areas: 
+    "header slider"
+    "goals slider"
+    "history slider"
+    "input slider"
+    "actions actions"
+  ;
+  grid-template-columns: 1fr auto;
+  border: 0.125rem solid var(--habit-card-selection);
+  border-radius: 0.75rem;
+  max-width: min(calc((var(--max-content-width) - 7rem) / 2), 100%);
+  padding: 0.75rem;
 
   &:before {
     content: '';
@@ -45,251 +37,65 @@ gav-icon[icon="effort"] {
     left: 0;
     bottom: 0;
     right: 0;
-    background: linear-gradient(180deg, var(--habit-card-selection-color) 90%);
-    opacity: 0.1;
-    border-radius: 2rem;
-  }
-
-  &.saving {
-    pointer-events: none;
-    opacity: 0.25;
-  }
-
-  &.goal-complete:before {
-    background-image: url("/assets/images/animated/purple-smoke.gif");
-    background-size: cover;
-  }
-}
-
-
-// use enter - leave
-.habit-card.open {
-  .habit-card__expandable-arrow {
-    max-height: 0;
-    overflow: hidden;
-  }
-  .habit-card__input,
-  .habit-card__slider-slider,
-  .habit-card__last-weeks {
-    max-height: 100%;
-  }
-}
-.habit-card:not(.open) {
-  .habit-card__input,
-  .habit-card__slider-slider,
-  .habit-card__last-weeks {
-    max-height: 0;
-    overflow: hidden;
-  }
-}
-
-.habit-card__task-title {
-  grid-area: title;
-  --gav-icon__height: 1rem;
-  --gav-icon__color: #{var(--disabled)};
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  white-space: nowrap;
-
-  small {
-    margin-left: auto;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-}
-
-.habit-card__streak,
-.habit-card__goal-effort {
-  --gav-icon__height: 0.8rem;
-  font-size: 0.8rem;
-  font-weight: 400;
-  line-height: 0.8rem;
-  display: flex;
-  align-items: flex-end;
-  column-gap: 0.2rem;
-}
-
-.habit-card__streak {
-  --gav-icon__color: #{var(--disabled)};
-  color: var(--disabled);
-  opacity: 0.5;
-
-  &.today-done {
-    --gav-icon__color: #{var(--bright-red)};
-    --gav-icon__transition: 2s;
-    color: var(--bright-red);
-    opacity: 1;
-    transition: 2s;
-  }
-  
-  &.frozen {
-    --gav-icon__color: #{var(--blue)};
-    --gav-icon__transition: 2s;
-    color: var(--blue);
-    opacity: 1;
-    transition: 2s;
-  }
-}
-.habit-card__goal-effort {
-  --gav-icon__color: #{var(--purple)};
-  color: var(--purple);
-}
-
-.habit-card__goal {
-  grid-area: goal;
-  align-items: center;
-  display: flex;
-  gap: 0.5rem;
-  color: var(--secondary);
-  font-size: 0.75rem;
-  font-weight: 800;
-  --gav-icon__height: 1rem;
-  --gav-icon__color: #{var(--secondary)};
-
-  gav-input {
-    flex-grow: 1;
-  }
-  gav-icon.disabled {
-    --gav-icon__color: #{var(--disabled)};
-  }
-
-  &.complete {
-    color: var(--habit-card-success-color-goal-completed);
-    --gav-icon__color: #{var(--habit-card-success-color-goal-completed)};
-  }
-}
-
-.habit-card__slider-value {
-  display: flex;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  border: 2px solid var(--habit-card-selection-color);
-  text-align: center;
-  
-  span {
-    font-size: 0.75rem;
-    color: var(--habit-card-selection-color);
-    margin: auto;
-  }
-}
-
-.habit-card__description {
-  grid-area: description;
-}
-
-.habit-card__input {
-  grid-area: day-context;
-}
-
-.habit-card__last-weeks {
-  grid-area: last-days;
-  display: flex;
-  flex-flow: row wrap;
-  gap: 0.1rem;
-  justify-content: center;
-  align-self: stretch;
-
-  span {
-    height: 1.5rem;
+    opacity: 0.05;
     border-radius: 0.25rem;
-    text-align: center;
-    flex: 0 0 6.3%;
+  }
 
-    &.today {
-      border: 2px solid var(--text);
-    }
+  &.disabled {
+    user-select: none;
+    opacity: 0.5;
+  }
+}
+
+habit-card-header {
+  position: relative;
+  grid-area: header;
+  cursor: pointer;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
   }
 }
 
 .habit-card__slider {
+  display: flex;
+  flex-direction: column;
   grid-area: slider;
-  display: flex;
-  align-items: center;
-  flex-flow: column nowrap;
-  gap: 1rem;
-  justify-content: space-between;
-
-  --gav-input-slider-color: var(--habit-card-selection-color);
-
-  .habit-card__slider-slider {
-    flex-grow: 1;
-  }
-}
-
-.habit-card__slider-value {
-  display: flex;
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  border: 2px solid var(--habit-card-selection-color);
-  text-align: center;
-  
-  span {
-    font-size: 0.75rem;
-    color: var(--habit-card-selection-color);
-    margin: auto;
-  }
-}
-
-.habit-card__expandable-arrow {
-  grid-area: expandable-arrow;
-  display: flex;
-  justify-content: center;
-  --gav-icon__height: 0.75rem;
-}
-
-.habit-card__rewind-button {
-  position: absolute;
-  top: -0.5rem;
-  right: -0.5rem;
-  border-color: var(--disabled);
-
-  --gav-icon__height: 1rem;
-  --gav-icon__color: #{var(--disabled)};
-}
-
-.habit-card__save-button {
-  position: absolute;
-  bottom: -0.5rem;
-  right: -0.5rem;
-  border-color: var(--primary);
-
-  --gav-icon__height: 1rem;
-  --gav-icon__color: #{var(--primary)};
-}
-
-.habit-card__goal-button {
-  position: absolute;
-  top: -0.75rem;
-  right: 2.5rem;
-  border-color: var(--disabled);
-
-  --gav-icon__height: 0.75rem;
-  --gav-icon__color: #{var(--disabled)};
-  --round-button__height: 1.5rem;
-  --round-button__width: 1.5rem;
-
-  &.active {
-    border-color: var(--habit-card-success-color-goal-completed);
-    --gav-icon__color: #{var(--habit-card-success-color-goal-completed)};
-  }
-}
-
-.habit-card:hover .habit-card__option-buttons {
-  opacity: 1;
-  transition: 0.25s;
-}
-.habit-card__option-buttons {
-  opacity: 0;
-  display: flex;
-  position: absolute;
-  top: -0.75rem;
-  left: 2rem;
   gap: 0.25rem;
-  --gav-icon__height: 0.75rem;
-  --round-button__width: 1.5rem;
-  --round-button__height: 1.5rem;
+
+  color: var(--habit-card-selection);
+  --gav-input-slider-color: #{var(--habit-card-selection)};
+}
+
+.habit-card__slider-effot {
+  padding: 0.25rem;
+  border: 0.125rem solid var(--habit-card-selection);
+  border-radius: 50%;
+  height: 2rem;
+  aspect-ratio: 1 / 1;
+  text-align: center;
+}
+
+habit-card-goal { grid-area: goals }
+
+habit-card-history { grid-area: history }
+
+habit-card-input { grid-area: input }
+
+habit-card-actions {
+  padding-top: 0.25rem;
+  grid-area: actions;
+}
+
+.slide-y__grow {
+  animation: slide-y__grow 0.25s ease-in-out;
+}
+
+.slide-y__shrink {
+  animation: slide-y__shrink 0.25s ease-in-out;
 }
