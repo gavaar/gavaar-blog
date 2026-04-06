@@ -20,6 +20,11 @@ export class HabitClient {
     this.initialize();
   });
 
+  async forceReinitialization(): Promise<void> {
+    this.initialized.set(false);
+    await this.initialize();
+  }
+
   async saveHabit(habit: Habit): Promise<void> {
     const { id, ...partialHabit } = habit;
 
